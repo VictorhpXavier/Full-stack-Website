@@ -2,7 +2,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import authRoutes from './auth.js'; // Import auth routes
+import authRoutes from '../Js/auth.js'; // Import auth routes
 import exp from "constants";
 
 const app = express();

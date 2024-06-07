@@ -82,7 +82,7 @@
     "vary": "^1.1.2"
   },
   "scripts": {
-    "vhx": "nodemon Js/server.mjs"
+    "vhx": "nodemon backend/server.mjs"
   },
   "author": "",
   "license": "ISC",
