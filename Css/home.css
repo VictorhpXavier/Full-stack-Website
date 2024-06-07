@@ -509,6 +509,9 @@ a {
         left: 0;
 
     }
+	#Servsfjios a{
+		color: rebeccapurple;
+	}
 	#Services .container {
 		margin-top: 350px; 
 	}
