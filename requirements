@@ -1,0 +1,14 @@
+javascript - (version) - # - 
+node.js - (version) - 12.22.9 - '$ sudo apt install Node.js'
+npm - (version) - # - '$ sudo apt install npm'
+mysql - (version) - 8.0.36 - '$ sudo apt install mysql'
+express - (version) - 8.5.1 - '$ npm install express'
+path - (version) - 8.5.1 - '$ npm install path
+nodemon - (version) - 2.0.15 - '$ npm install nodemon --global'
+
+
+#Start Server
+
+'$ npm run VHX' || '$ npm run vhx'
+
+#Last uptade 03-25-24

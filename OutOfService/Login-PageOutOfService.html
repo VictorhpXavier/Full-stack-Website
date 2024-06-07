@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Css/Login-Style.css">
+    <title>Login VhX</title>
+</head>
+<body>
+    <section id="header">
+        <div class="header container">
+          <div class="nav-bar">
+            <div class="brand">
+              <a href="#home">
+                <h1><span>V</span>H<span>X</span></h1>
+              </a>
+            </div>
+            <div class="nav-list">
+              <div id="dadHamburger" class="hamburger">
+                <div class="bar"></div>
+              </div>
+              <ul id="myList">
+                <li><a href="/home" data-after="Home">Home</a></li>
+                <li><a href="#about" data-after="About">About</a></li>
+                <li><a href="/login" data-after="Login">Login</a></li>
+                <li><a href="/signup" data-after="Register">Register</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    <div class="Login">
+        <form id="Login" action="/login" method="post">
+            <h1>Login</h1>
+            <div class="Input-box">
+                <input type="text" class="Email" name="Email" placeholder="Email address" required>
+                <span class="EmailError">Please enter your Email address</span>
+                <input type="password" class="Password" name="Password" placeholder="Password" required>
+                <span class="PasswordError">Please enter your Password</span>
+            </div>
+        </form>
+        <div class="Forgot-Password">
+            <form action="/forgotpassword" method="get">
+                <button type="submit" class="Forgot-Password1">Forgot Password?</button>
+            </form>    
+        </div>
+        <form id="login" method="get" >
+            <button type="submit" class="Login-Button">Login</button>
+        </form>
+        <div class="Login-link">
+            <form action="/signup" method="get">
+                <p>Don't have an account? <button type="submit" class="link">Create one here</button></p>
+            </form>
+        </div>
+    </div>
+  </body>
+  <script src="../Js/script.js"></script>
+  <script src="../Js/server.mjs"></script>
+</html>
