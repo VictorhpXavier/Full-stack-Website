@@ -13,7 +13,7 @@ body {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-	background-color: rgb(208, 236, 253);
+	background-color: #121212;
     /*background: url(../wallpapers/maybe.png) no-repeat center center fixed; */
     background-size: cover;
 }
@@ -38,7 +38,7 @@ a {
 	color: #128fdc;
 }
 .brand h1 span {
-	color: black;
+	color: #9acdec;
 }
 
 /* Header Section starts here*/
@@ -54,7 +54,8 @@ a {
 	width: 100vw;
 	height: auto;
 	border-bottom: 0.5px solid #888;
-	background-color: rgb(208, 236, 253);
+    background-color: #121212;
+
 }
 #header .header {
 	min-height: 8vh;
@@ -91,10 +92,10 @@ a {
 }
 #header .nav-list ul a {
 	font-size: 2.5rem;
-	font-weight: 900;
+	font-weight: 700 ;
 	letter-spacing: 0.2rem;
 	text-decoration: none;
-	color: black;
+	color: #489be0;
 	text-transform: uppercase;
 	padding: 20px;
 	display: block;
@@ -261,7 +262,7 @@ a {
     position: relative;
     font-size: 43px;
     font-weight: 800;
-    color: #006097;
+    color: #8f9195;
     animation: text_reveal 0.5s ease forwards;
 }
 
@@ -292,7 +293,7 @@ a {
 #MainTheme p {
 	font-size: 22px;
 	font-weight: 800 thin;
-	color: #36454F;
+	color: #717171;
 	margin-top: 20px;
 
 }
@@ -362,14 +363,19 @@ a {
 }
 #Services h3 {
 	margin: 5px;
+    color: #489be0;
 }
+#Services p {
+    color: #97bfec;
+}
+
 .Services-Class h1 {
 	white-space: nowrap;
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);
 	font-size: 43px;
-	color: #1282c7;
+	color: #8f9195;
 	font-weight: 900 lighter;
 	
 }
@@ -383,7 +389,7 @@ a {
 
 }
 #Services .feature {
-	background: white;
+	background: #282828;
 	border-radius: 8px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	margin: 1rem;
@@ -394,8 +400,9 @@ a {
 	font-size: 16px;
 }
 #Services .feature:hover {
+    transition: 1s;
 	cursor: pointer;
-	background-color: rgb(250, 249, 249);
+	background-color: #3f3f3f;
 }
 .feature img {
     margin-top: 10px;
@@ -407,15 +414,19 @@ a {
     left: 0; 
     z-index: 10;
     width: 100%;
-    background: #f8f8f8;
+	background-color: #575757;
     padding: 10px 0;
     text-align: center;
     border-top: 1px solid #e7e7e7;
+    color: white;
+
 }
 
 #footer button{
 	background: none;
 	border: none;
+    color: white;
+
 }
 
 #footer button:hover {
@@ -429,15 +440,17 @@ a {
     display: flex;
     justify-content: center;
     gap: 15px;
+
 }
 
 #footer li {
     padding: 5px;
 }
+
 #footer .Li-Language {
 	padding: 3px;
 	font-size: 12px;
-	color: black;
+    color: white;
 }
 #footer p {
 	padding: 5px;

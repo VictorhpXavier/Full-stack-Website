@@ -8,9 +8,7 @@ const brandSpans = document.querySelectorAll('.brand h1 span');
 hamburgerButton.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     mobile_menu.classList.toggle('active');
-    if (mobile_menu.classList.contains(
-        
-        'active')) {
+    if (mobile_menu.classList.contains('active')) {
         mobile_menu.querySelectorAll('a').forEach(item => {
             item.style.color = 'white';
         });
@@ -109,11 +107,79 @@ menu_item.forEach((item) => {
     });
 });
 
-document.addEventListener('scroll', () => {
-    var scroll_position = window.scrollY;
-    if (scroll_position > 10) {
-        header.style.backgroundColor = '#9fdaff';
-    } else {
-        header.style.backgroundColor = 'transparent';
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const DarkModeButton = document.querySelector('#DarkMode');
+    const brandSpans = document.querySelectorAll('.brand h1 span');
+    const headerLinks = document.querySelectorAll('#header .nav-list ul a')
+    const mainthemeH1 = document.querySelectorAll('#MainTheme h1')
+    const mainthemeP = document.querySelector('#MainTheme p')
+    const servicesH3 = document.querySelectorAll('#Services h3')
+    const servicesP = document.querySelectorAll('#Services p')
+    const features = document.querySelectorAll('#Services .feature')
+    const footer = document.querySelector('#footer')
+    if (DarkModeButton) {
+        DarkModeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (document.body.style.backgroundColor === 'rgb(208, 236, 253)' || document.body.style.backgroundColor === '') {
+                document.body.style.backgroundColor = '#121212';
+                brandSpans.forEach(span => {
+                    span.style.color = '#9acdec';
+                });
+                document.querySelector('#header').style.backgroundColor = '#121212'
+                headerLinks.forEach(link => {
+                    link.style.color = '#489be0'
+                })
+                mainthemeH1.forEach(h1 => {
+                    h1.style.color = '#8f9195'
+                })
+                servicesH3.forEach(h3 => {
+                    h3.style.color = '#489be0'
+                })
+                servicesP.forEach(p => {
+                    p.style.color = '#97bfec'
+                })
+                features.forEach(feature => {
+                    feature.style.backgroundColor = '#282828'
+                    
+                })
+                document.querySelector('#footer button').style.color = 'white'
+                document.querySelector('#footer .Li-Language').style.color = 'white'
+                footer.style.color = 'white'
+                footer.style.backgroundColor = '#575757'
+                document.querySelector('#Services-Class h1').style.color = '8f9195'
+               mainthemeP.style.color = '#717171'
+            } else {
+                document.body.style.backgroundColor = 'rgb(208, 236, 253)';
+                brandSpans.forEach(span => {
+                    span.style.color = '';
+                });
+                document.querySelector('#header').style.backgroundColor = ''
+                headerLinks.forEach(link => {
+                    link.style.color = ''
+                })
+                mainthemeH1.forEach(h1 => {
+                    h1.style.color = ''
+                })
+                servicesH3.forEach(h3 => {
+                    h3.style.color = ''
+                })
+                servicesP.forEach(p => {
+                    p.style.color = ''
+                })
+                features.forEach(feature => {
+                    feature.style.backgroundColor = ''
+                    
+                })
+                document.querySelector('#footer button').style.color = ''
+                document.querySelector('#footer .Li-Language').style.color = ''
+                footer.style.color = ''
+                footer.style.backgroundColor = ''
+                document.querySelector('#Services-Class h1').style.color = ''
+               mainthemeP.style.color = ''
+            }
+        });
     }
 });
+
