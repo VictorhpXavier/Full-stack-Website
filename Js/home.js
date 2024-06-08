@@ -119,6 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const servicesP = document.querySelectorAll('#Services p')
     const features = document.querySelectorAll('#Services .feature')
     const footer = document.querySelector('#footer')
+    const footerbutton = document.querySelectorAll('#footer button')
+    
     if (DarkModeButton) {
         DarkModeButton.addEventListener('click', function(event) {
             event.preventDefault();
@@ -144,11 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     feature.style.backgroundColor = '#282828'
                     
                 })
+                footerbutton.forEach(button => {
+                    button.style.color = 'white'
+                })
                 document.querySelector('#footer button').style.color = 'white'
                 document.querySelector('#footer .Li-Language').style.color = 'white'
                 footer.style.color = 'white'
                 footer.style.backgroundColor = '#575757'
-                document.querySelector('#Services-Class h1').style.color = '8f9195'
+                document.querySelector('#Services-Class h1').style.color = '#8f9195'
                mainthemeP.style.color = '#717171'
             } else {
                 document.body.style.backgroundColor = 'rgb(208, 236, 253)';

@@ -357,3 +357,71 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+//DarkMode Settings Account
+document.addEventListener('DOMContentLoaded', function() {
+    const DarkModeButton = document.querySelector('#DarkMode');
+    const brandSpans = document.querySelectorAll('.brand h1 span');
+    const headerLinks = document.querySelectorAll('#header .nav-list ul a')
+    const settingsLi = document.querySelectorAll('#Settings ul li a')
+    const settingsH2 = document.querySelectorAll('#Settings h2')
+    const settingsH3 = document.querySelectorAll('#Settings h3')
+    const settingsP = document.querySelectorAll('#Settings p')
+    if (DarkModeButton) {
+        DarkModeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (document.body.style.backgroundColor === 'rgb(179, 0, 255)' || document.body.style.backgroundColor === '') {
+                
+                
+                document.body.style.backgroundColor = '#121212';
+                document.querySelector('#Settings h1').style.color = '#489be0'
+                document.querySelector('#Settings .JoinGoogle').style.color = 'red'
+                brandSpans.forEach(span => {
+                    span.style.color = '#9acdec';
+                });
+                document.querySelector('#header').style.backgroundColor = '#121212'
+                headerLinks.forEach(link => {
+                    link.style.color = '#489be0'
+                })
+                settingsLi.forEach(li => {
+                    li.style.color = '#9acdec'
+                })
+                settingsH2.forEach(h2 => {
+                    h2.style.color = '#489be0'
+                })
+                settingsH3.forEach(h3 => {
+                    h3.style.color = '#9acdec'
+                })
+                settingsP.forEach(p => {
+                    p.style.color = 'red'
+                })
+                
+            } else {
+                 
+                document.body.style.backgroundColor = '';
+                document.querySelector('#Settings h1').style.color = ''
+                document.querySelector('#Settings .JoinGoogle').style.color = ''
+                brandSpans.forEach(span => {
+                    span.style.color = '';
+                });
+                document.querySelector('#header').style.backgroundColor = ''
+                headerLinks.forEach(link => {
+                    link.style.color = ''
+                })
+                settingsLi.forEach(li => {
+                    li.style.color = ''
+                })
+                settingsH2.forEach(h2 => {
+                    h2.style.color = ''
+                })
+                settingsH3.forEach(h3 => {
+                    h3.style.color = ''
+                })
+                settingsP.forEach(p => {
+                    p.style.color = ''
+                })
+                
+            }
+        });
+    }
+})
