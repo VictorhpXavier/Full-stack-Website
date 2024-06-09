@@ -17,6 +17,8 @@ router.use(cookieParser());
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const con = mysql.createConnection({
     host: "localhost",
@@ -394,7 +396,25 @@ router.post('/forgotpassword', (req, res) => {
         res.status(200).json({ message: 'Password recovery email sent' });
     });
 });
+//Create token for darkmode
+// Endpoint to get dark mode preference
+router.get('/darkmode', (req, res) => {
+    const darkMode = req.cookies.darkMode === 'true';
+    res.json({ darkMode });
+});
 
+// Endpoint to set dark mode preference
+router.post('/darkmode', (req, res) => {
+    const { darkMode } = req.body;
+    res.cookie('darkMode', darkMode, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
+    res.sendStatus(200);
+});
+
+// Endpoint to clear dark mode preference
+router.post('/cleardarkmode', (req, res) => {
+    res.clearCookie('darkMode');
+    res.sendStatus(200);
+});
 //Handle User profile pic
 //* This creates the upload file
 //Funciona

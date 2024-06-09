@@ -192,61 +192,125 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 })
 
-//DarkMode Settings Account
 document.addEventListener('DOMContentLoaded', function() {
     const DarkModeButton = document.querySelector('#DarkMode');
     const brandSpans = document.querySelectorAll('.brand h1 span');
-    const headerLinks = document.querySelectorAll('#header .nav-list ul a')
-    const settingsLi = document.querySelectorAll('#Settings ul li a')
-    const settingsH2 = document.querySelectorAll('#Settings h2')
-    const settingsH3 = document.querySelectorAll('#Settings h3')
-    if (DarkModeButton) {
-        DarkModeButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            if (document.body.style.backgroundColor === 'rgb(179, 0, 255)' || document.body.style.backgroundColor === '') {
-                document.body.style.backgroundColor = '#121212';
-                document.querySelector('#Settings h1').style.color = '#489be0'
-                document.querySelector('#Settings span').style.color = '#9acdec'
-                document.querySelector('#header').style.backgroundColor = '#121212'
-                brandSpans.forEach(span => {
-                    span.style.color = '#9acdec';
-                });
-                headerLinks.forEach(link => {
-                    link.style.color = '#489be0'
-                })
-                settingsLi.forEach(li => {
-                    li.style.color = '#9acdec'
-                })
-                settingsH2.forEach(h2 => {
-                    h2.style.color = '#489be0'
-                })
-                settingsH3.forEach(h3 => {
-                    h3.style.color = '#9acdec'
-                })
+    const headerLinks = document.querySelectorAll('#header .nav-list ul a');
+    const settingsLi = document.querySelectorAll('#Settings ul li a');
+    const settingsH2 = document.querySelectorAll('#Settings h2');
+    const settingsH3 = document.querySelectorAll('#Settings h3');
 
-            } else {
-                 
-                document.body.style.backgroundColor = '';
-                document.querySelector('#Settings h1').style.color = ''
-                document.querySelector('#Settings span').style.color = ''
-                document.querySelector('#header').style.backgroundColor = ''
-                brandSpans.forEach(span => {
-                    span.style.color = '';
-                });
-                headerLinks.forEach(link => {
-                    link.style.color = ''
-                })
-                settingsLi.forEach(li => {
-                    li.style.color = ''
-                })
-                settingsH2.forEach(h2 => {
-                    h2.style.color = ''
-                })
-                settingsH3.forEach(h3 => {
-                    h3.style.color = ''
-                })
-                
-            }
+    function applyDarkModeStyles() {
+        document.body.style.backgroundColor = '#121212';
+        document.querySelector('#Settings h1').style.color = '#489be0';
+        document.querySelector('#Settings span').style.color = '#9acdec';
+        document.querySelector('#header').style.backgroundColor = '#121212';
+        brandSpans.forEach(span => {
+            span.style.color = '#9acdec';
+        });
+        headerLinks.forEach(link => {
+            link.style.color = '#489be0';
+        });
+        settingsLi.forEach(li => {
+            li.style.color = '#9acdec';
+        });
+        settingsH2.forEach(h2 => {
+            h2.style.color = '#489be0';
+        });
+        settingsH3.forEach(h3 => {
+            h3.style.color = '#9acdec';
         });
     }
-})
+
+    function clearDarkModeStyles() {
+        document.body.style.backgroundColor = '';
+        document.querySelector('#Settings h1').style.color = '';
+        document.querySelector('#Settings span').style.color = '';
+        document.querySelector('#header').style.backgroundColor = '';
+        brandSpans.forEach(span => {
+            span.style.color = '';
+        });
+        headerLinks.forEach(link => {
+            link.style.color = '';
+        });
+        settingsLi.forEach(li => {
+            li.style.color = '';
+        });
+        settingsH2.forEach(h2 => {
+            h2.style.color = '';
+        });
+        settingsH3.forEach(h3 => {
+            h3.style.color = '';
+        });
+    }
+
+    function applyDarkMode(isDarkMode) {
+        if (isDarkMode) {
+            applyDarkModeStyles();
+            document.body.classList.add('dark-mode');
+        } else {
+            clearDarkModeStyles();
+            document.body.classList.remove('dark-mode');
+        }
+    }
+
+    // Fetch the dark mode preference from the backend
+    fetch('/darkmode', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => {
+        console.log('Dark mode preference from server:', data.darkMode);
+        if (data.darkMode) {
+            applyDarkMode(true);
+        }
+
+        if (DarkModeButton) {
+            DarkModeButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                const isDarkMode = !document.body.classList.contains('dark-mode');
+                console.log('Toggling dark mode to:', isDarkMode);
+                applyDarkMode(isDarkMode);
+                setDarkModePreference(isDarkMode);
+            });
+        }
+    })
+    .catch(error => console.error('Error fetching dark mode preference:', error));
+
+    function setDarkModePreference(isDarkMode) {
+        fetch('/darkmode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ darkMode: isDarkMode })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Dark mode preference saved successfully.');
+            } else {
+                console.error('Failed to save dark mode preference.');
+            }
+        })
+        .catch(error => console.error('Error saving dark mode preference:', error));
+    }
+
+    function clearDarkModePreference() {
+        fetch('/cleardarkmode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Dark mode preference cleared successfully.');
+            } else {
+                console.error('Failed to clear dark mode preference.');
+            }
+        })
+        .catch(error => console.error('Error clearing dark mode preference:', error));
+    }
+});

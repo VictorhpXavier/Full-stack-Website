@@ -3,10 +3,14 @@ import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
 import authRoutes from '../Js/auth.js'; // Import auth routes
+import cookieParser from 'cookie-parser';
+
 import exp from "constants";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser());
+
 
 app.use(authRoutes);
 

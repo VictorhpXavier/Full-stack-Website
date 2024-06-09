@@ -215,11 +215,16 @@ function RecoverPassword(event) {
     });
 }
 
+//Handle Profile Menu
 
 
-
-
-
-
-
+menu_item.forEach((item) => {
+    item.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobile_menu.classList.remove('active');
         
+        mobile_menu.querySelectorAll('a').forEach(link => {
+            link.style.color = '';
+        });
+    });
+});

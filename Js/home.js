@@ -107,8 +107,6 @@ menu_item.forEach((item) => {
     });
 });
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const DarkModeButton = document.querySelector('#DarkMode');
     const brandSpans = document.querySelectorAll('.brand h1 span');
@@ -120,10 +118,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const features = document.querySelectorAll('#Services .feature')
     const footer = document.querySelector('#footer')
     const footerbutton = document.querySelectorAll('#footer button')
-    
-    if (DarkModeButton) {
-        DarkModeButton.addEventListener('click', function(event) {
-            event.preventDefault();
+
+    function applyDarkMode(isDarkMode) {
+        if (isDarkMode) {
             if (document.body.style.backgroundColor === 'rgb(208, 236, 253)' || document.body.style.backgroundColor === '') {
                 document.body.style.backgroundColor = '#121212';
                 brandSpans.forEach(span => {
@@ -153,9 +150,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector('#footer .Li-Language').style.color = 'white'
                 footer.style.color = 'white'
                 footer.style.backgroundColor = '#575757'
-                document.querySelector('#Services-Class h1').style.color = '#8f9195'
-               mainthemeP.style.color = '#717171'
+                mainthemeP.style.color = '#717171'
             } else {
+                clearDarkModePreference();
                 document.body.style.backgroundColor = 'rgb(208, 236, 253)';
                 brandSpans.forEach(span => {
                     span.style.color = '';
@@ -184,7 +181,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector('#Services-Class h1').style.color = ''
                mainthemeP.style.color = ''
             }
+        }
+    }
+// Fetch the dark mode preference from the backend
+fetch('/darkmode', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}).then(response => response.json())
+.then(data => {
+    console.log('Dark mode preference from server:', data.darkMode);
+    if (data.darkMode) {
+        applyDarkMode(true);
+    }
+    
+    if (DarkModeButton) {
+        DarkModeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            const isDarkMode = !document.body.classList.contains('dark-mode');
+            console.log('Toggling dark mode to:', isDarkMode);
+            applyDarkMode(isDarkMode);
+            setDarkModePreference(isDarkMode);
         });
     }
+})
+.catch(error => console.error('Error fetching dark mode preference:', error));
+    function setDarkModePreference(isDarkMode) {
+        fetch('/darkmode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ darkMode: isDarkMode })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Dark mode preference saved successfully.');
+            } else {
+                console.error('Failed to save dark mode preference.');
+            }
+        })
+        .catch(error => console.error('Error saving dark mode preference:', error));
+    }
+    function clearDarkModePreference() {
+        fetch('/cleardarkmode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Dark mode preference cleared successfully.');
+            } else {
+                console.error('Failed to clear dark mode preference.');
+            }
+        })
+        .catch(error => console.error('Error clearing dark mode preference:', error));
+    }
+    
 });
 
