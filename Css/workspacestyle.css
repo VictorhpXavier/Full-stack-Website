@@ -44,9 +44,6 @@ a {
 
 /* Header Section starts here*/
 
-
-
-
 #header {
 	position: fixed;
 	z-index: 1;
@@ -243,6 +240,133 @@ a {
 #header .hamburger.active .bar::after {
 	top: 0;
 }
+/*GetStarted Section*/
+#GetStarted .Box {
+    width: 600px;
+    height: 450px;
+    background-color: #e0dfdf;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 4%;
+    transform: translate(-50%, -50%);
+	display: grid;
+    place-items: center;
+}
+
+#GetStarted .Box #Subject,
+#GetStarted .Box #Description {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px; 
+    border: 1px solid #DDDDDD; 
+    outline: none;
+    border-radius: 8px;
+    font-size: 16px;
+    color: black;
+    padding: 20px;
+    font-weight: 500;
+    transition: all 0.30s ease-in-out; 
+	
+	
+}
+
+#GetStarted .Box #Description {
+    height: 200px; 
+    resize: none;
+    white-space: pre-wrap; 
+}
+
+
+/* Focus effect for input and textarea fields */
+#GetStarted .Box #Subject:focus,
+#GetStarted .Box #Description:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+}
+
+#GetStarted .GetStartedButton {
+ 	background-color: #0276FF;
+ 	border-radius: 8px;
+ 	border-style: none;
+ 	box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+ 	box-sizing: border-box;
+ 	color: #fff;
+ 	cursor: pointer;
+ 	display: flex;
+ 	flex-direction: row;
+ 	flex-shrink: 0;
+ 	font-family: "RM Neue",sans-serif;
+ 	font-size: 100%;
+ 	line-height: 1.15;
+ 	margin: 0;
+ 	padding: 12px 27px;
+ 	text-align: center;
+ 	text-transform: none;
+ 	transition: color .13s ease-in-out,background .13s ease-in-out,opacity .13s ease-in-out,box-shadow .13s ease-in-out;
+ 	user-select: none;
+ 	-webkit-user-select: none;
+ 	touch-action: manipulation;
+	margin-bottom: 50%;
+}	
+
+
+#GetStarted .GetStartedButton:active {
+  	background-color: #006AE8;
+}
+
+#GetStarted .GetStartedButton:hover {
+ 	 background-color: #1C84FF;
+}
+/*Maincontent section*/
+#MainContent .Retangle{
+	margin-top: 8%;
+	left: 10%;
+	margin-left: 2%;
+	background-clip: padding-box;
+    display: flex;
+    flex-direction: column;
+    height: 23.375rem;
+    margin-bottom: 1.5rem;
+    margin-right: 1.5rem;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    width: 22.75rem;
+	background-color: #ebcfcf;
+	border-radius: 4%;
+	display: none;
+}
+
+#MainContent .image {
+	background-image: url('../wallpapers/image1.png'); 
+	background-size: cover; 
+	height: 100%; 
+    width: 100%;  
+}
+#MainContent .idk {
+	margin-bottom: 40%;
+	border-top: 1px solid black;
+}
+#MainContent .Title {
+	font-size: 15px;
+}
+#MainContent:hover .Retangle {
+	border: 1px solid rgb(172, 172, 172);
+
+}
+#MainContent .Retangle:hover{
+	cursor: pointer;
+}
+#MainContent .AddSubject {
+	position: absolute;
+	right: 5%;
+	bottom: 10%;
+}
+#MainContent .AddSubject:hover {
+	cursor: pointer;
+}
+
 @keyframes hamburger_puls {
 	0% {
 		opacity: 1;
