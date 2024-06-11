@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser');
 
 const multer = require('multer');
 const fs = require('fs');
+const { error } = require('console');
+const { message } = require('statuses');
 
 const router = express.Router();
 
@@ -493,6 +495,56 @@ router.post('/upload-profile-image', upload.single('profileImage'), (req, res) =
     }
 });
 
+//workspace code
+
+router.post('/checkFirstTime', (req, res) => {
+    const token = req.cookies.token;
+    console.log('Test');
+
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        const email = decoded.email;
+        const userId = decoded.id;
+
+        const checkQuery = 'SELECT * FROM Users WHERE email = ? AND id = ? AND first_time = 1';
+        con.query(checkQuery, [email, userId], (err, results) => {
+            if (err) {
+                console.log('Db error');
+                return res.status(500).json({ error: 'Database query error' });
+            }
+            if (results.length > 0) {
+                console.log('First Time');
+                return res.status(200).json({ message: "First time" });
+            } else {
+                console.log('Not First Time');
+                return res.status(200).json({ message: "Not first time" });
+            }
+        });
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+});
+
+// Update first_time after the user sees the tutorial
+router.post('/updateStatus', (req, res) => {
+    const token = req.cookies.token;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        const email = decoded.email;
+        const userId = decoded.id;
+
+        const updateQuery = 'UPDATE Users SET first_time = 2 WHERE email = ? AND id = ?';
+        con.query(updateQuery, [email, userId], (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database update error' });
+            }
+            console.log('Updating status');
+            return res.status(200).json({ success: true });
+        });
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+});
 
 module.exports = con;
 module.exports = router;

@@ -109,3 +109,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+//Check user's first time
+document.addEventListener('DOMContentLoaded', function() {
+    const Content = document.querySelector('#MainContent .Retangle');
+    const addSubject = document.querySelector('#MainContent .AddSubject');
+
+    fetch('/auth/checkFirstTime', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('First time');
+            document.getElementById('GetStarted').style.display = 'block';
+        } 
+    })
+    .catch(error => console.error('Error checking first time:', error));
+    fetch('/auth/updateStatus', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Not First time');
+            Content.style.display = 'flex';
+            addSubject.style.display = 'block';
+        }
+    })
+    .catch(error => console.error('Error updating status:', error));
+});
+
