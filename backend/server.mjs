@@ -21,6 +21,7 @@ app.use('/Country_Flags', express.static(path.join(__dirname, '../Country_Flags'
 app.use('/Features_Images', express.static(path.join(__dirname, '../Features_Images')));
 app.use('/UserIcon', express.static(path.join(__dirname, '../UserIcon')));
 app.use('/Js', express.static(path.join(__dirname, '../Js')));
+app.use('/imagesRevamp', express.static(path.join(__dirname, '../imagesRevamp')))
 
 function ensureNotLoggedIn(req, res, next) {
     const token = req.cookies.token;
