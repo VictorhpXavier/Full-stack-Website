@@ -24,9 +24,7 @@
               </div>
               <ul id="myList">
                 <li><a href="/home" data-after="Home">Home</a></li>
-                <li><a href="#about" data-after="About">About</a></li>
-                <li><a href="/login" data-after="Login">Login</a></li>
-                <li><a href="/signup" data-after="Register">Register</a></li>
+                <li><a href="/signup" data-after="Sign Up">Sign Up</a></li>
               </ul>
             </div>
           </div>
@@ -39,7 +37,7 @@
                 <input type="text" class="Email" name="Email" placeholder="Email address" required>
                 <span class="EmailError">Please enter your Email address</span>
                 <div class="Password-container">
-                  <input type="password" class="Password" name="Password" placeholder="Create a Password" required>
+                  <input type="password" class="Password" name="Password" placeholder="Enter your Password" required>
                   <button type="button" class="ShowButton">show</button>
               </div>                
               <span class="PasswordError">Please enter your Password</span>
@@ -53,11 +51,11 @@
         <form id="login" method="get" </form>
             <button type="submit" class="Login-Button">Login</button>
         </form>
-        <div class="Login-link">
-            <form action="/signup" method="get">
-                <p>Don't have an account? <button type="submit" class="link">Create one here</button></p>
-            </form>
-        </div>
+        <form action="/signup" method="get">
+          <button type="submit" class="link">Don't have an account? </button>
+      </form>
+        <h3>Or</h3>
+        <button class="ConnectGoogle"><img src="../UserIcon/web_neutral_rd_SI.svg" alt=""></button>
 
     </div>
   </body>

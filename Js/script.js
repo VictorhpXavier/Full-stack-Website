@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //If User Already Logged then to not let him go to login or sign up
 function ifUserAlreadyLogged(event) {
     event.preventDefault();
-    fetch('/login', '/signup', {
+    fetch('auth/login', 'auth/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function handleLogin(event) {
 
     const data = { email: emailValue, password: passValue };
 
-    fetch('/login', {
+    fetch('auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ function handleRegistration(event) {
     const data = { email: emailValue, password: passValue };
 
 
-    fetch('/signup', {
+    fetch('auth/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ function RecoverPassword(event) {
 
     const data = { email: emailValue };
 
-    fetch('/forgotpassword', {
+    fetch('auth/forgotpassword', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

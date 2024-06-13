@@ -29,8 +29,9 @@
                         <div class="bar"></div>
                     </div>
                     <ul id="myList">
-                        <li><a href="/home" id="Home" data-after="Home">Home</a></li>
-                        <li><a href="#about" id="About" data-after="About">About</a></li>
+                        <li><a href="#" id="Home" data-after="Home">Home</a></li>
+                        <li><a href="#About-section" id="About" data-after="About">About</a></li>
+                        <li><a href="#Services" id="Features" data-after="Features">Features</a></li>
                         <li><a href="/login" id="Login" data-after="Login">Login</a></li>
                         <li><a href="/signup" id="Register" data-after="Sign Up">Register</a></li>
                         <li><a><button id="CircleButton"><span id="Circle"></span></button></a></li>
@@ -78,7 +79,7 @@
             <img src="../imagesRevamp/uma-interpretacao-artistica-de-um-retrato-de-pitagoras-o-renomado-filosofo-grego-antigo_771335-60360.jpg" alt="">
         </div>
     </section>
-    <section id ="Services" href="#about">
+    <section id ="Services" >
         <div class="Services-Class">
             <h1>Features & Services</h1>
         </div>
@@ -120,5 +121,28 @@
   </section>
     <script src="../Js/home.js" ></script>
     <script src="../backend/server.mjs"></script>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href').substring(1);
+            if (targetId === "") {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    window.scroll({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+    </script>
 </body>
 </html>

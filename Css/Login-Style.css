@@ -15,7 +15,7 @@ body {
     flex-direction: column; /* Ensure a vertical flow */
     min-height: 100vh;
     background-size: cover;
-	background-color: #c8d5f8;
+	background-color: #EFEFEF;
     margin: 0; /* Added to remove default body margin */
 }
 
@@ -182,7 +182,7 @@ a {
 
 .Login {
     width: 420px;
-    background: transparent;
+    background: #FFFFFF;
     border: 1px solid rgb(172, 172, 172);
     backdrop-filter: blur(2px);
     color: black;
@@ -197,7 +197,7 @@ a {
 .Login h1 {
     font-size: 36px;
     text-align: center;
-	color: #006097;
+	color: #128fdc;
     margin-bottom: 30px; /* Add some space below the heading */
 }
 
@@ -208,10 +208,9 @@ a {
 .Input-box input {
     width: 100%;
     height: 100%;
-    background: transparent;
+    background: #EFEFEF;
     border: none;
     outline: none;
-    border: 2px solid rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     font-size: 16px;
     color: black;
@@ -237,7 +236,6 @@ a {
     font-weight: bold;
 }
 .Input-box input:focus {
-    transition: 0.5s;
     border: 2px solid #128fdc;
 }
 
@@ -248,7 +246,7 @@ a {
 .Login .Login-Button {
     width: 100%;
     height: 45px;
-    background: #006097;
+    background: #128FDC;
     border: none;
     outline: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
@@ -257,7 +255,6 @@ a {
     color: white;
     font-weight: 600;
 	border-radius: 12px;
-
 }
 
 .Input-box input::placeholder {
@@ -290,13 +287,17 @@ a {
 
 }
 
-.Login-link .link {
-    font-weight: 600;
-    color: #128fdc;
+.link {
+    font-weight: 500;
     font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+	font-weight: 500;
+    right: 9%;
 }
 
-.Login-link .link:hover {
+.link:hover {
+	transition: 0.8s;
     text-decoration: underline;
 
 }
@@ -326,20 +327,25 @@ a {
     font-size: 17px;
     cursor: pointer;
     position: absolute;
-    color: #128fdc;
-    font-weight: 900;
-    left: 2;
-    margin-top: -20px;
-    margin-right: 39px;
+	font-weight: 500;
+    right: 9%;
+    margin-top: -40px;
     transition: color 0.8s;
 }
 
 .Forgot-Password .Forgot-Password1:hover {
     text-decoration: underline;
-    font-weight: 800;
 }
-
-
+h3 {
+	margin-top: 50px;
+	font-size: 14px;
+	text-align: center;
+	border-bottom: 1px solid black ;
+	margin-bottom: 15px;
+}
+.ConnectGoogle {
+	transform: translateX(50%);
+}
 
 
 

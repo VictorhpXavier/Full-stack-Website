@@ -4,7 +4,8 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	
+	scroll-behavior: smooth;
+
 }
 body {
     pointer-events: auto;
@@ -18,11 +19,13 @@ body {
     overflow-x: hidden;
     /*background: url(../wallpapers/maybe.png) no-repeat center center fixed; */
     background-size: cover;
+
 }
 html {
 	font-size: 11px;
 	font-family: 'Montserrat', sans-serif;
-	scroll-behavior: inherit;
+	scroll-behavior: smooth;
+
 }
 a {
 	text-decoration: none;
@@ -246,7 +249,7 @@ a {
 }
 /*GetStarted Section*/
 #GetStarted {
-	display: none;
+	display: block;
 }
 #GetStarted .Box {
     width: 600px;
