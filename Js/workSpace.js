@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //Check user's first time
+
 document.addEventListener('DOMContentLoaded', function() {
     const Content = document.querySelector('#MainContent .Retangle');
     const addSubject = document.querySelector('#MainContent .AddSubject');
@@ -146,4 +147,3 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .catch(error => console.error('Error updating status:', error));
 });
-

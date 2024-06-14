@@ -283,7 +283,7 @@ a {
 
 .Login .Login-Button:hover {
     transition: 0.8s;
-    background-color: #128fdc;
+    background-color: #1e82bd;
 
 }
 
@@ -324,7 +324,7 @@ a {
 }
 
 .Forgot-Password .Forgot-Password1 {
-    font-size: 17px;
+    font-size: 14px;
     cursor: pointer;
     position: absolute;
 	font-weight: 500;

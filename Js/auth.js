@@ -8,8 +8,6 @@ const cookieParser = require('cookie-parser');
 
 const multer = require('multer');
 const fs = require('fs');
-const { error } = require('console');
-const { message } = require('statuses');
 
 const router = express.Router();
 

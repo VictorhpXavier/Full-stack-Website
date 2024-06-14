@@ -360,7 +360,9 @@ a {
     height: 100%;
     object-fit: cover; 
     border-radius: 38px; 
+	cursor: pointer;
 }
+
 /* MainTheme Section end here */
 /* About section */
 #About-section {
@@ -380,18 +382,15 @@ a {
 
 /* About Image Container */
 #About-Image {
-    background-color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 38px;
     width: 30%;
     height: 60vh;
     padding: 20px;
-    margin: 0 auto; /* Center the container */
-    overflow: hidden; /* Ensure the image doesn't overflow the container */
     position: absolute;
     top: 2rem;
 	top: 110%;
 	left: 9%;
+	cursor: pointer;
 }
 
 /* About Image */
@@ -400,6 +399,11 @@ a {
     height: 100%;
     object-fit: cover; /* Ensures the image covers the entire area of the container */
     border-radius: 38px; /* Match the border-radius of the container for a seamless look */
+}
+#About-Image .About-Image {
+	background: none;
+
+display: flex;
 }
 
 /* About Image Text */
@@ -433,7 +437,6 @@ a {
 	left: 0;
 	right: 0;
 	top: 180%;
-
 }
 #Services h3 {
 	margin: 5px;
@@ -450,6 +453,7 @@ a {
 	font-weight: 900 lighter;
 	
 }
+
 #Services .features{
 	position: absolute;
 	display: flex;
@@ -580,7 +584,7 @@ a {
 @media (max-width: 768px) {
 	#footer {
 		position: absolute;
-		top: 200%;
+		top: 310%;
 	}
     #footer ul {
 		flex-direction: row
@@ -591,7 +595,25 @@ a {
 
     }
 	#Services .container {
-		margin-top: 350px; 
+		margin-top: 180%; 
+	}
+	.Services-Class h1 {
+		white-space: nowrap;
+		position: absolute;
+		left: 50%;
+		top: 13%;
+		transform: translateX(-50%);
+		font-size: 43px;
+		color: #006097;
+		font-weight: 900 lighter;
+		
+	}
+	.feature img {
+		margin-top: 10px;
+		width: 70%;
+		height: 80%;
+		object-fit: cover; /* Ensures the image covers the entire area of the container */
+		border-radius: 38px; /* Match the border-radius of the container for a seamless look */
 	}
 	#MainTheme h1{
 		font-size: 35px
@@ -608,15 +630,15 @@ a {
 		margin-top: 150px;
 
     }
+	
 	.Services-Class h1 {
 		position: absolute;
 		bottom: 110%;
 		margin-top: 0;
 	}
     #Services .feature {
-        width: 90%; 
+        width: 80%;
         margin-bottom: 20px;
-        padding: 20px;
         border: 1px solid #ccc;
     }
 	#Services img{
@@ -625,6 +647,21 @@ a {
 	}
 	#Video-section {
 		display: none;
+	}
+	#About-section p {
+		position: absolute;
+		left: 45%;
+		top: 180%;
+		margin-top: 10px;
+		font-size: 18px;
+		text-align: left;
+		color: #333;
+	}
+	#About-section span {
+		font-size: 20px
+	};
+	#About-section img {
+		background: none;
 	}
 }
 
