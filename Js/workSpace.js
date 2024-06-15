@@ -152,7 +152,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const subjectInput = document.querySelector('.UserInput .Subject');
     const dropdown = document.querySelector('.UserInput .dropdown');
     const options = document.querySelectorAll('.UserInput .dropdown .option');
-
+    const userImage = document.querySelector('.UserInput .usericon')
+    const MoreInfo = document.querySelector('.GiveMoreInfo')
+    const giveInfo = document.querySelector('.a')
     subjectInput.addEventListener('focus', () => {
         dropdown.style.display = 'block';
     });
@@ -165,6 +167,11 @@ document.addEventListener('DOMContentLoaded', function () {
         option.addEventListener('click', () => {
             subjectInput.value = option.textContent;
             dropdown.style.display = 'none';
+            if(subjectInput.value) {
+               userImage.style.top  = '38%'
+               giveInfo.style.display = 'block'
+               MoreInfo.innerHTML = `You chose ${option.textContent}. Can you specify the topic? For example, if it's History, which part (e.g., WW2)?`;
+            }
         });
     });
 
@@ -173,4 +180,5 @@ document.addEventListener('DOMContentLoaded', function () {
             dropdown.style.display = 'none';
         }
     });
+    
 });
