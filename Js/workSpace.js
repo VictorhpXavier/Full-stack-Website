@@ -147,3 +147,30 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .catch(error => console.error('Error updating status:', error));
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const subjectInput = document.querySelector('.UserInput .Subject');
+    const dropdown = document.querySelector('.UserInput .dropdown');
+    const options = document.querySelectorAll('.UserInput .dropdown .option');
+
+    subjectInput.addEventListener('focus', () => {
+        dropdown.style.display = 'block';
+    });
+
+    subjectInput.addEventListener('click', () => {
+        dropdown.style.display = 'block';
+    });
+
+    options.forEach(option => {
+        option.addEventListener('click', () => {
+            subjectInput.value = option.textContent;
+            dropdown.style.display = 'none';
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.UserInput')) {
+            dropdown.style.display = 'none';
+        }
+    });
+});
