@@ -17,6 +17,7 @@ body {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
+	background-color: #EFEFEF;
     /*background: url(../wallpapers/maybe.png) no-repeat center center fixed; */
     background-size: cover;
 
@@ -248,28 +249,48 @@ a {
 	top: 0;
 }
 /*GetStarted Section*/
-#GetStarted {
-	display: block;
-}
-#GetStarted .Box {
+
+#GetStarted  {
     width: 600px;
     height: 450px;
-    background-color: #e0dfdf;
+    background-color: #FFFF;
     position: absolute;
     top: 50%;
     left: 50%;
     border-radius: 4%;
     transform: translate(-50%, -50%);
-	display: grid;
     place-items: center;
 }
 
-#GetStarted .Box #Subject,
-#GetStarted .Box #Description {
+#GetStarted .StartBox h1 {
+    color: #128fdc;
+    position: absolute;
+    top: 8%;
+    font-size: 18px;
+    font-weight: bold;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#GetStarted .Pooh img {
+    position: absolute;
+    width: 15%;
+    left: 0;
+    top: 18%;
+}
+
+#GetStarted .UserInput img {
+    position: absolute;
+    width: 10%;
+    right: 0;
+    top: 48%;
+}
+
+
+#GetStarted .Pooh input, #GetStarted .UserInput input {
     width: 100%;
     margin-top: 30px;
-    margin-bottom: 30px; 
-    border: 1px solid #DDDDDD; 
+    border: 1px solid rgb(51, 51, 51); 
     outline: none;
     border-radius: 8px;
     font-size: 16px;
@@ -277,57 +298,77 @@ a {
     padding: 20px;
     font-weight: 500;
     transition: all 0.30s ease-in-out; 
-	
-	
 }
 
-#GetStarted .Box #Description {
-    height: 200px; 
-    resize: none;
-    white-space: pre-wrap; 
+#GetStarted .Pooh input {
+    position: absolute;
+    top: 18%;
+    left: 15%;
+    max-width: 500px;
 }
 
+#GetStarted .UserInput input {
+    position: absolute;
+    top: 42%;
+    right: 15%;
+    max-width: 500px;
+}
 
-/* Focus effect for input and textarea fields */
-#GetStarted .Box #Subject:focus,
-#GetStarted .Box #Description:focus {
+#GetStarted .Pooh input:focus,
+#GetStarted .UserInput input:focus {
     box-shadow: 0 0 5px rgba(81, 203, 238, 1);
     border: 1px solid rgba(81, 203, 238, 1);
 }
 
 #GetStarted .GetStartedButton {
- 	background-color: #0276FF;
- 	border-radius: 8px;
- 	border-style: none;
- 	box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
- 	box-sizing: border-box;
- 	color: #fff;
- 	cursor: pointer;
- 	display: flex;
- 	flex-direction: row;
- 	flex-shrink: 0;
- 	font-family: "RM Neue",sans-serif;
- 	font-size: 100%;
- 	line-height: 1.15;
- 	margin: 0;
- 	padding: 12px 27px;
- 	text-align: center;
- 	text-transform: none;
- 	transition: color .13s ease-in-out,background .13s ease-in-out,opacity .13s ease-in-out,box-shadow .13s ease-in-out;
- 	user-select: none;
- 	-webkit-user-select: none;
- 	touch-action: manipulation;
-	margin-bottom: 50%;
-}	
-
+    position: absolute;
+    background-color: #0276FF;
+    border-radius: 8px;
+    border-style: none;
+    box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    font-family: "RM Neue", sans-serif;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+    padding: 12px 27px;
+    text-align: center;
+    text-transform: none;
+    transition: color .13s ease-in-out, background .13s ease-in-out, opacity .13s ease-in-out, box-shadow .13s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    bottom: 9%;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 #GetStarted .GetStartedButton:active {
-  	background-color: #006AE8;
+    background-color: #006AE8;
 }
 
 #GetStarted .GetStartedButton:hover {
- 	 background-color: #1C84FF;
+    background-color: #1C84FF;
 }
+
+#GetStarted .CloseButton {
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: 18px;
+    top: 2%;
+    right: 2%;
+}
+
+#GetStarted .CloseButton:hover {
+    cursor: pointer;
+}
+
 /*Maincontent section*/
 #MainContent .Retangle{
 	margin-top: 8%;
@@ -376,17 +417,7 @@ a {
 #MainContent .AddSubject:hover {
 	cursor: pointer;
 }
-#GetStarted .CloseButton {
-    position: absolute;
-	background: none;
-	border: none;
-    font-size: 18px;
-    top: 2%;
-    right: 2%;
-}
-#GetStarted .CloseButton:hover {
-	cursor: pointer;
-}
+
 @keyframes hamburger_puls {
 	0% {
 		opacity: 1;
@@ -471,6 +502,33 @@ a {
 	#Video-section {
 		display: none;
 	}
+	#GetStarted .Pooh img {
+		position: absolute;
+		width: 15%;
+		left: 5%;
+		top: 18%;
+	}
+	
+	#GetStarted .UserInput img {
+		position: absolute;
+		width: 10%;
+		right: 5%;
+		top: 48%;
+	}
+	#GetStarted .Pooh input {
+		position: absolute;
+		top: 18%;
+		left: 20%;
+		max-width: 450px;
+	}
+	
+	#GetStarted .UserInput input {
+		position: absolute;
+		top: 42%;
+		right: 18%;
+		max-width: 450px;
+	}
+	
 }
 
 /* Media Query For Tablet */

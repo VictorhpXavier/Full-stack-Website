@@ -391,6 +391,7 @@ a {
 	top: 110%;
 	left: 9%;
 	cursor: pointer;
+	border-radius: 38px;
 }
 
 /* About Image */
@@ -663,6 +664,17 @@ display: flex;
 	#About-section img {
 		background: none;
 	}
+	#header .nav-list .DropDownMenu {
+		background-color: #006097;
+		color: white;
+		padding: 26px;
+		width: 45%;
+		font-size: 16px;
+		border: none;
+		position: absolute;
+		display: none;
+	  }
+	 
 }
 
 /* Media Query For Tablet */
