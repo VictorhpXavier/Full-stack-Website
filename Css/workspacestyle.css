@@ -268,7 +268,7 @@ a {
 #GetStarted .StartBox h1 {
 	color: #128fdc;
 	text-align: center;
-	font-size: 18px;
+	font-size: 25px;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
@@ -288,14 +288,14 @@ a {
 .Pooh img {
 	width: 15%;
 	position: absolute;
-	top: 10%;
+	top: 14%;
 	left: 9;
 }
 
 .UserInput .usericon {
 	width: 10%;
 	position: absolute;
-	top: 48%;
+	top: 52%;
 	right: 1%;
 }
 
@@ -310,13 +310,38 @@ a {
 	font-weight: 500;
 	transition: all 0.30s ease-in-out;
 	flex-grow: 1;
-	margin-bottom: 30px;
+	margin-bottom: 5px;
+}
+.Pooh p {
+	margin-bottom: 25px;
 }
 #GetStarted .StartBox .Pooh p{
 	margin-left: 90px;
 	width: 80%;
 }
-
+.UserInput .SubInfo .SubInfoText {
+	display: none;
+	width: 90%;
+	border: 1px solid rgb(51, 51, 51);
+	outline: none;
+	border-radius: 8px;
+	font-size: 16px;
+	color: black;
+	padding: 10px;
+	font-weight: 500;
+	transition: all 0.30s ease-in-out;
+	flex-grow: 1;
+	margin-bottom: 5px;
+	resize: none;
+}
+.UserInput .SubInfo .a213 {
+	display: none;
+	position: absolute;
+	right: 1%;
+	top: 70%;
+	width: 10%;
+	right: 1%;
+}
 .GiveMoreInfo {
 	display: block;
 	margin-top: 10px;
@@ -355,6 +380,12 @@ a {
 	max-height: 200px;
 	overflow-y: auto;
 }
+.UserInput .ErrorMessage {
+	color: red;
+	font-weight: bold;
+	display: none;
+	font-size: 14px;
+}
 
 .UserInput .dropdown .option {
 	padding: 10px;
@@ -366,7 +397,8 @@ a {
 }
 
 #GetStarted .Pooh input:focus,
-#GetStarted .UserInput input:focus {
+#GetStarted .UserInput input:focus,
+.UserInput .SubInfo .SubInfoText:focus {
 	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
 	border: 1px solid rgba(81, 203, 238, 1);
 }
@@ -503,104 +535,49 @@ a {
 
 /* End Keyframes */
 @media (max-width: 768px) {
-	#footer {
-		position: absolute;
-		top: 200%;
+	#GetStarted {
+		width: 90%;
+		padding: 10px;
 	}
-    #footer ul {
-		flex-direction: row
+	#GetStarted .grid-container {
+		grid-template-columns: 1fr;
 	}
-
-    #footer .Li-Language, #footer .Country-Flag {
-        left: 0;
-
-    }
-	#Services .container {
-		margin-top: 350px; 
-	}
-	#MainTheme h1{
-		font-size: 35px
-	}
-	#MainTheme p {
-		font-size: 20px;
-	}
-	#Services .features {
-		position: absolute;
-        display: flex;
-        flex-direction: column; /* Stacks the feature divs vertically */
-        align-items: center; /* Centers the feature divs horizontally */
-		bottom: 0;
-		margin-top: 150px;
-
-    }
-	.Services-Class h1 {
-		position: absolute;
-		bottom: 110%;
-		margin-top: 0;
-	}
-    #Services .feature {
-        width: 90%; 
-        margin-bottom: 20px;
-        padding: 20px;
-        border: 1px solid #ccc;
-    }
-	#Services img{
-		max-width: 50%;
-		max-height: 50%
-	}
-	#Video-section {
-		display: none;
-	}
-	#GetStarted .Pooh img {
-		position: absolute;
+	.Pooh img {
 		width: 15%;
-		left: 5%;
-		top: 18%;
+		left: 0;
+		top: 17%;
 	}
-	
-	#GetStarted .UserInput img {
-		position: absolute;
+	.UserInput .usericon {
+		top: 51%;
+		right: 1%;
 		width: 10%;
-		right: 5%;
-		top: 48%;
 	}
-	#GetStarted .Pooh p {
-		position: absolute;
-		top: 18%;
-		left: 20%;
-		max-width: 450px;
+	.UserInput .SubInfo .a213 {
+		top: 72%;
+		
 	}
-	
-	#GetStarted .UserInput input {
-		position: absolute;
-		top: 42%;
-		right: 18%;
-		max-width: 450px;
-	}
+	.Pooh p, .UserInput input {
+		width: 89%;
+		padding: 15px;
+		margin-right: 2px;
 
-	.UserInput .dropdown {
-	    display: none;
-	    position: absolute;
-		transform: translateX(50%);
-	    border: 1px solid #ccc;
-	    border-radius: 8px;
-	    background-color: #fff;
-	    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	    z-index: 1000;
-		top: 100%;
-	    max-height: 200px;
-		max-width: 300px;
-		overflow-y: auto;
 	}
-
-	.UserInput .dropdown .option {
-	    cursor: pointer;
+	#GetStarted .StartBox .Pooh p {
+		margin-left: 60px;
+		width: calc(100% - 60px);
 	}
-
-	.UserInput .dropdown .option:hover {
-	    background-color: #f0f0f0;
+	.GiveMoreInfo {
+		margin-left: 50px;
+		width: calc(100% - 50px);
+		padding: 15px;
 	}
-	
+	.UserInput .pooh { 
+		left: 0;
+	}
+	.GiveMoreInfo {
+		margin-left: 60px;
+	    width: 90%;
+	}
 }
 
 /* Media Query For Tablet */

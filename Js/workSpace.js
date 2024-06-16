@@ -154,7 +154,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const options = document.querySelectorAll('.UserInput .dropdown .option');
     const userImage = document.querySelector('.UserInput .usericon')
     const MoreInfo = document.querySelector('.GiveMoreInfo')
+    const startButton = document.querySelector('.GetStartedButton');
     const giveInfo = document.querySelector('.a')
+    const errormessage = document.querySelector('.UserInput .ErrorMessage')
+    const subInfo = document.querySelector('.UserInput .SubInfo .SubInfoText')
+    
     subjectInput.addEventListener('focus', () => {
         dropdown.style.display = 'block';
     });
@@ -162,18 +166,39 @@ document.addEventListener('DOMContentLoaded', function () {
     subjectInput.addEventListener('click', () => {
         dropdown.style.display = 'block';
     });
-
+    if (window.innerWidth < 768 && subjectInput.value) { 
+        document.querySelector('.Pooh img').style.top = '100%'
+    }
     options.forEach(option => {
         option.addEventListener('click', () => {
             subjectInput.value = option.textContent;
             dropdown.style.display = 'none';
+
             if(subjectInput.value) {
-               userImage.style.top  = '38%'
+               userImage.style.top  = '31%'
+               document.querySelector('.Pooh img').style.top = '12%'
+               document.querySelector('.UserInput .SubInfo .a213').style.display = 'block'
+               document.querySelector('.a .pooh').style.top = '46%'
                giveInfo.style.display = 'block'
+               subInfo.style.display = 'block'
                MoreInfo.innerHTML = `You chose ${option.textContent}. Can you specify the topic? For example, if it's History, which part (e.g., WW2)?`;
+               subjectInput.style.border = ''
+               errormessage.style.display = ''
+
             }
+            
         });
     });
+    startButton.addEventListener('click', () => {
+        if (!subjectInput.value) {
+            subjectInput.style.border = '2px solid red'
+            errormessage.style.display = 'block'
+        } else {
+            subjectInput.style.border = ''
+            errormessage.style.display = ''
+        }
+    });
+
 
     document.addEventListener('click', (event) => {
         if (!event.target.closest('.UserInput')) {

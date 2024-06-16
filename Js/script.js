@@ -64,7 +64,7 @@ function handleLogin(event) {
 
     const data = { email: emailValue, password: passValue };
 
-    fetch('auth/login', {
+    fetch('/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ function handleRegistration(event) {
     const data = { email: emailValue, password: passValue };
 
 
-    fetch('auth/signup', {
+    fetch('/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
