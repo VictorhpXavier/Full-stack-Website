@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 mainthemeP.style.color = '#717171'
             } else {
                 clearDarkModePreference();
-                document.body.style.backgroundColor = 'rgb(208, 236, 253)';
+                document.body.style.backgroundColor = '';
                 brandSpans.forEach(span => {
                     span.style.color = '';
                 });

@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('User is not logged in.');
     }
 });
+
 //Handle Profile Menu
 document.addEventListener('DOMContentLoaded', function() {
     const CircleButton = document.querySelector('#CircleButton'); 
@@ -114,10 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //Check user's first time
 
 document.addEventListener('DOMContentLoaded', function() {
-    const Content = document.querySelector('#MainContent .Retangle');
-    const addSubject = document.querySelector('#MainContent .AddSubject');
-
-    fetch('/auth/checkFirstTime', {
+    fetch('/FirstTime', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -131,21 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } 
     })
     .catch(error => console.error('Error checking first time:', error));
-    fetch('/auth/updateStatus', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Not First time');
-            Content.style.display = 'flex';
-            addSubject.style.display = 'block';
-        }
-    })
-    .catch(error => console.error('Error updating status:', error));
+    
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -173,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
         option.addEventListener('click', () => {
             subjectInput.value = option.textContent;
             dropdown.style.display = 'none';
-
             if(subjectInput.value) {
                userImage.style.top  = '31%'
                document.querySelector('.Pooh img').style.top = '12%'
@@ -184,9 +167,8 @@ document.addEventListener('DOMContentLoaded', function () {
                MoreInfo.innerHTML = `You chose ${option.textContent}. Can you specify the topic? For example, if it's History, which part (e.g., WW2)?`;
                subjectInput.style.border = ''
                errormessage.style.display = ''
-
+               dropdown.style.top = '45%'
             }
-            
         });
     });
     startButton.addEventListener('click', () => {
@@ -196,6 +178,8 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             subjectInput.style.border = ''
             errormessage.style.display = ''
+            alert('Entered subject successfully')
+            document.querySelector('#GetStarted').style.display = 'none'
         }
     });
 

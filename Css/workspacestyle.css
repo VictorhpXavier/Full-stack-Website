@@ -252,6 +252,7 @@ a {
 
 
 #GetStarted {
+	display: none;
 	width: 600px;
 	height: auto;
 	background-color: #FFFF;
@@ -369,7 +370,7 @@ a {
 .UserInput .dropdown {
 	display: none;
 	position: absolute;
-	top: 65%;
+	top: 73%;
 	left: 0;
 	width: 100%;
 	border: 1px solid #ccc;
@@ -466,7 +467,6 @@ a {
     width: 22.75rem;
 	background-color: #ebcfcf;
 	border-radius: 4%;
-	display: none;
 }
 
 #MainContent .image {
@@ -493,7 +493,6 @@ a {
 	position: absolute;
 	right: 5%;
 	bottom: 10%;
-	display: none;
 }
 #MainContent .AddSubject:hover {
 	cursor: pointer;

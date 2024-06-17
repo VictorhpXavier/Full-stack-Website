@@ -415,6 +415,12 @@ router.post('/cleardarkmode', (req, res) => {
     res.clearCookie('darkMode');
     res.sendStatus(200);
 });
+
+router.post('/FirstTime', (req, res) => {
+    const {FirstTime} = req.body
+    res.cookie('FirstTime', FirstTime, { maxAge: 1000 * 365 * 24 * 60 * 1000})
+    res.sendStatus(200);
+})
 //Handle User profile pic
 //* This creates the upload file
 //Funciona
@@ -495,7 +501,7 @@ router.post('/upload-profile-image', upload.single('profileImage'), (req, res) =
 
 //workspace code
 
-router.post('/checkFirstTime', (req, res) => {
+/*router.post('/checkFirstTime', (req, res) => {
     const token = req.cookies.token;
     console.log('Test');
 
@@ -544,6 +550,7 @@ router.post('/updateStatus', (req, res) => {
     }
 });
 
+*/
 module.exports = con;
 module.exports = router;
 
