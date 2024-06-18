@@ -117,15 +117,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const subjectInput = document.querySelector('.UserInput .Subject');
     const dropdown = document.querySelector('.UserInput .dropdown');
     const options = document.querySelectorAll('.UserInput .dropdown .option');
-    const userImage = document.querySelector('.UserInput .usericon')
-    const MoreInfo = document.querySelector('.GiveMoreInfo')
+    const userImage = document.querySelector('.UserInput .usericon');
+    const MoreInfo = document.querySelector('.GiveMoreInfo');
     const startButton = document.querySelector('.GetStartedButton');
-    const giveInfo = document.querySelector('.a')
-    const errormessage = document.querySelector('.UserInput .ErrorMessage')
-    const subInfo = document.querySelector('.UserInput .SubInfo .SubInfoText')
+    const giveInfo = document.querySelector('.a');
+    const errormessage = document.querySelector('.UserInput .ErrorMessage');
+    const subInfo = document.querySelector('.UserInput .SubInfo .SubInfoText');
     
-    const data = {subject: subjectInput.value}
-
     fetch('/CheckFirstTime', {
         method: 'POST',
         headers: {
@@ -135,10 +133,10 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.errors) {
-            data.errors.forEach(error => { 
+        if (data.responseMessage) {
+            data.responseMessage.forEach(error => { 
                 if (error.error === 'ID_NOT_FOUND') {
-                    document.querySelector('#GetStarted').style.display = 'block'
+                    document.querySelector('#GetStarted').style.display = 'block';
                     subjectInput.addEventListener('focus', () => {
                         dropdown.style.display = 'block';
                     });
@@ -147,25 +145,24 @@ document.addEventListener('DOMContentLoaded', function() {
                         dropdown.style.display = 'block';
                     });
                     if (window.innerWidth < 768 && subjectInput.value) { 
-                        document.querySelector('.Pooh img').style.top = '100%'
+                        document.querySelector('.Pooh img').style.top = '100%';
                     }
                     options.forEach(option => {
                         option.addEventListener('click', () => {
-                            subjectInput.value = option.textContent; // janela das materias
+                            subjectInput.value = option.textContent;
                             dropdown.style.display = 'none';
                             if(subjectInput.value) {
-                               userImage.style.top  = '31%'
-                               document.querySelector('.Pooh img').style.top = '12%'
-                               document.querySelector('.UserInput .SubInfo .a213').style.display = 'block'
-                               document.querySelector('.a .pooh').style.top = '46%'
-                               giveInfo.style.display = 'block'
-                               subInfo.style.display = 'block'
+                               userImage.style.top = '31%';
+                               document.querySelector('.Pooh img').style.top = '12%';
+                               document.querySelector('.UserInput .SubInfo .a213').style.display = 'block';
+                               document.querySelector('.a .pooh').style.top = '46%';
+                               giveInfo.style.display = 'block';
+                               subInfo.style.display = 'block';
                                MoreInfo.innerHTML = `You chose ${option.textContent}. Can you specify the topic? For example, if it's History, which part (e.g., WW2)?`;
-                               subjectInput.style.border = ''
-                               errormessage.style.display = ''
-                               dropdown.style.top = '45%'
+                               subjectInput.style.border = '';
+                               errormessage.style.display = '';
+                               dropdown.style.top = '45%';
                             }
-                
                         });
                     });
                     
@@ -173,37 +170,30 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (!subjectInput.value) {
                             subjectInput.style.border = '2px solid red';
                             errormessage.style.display = 'block';
-                        } //Aqui vou precisar de outro request para colocar o user na base de dados 
-                            // quando ele prosseguir 
-                        
-                         else {
-                            //quando user clicar para prosseguir e nunca tiver usado a pagina antes coloca
-                            // ele na tabela
+                        } else {
                             fetch('/PutUserOnTable', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
-                                body: JSON.stringify({ subject: subjectInput.value }),
+                                body: JSON.stringify({ Usersubject: subjectInput.value }), // Update this line to send Usersubject
                             })
                             .then(response => response.json())
                             .then(data => {
                                 if (data.errors) {
                                     data.errors.forEach(error => { 
                                         if(error.error === 'ADDED_ID') {
-                                            subjectInput.style.border = ''
-                                            errormessage.style.display = ''
-                                            alert('User added successfully')
-                                            document.querySelector('#GetStarted').style.display = 'none'
+                                            subjectInput.style.border = '';
+                                            errormessage.style.display = '';
+                                            alert('User added successfully');
+                                            document.querySelector('#GetStarted').style.display = 'none';
                                         }
                                     })
                                 } 
                             })    
                           .catch(error => console.error('Error checking first time:', error));
-                        
                         }
                     });
-                
                 
                     document.addEventListener('click', (event) => {
                         if (!event.target.closest('.UserInput')) {
@@ -211,16 +201,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                 }
-                if(error.error === 'ID_FOUND') { // isso verifica se user esta na tabela se nao tira o tutorial
-                    subjectInput.style.border = ''
-                    errormessage.style.display = ''
-                    alert('User already used this before')
-                    document.querySelector('#GetStarted').style.display = 'none'
+                if(error.error === 'ID_FOUND') {
+                    subjectInput.style.border = '';
+                    errormessage.style.display = '';
+                    alert('User already used this before');
+                    document.querySelector('#GetStarted').style.display = 'none';
                 }
             });
         } 
     })
     .catch(error => console.error('Error checking first time:', error));
-
-   
-})
+});

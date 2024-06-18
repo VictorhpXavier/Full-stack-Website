@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer');
 const fs = require('fs');
 const { message } = require('statuses');
+const { error } = require('console');
 
 const router = express.Router();
 
@@ -551,8 +552,6 @@ router.post('/updateStatus', (req, res) => {
 router.post('/CheckFirstTime', (req, res) => {
     const token = req.cookies.token;
 
-    let errors = [];
-
     if (!token) {
         return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
     }
@@ -560,18 +559,17 @@ router.post('/CheckFirstTime', (req, res) => {
     let decoded;
     try {
         decoded = jwt.verify(token, secretKey);
-        console.log('Decoded Token:', decoded); // Debugging log to inspect token payload
+        console.log('Decoded Token:', decoded); 
     } catch (err) {
         console.error('JWT Verification Error:', err);
         return res.status(401).json({ error: 'INVALID_TOKEN', message: 'Invalid or expired token' });
     }
 
-    const userId = decoded.userId; // Corrected to use userId
+    const userId = decoded.userId;
     const email = decoded.email;
 
-    console.log('User ID:', userId, 'Email:', email); // Debugging log to confirm ID and email values
-
-    const query = 'SELECT * FROM history WHERE user_id = ?';
+    console.log('User ID:', userId, 'Email:', email); 
+    const query = 'SELECT * FROM subject WHERE user_id = ?';
     con.query(query, [userId], (err, results) => {
         if (err) {
             console.error('Error executing MySQL query:', err);
@@ -586,13 +584,17 @@ router.post('/CheckFirstTime', (req, res) => {
             responseMessage.push({ error: 'ID_FOUND', message: 'Not first time' });
         }
 
-        res.json({ errors: responseMessage });
+        res.json({ responseMessage });
     });
 });
 
-
 router.post('/PutUserOnTable', (req, res) => {
     const token = req.cookies.token;
+    const { Usersubject } = req.body;
+
+    if (!token) {
+        return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
+    }
 
     let decoded;
     try {
@@ -601,35 +603,56 @@ router.post('/PutUserOnTable', (req, res) => {
         return res.status(401).json({ error: 'INVALID_TOKEN', message: 'Invalid or expired token' });
     }
 
-    const userId = decoded.userId; // Corrected to use userId
-    const email = decoded.email; 
-    
-    let errors = [];
-    
-    const query = 'SELECT * FROM history WHERE user_id = ?';
-    con.query(query, [userId], (err, results) => { 
+    const userId = decoded.userId;
+
+    const subjects = ['Math', 'Physic', 'Chemistry', 'CS', 'History', 'Portuguese', 'English', 'French', 'Spanish', 'Biology', 'Geography'];
+
+    const query = 'SELECT * FROM subject WHERE user_id = ?';
+    con.query(query, [userId], (err, results) => {
         if (err) {
             console.error('Error executing MySQL query:', err);
             return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Internal Server Error' });
         }
 
         if (results.length === 0) {
-            const insertQuery = 'INSERT INTO history (user_id) VALUES (?)';
+            const insertQuery = `INSERT INTO subject (user_id, ${subjects.join(', ')}) VALUES (?, ${subjects.map(() => 0).join(', ')})`;
             con.query(insertQuery, [userId], (err) => {
                 if (err) {
                     console.error('Error executing MySQL query:', err);
                     return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to create user' });
                 } else {
-                    errors.push({ error: 'ADDED_ID', message: 'ID successfully added to the table' });
-                    return res.json({ errors });
+                    updateSubject(userId, Usersubject, res);
                 }
             });
         } else {
-            errors.push({ error: 'ID_EXISTS', message: 'User ID already exists in the table' });
-            return res.json({ errors });
+            updateSubject(userId, Usersubject, res);
         }
     });
 });
+
+function updateSubject(userId, Usersubject, res) {
+    const subjects = ['Math', 'Physic', 'Chemistry', 'CS', 'History', 'Portuguese', 'English', 'French', 'Spanish', 'Biology', 'Geography'];
+    let query = 'UPDATE subject SET ';
+    const params = [];
+
+    subjects.forEach((subject, index) => {
+        query += `${subject} = ?`;
+        if (index < subjects.length - 1) query += ', ';
+        params.push(subject === Usersubject ? 1 : 0);
+    });
+
+    query += ' WHERE user_id = ?';
+    params.push(userId);
+
+    con.query(query, params, (err) => {
+        if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to update subject' });
+        }
+        res.json({ errors: [{ error: 'ADDED_ID', message: 'User subject updated successfully' }] });
+    });
+}
+
 
 module.exports = con;
 module.exports = router;
