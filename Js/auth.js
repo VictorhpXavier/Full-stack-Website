@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 
 const multer = require('multer');
 const fs = require('fs');
+const { message } = require('statuses');
 
 const router = express.Router();
 
@@ -416,11 +417,7 @@ router.post('/cleardarkmode', (req, res) => {
     res.sendStatus(200);
 });
 
-router.post('/FirstTime', (req, res) => {
-    const {FirstTime} = req.body
-    res.cookie('FirstTime', FirstTime, { maxAge: 1000 * 365 * 24 * 60 * 1000})
-    res.sendStatus(200);
-})
+
 //Handle User profile pic
 //* This creates the upload file
 //Funciona
@@ -522,7 +519,7 @@ router.post('/upload-profile-image', upload.single('profileImage'), (req, res) =
             } else {
                 console.log('Not First Time');
                 return res.status(200).json({ message: "Not first time" });
-            }
+            } 
         });
     } catch (error) {
         return res.status(401).json({ error: 'Invalid token' });
@@ -551,6 +548,89 @@ router.post('/updateStatus', (req, res) => {
 });
 
 */
+router.post('/CheckFirstTime', (req, res) => {
+    const token = req.cookies.token;
+
+    let errors = [];
+
+    if (!token) {
+        return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
+    }
+
+    let decoded;
+    try {
+        decoded = jwt.verify(token, secretKey);
+        console.log('Decoded Token:', decoded); // Debugging log to inspect token payload
+    } catch (err) {
+        console.error('JWT Verification Error:', err);
+        return res.status(401).json({ error: 'INVALID_TOKEN', message: 'Invalid or expired token' });
+    }
+
+    const userId = decoded.userId; // Corrected to use userId
+    const email = decoded.email;
+
+    console.log('User ID:', userId, 'Email:', email); // Debugging log to confirm ID and email values
+
+    const query = 'SELECT * FROM history WHERE user_id = ?';
+    con.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Internal Server Error' });
+        }
+
+        let responseMessage = [];
+
+        if (results.length === 0) {
+            responseMessage.push({ error: 'ID_NOT_FOUND', message: 'First time' });
+        } else {
+            responseMessage.push({ error: 'ID_FOUND', message: 'Not first time' });
+        }
+
+        res.json({ errors: responseMessage });
+    });
+});
+
+
+router.post('/PutUserOnTable', (req, res) => {
+    const token = req.cookies.token;
+
+    let decoded;
+    try {
+        decoded = jwt.verify(token, secretKey);
+    } catch (err) {
+        return res.status(401).json({ error: 'INVALID_TOKEN', message: 'Invalid or expired token' });
+    }
+
+    const userId = decoded.userId; // Corrected to use userId
+    const email = decoded.email; 
+    
+    let errors = [];
+    
+    const query = 'SELECT * FROM history WHERE user_id = ?';
+    con.query(query, [userId], (err, results) => { 
+        if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Internal Server Error' });
+        }
+
+        if (results.length === 0) {
+            const insertQuery = 'INSERT INTO history (user_id) VALUES (?)';
+            con.query(insertQuery, [userId], (err) => {
+                if (err) {
+                    console.error('Error executing MySQL query:', err);
+                    return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to create user' });
+                } else {
+                    errors.push({ error: 'ADDED_ID', message: 'ID successfully added to the table' });
+                    return res.json({ errors });
+                }
+            });
+        } else {
+            errors.push({ error: 'ID_EXISTS', message: 'User ID already exists in the table' });
+            return res.json({ errors });
+        }
+    });
+});
+
 module.exports = con;
 module.exports = router;
 

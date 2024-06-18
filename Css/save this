@@ -1,155 +1,85 @@
+document.addEventListener('DOMContentLoaded', function () {
+    const subjectInput = document.querySelector('.UserInput .Subject');
+    const dropdown = document.querySelector('.UserInput .dropdown');
+    const options = document.querySelectorAll('.UserInput .dropdown .option');
+    const userImage = document.querySelector('.UserInput .usericon')
+    const MoreInfo = document.querySelector('.GiveMoreInfo')
+    const startButton = document.querySelector('.GetStartedButton');
+    const giveInfo = document.querySelector('.a')
+    const errormessage = document.querySelector('.UserInput .ErrorMessage')
+    const subInfo = document.querySelector('.UserInput .SubInfo .SubInfoText')
+    
+    subjectInput.addEventListener('focus', () => {
+        dropdown.style.display = 'block';
+    });
 
-#GetStarted {
-	width: 600px;
-	height: auto;
-	background-color: #FFFF;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	border-radius: 4%;
-	transform: translate(-50%, -50%);
-	place-items: center;
-	padding: 20px;
-	box-sizing: border-box;
-}
+    subjectInput.addEventListener('click', () => {
+        dropdown.style.display = 'block';
+    });
+    if (window.innerWidth < 768 && subjectInput.value) { 
+        document.querySelector('.Pooh img').style.top = '100%'
+    }
+    options.forEach(option => {
+        option.addEventListener('click', () => {
+            subjectInput.value = option.textContent;
+            dropdown.style.display = 'none';
+            if(subjectInput.value) {
+               userImage.style.top  = '31%'
+               document.querySelector('.Pooh img').style.top = '12%'
+               document.querySelector('.UserInput .SubInfo .a213').style.display = 'block'
+               document.querySelector('.a .pooh').style.top = '46%'
+               giveInfo.style.display = 'block'
+               subInfo.style.display = 'block'
+               MoreInfo.innerHTML = `You chose ${option.textContent}. Can you specify the topic? For example, if it's History, which part (e.g., WW2)?`;
+               subjectInput.style.border = ''
+               errormessage.style.display = ''
+               dropdown.style.top = '45%'
+            }
 
-#GetStarted .StartBox h1 {
-	color: #128fdc;
-	text-align: center;
-	font-size: 18px;
-	font-weight: bold;
-	margin-bottom: 20px;
-}
+        });
+    });
+    
+    startButton.addEventListener('click', () => {
+        if (!subjectInput.value) {
+            subjectInput.style.border = '2px solid red';
+            errormessage.style.display = 'block';
+        } else if (subjectInput.value === 'History') {
+            fetch('/History', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ subject: subjectInput.value }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    data.errors.forEach(error => { 
+                        if (error.error === 'ID_NOT_FOUND') {
+                            subjectInput.style.border = '';
+                            errormessage.style.display = 'none';
+                            alert('id working');
+                            document.querySelector('#GetStarted').style.display = 'none';
+                        }
+                    });
+                } 
+            })
+            .catch(error => console.error('Error checking first time:', error));
+        }
+        
+        /* else {
+            subjectInput.style.border = ''
+            errormessage.style.display = ''
+            alert('Entered subject successfully')
+            document.querySelector('#GetStarted').style.display = 'none'
+        }*/
+    });
 
-#GetStarted .grid-container {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 20px;
-	width: 100%;
-}
 
-.grid-item {
-	display: flex;
-	align-items: center;
-}
-
-.Pooh img {
-	width: 15%;
-	position: absolute;
-	top: 10%;
-	left: 9;
-}
-
-.UserInput img {
-	width: 10%;
-	position: absolute;
-	top: 38%;
-	right: 1%;
-}
-
-.Pooh p, .UserInput input {
-	width: 90%;
-	border: 1px solid rgb(51, 51, 51);
-	outline: none;
-	border-radius: 8px;
-	font-size: 16px;
-	color: black;
-	padding: 20px;
-	font-weight: 500;
-	transition: all 0.30s ease-in-out;
-	flex-grow: 1;
-	margin-bottom: 30px;
-}
-#GetStarted .StartBox .Pooh p{
-	margin-left: 90px;
-	width: 80%;
-}
-
-.GiveMoreInfo {
-	display: block;
-	border: 1px solid red;
-	margin-top: 10px;
-	margin-left: 80px;
-	max-width: 85%;
-}
-.UserInput .pooh {
-	width: 15%;
-	position: absolute;
-	top: 58%;
-	left: 2%;
-}
-
-.UserInput .dropdown {
-	display: none;
-	position: absolute;
-	top: 65%;
-	left: 0;
-	width: 100%;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	background-color: #fff;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	z-index: 1000;
-	max-height: 200px;
-	overflow-y: auto;
-}
-
-.UserInput .dropdown .option {
-	padding: 10px;
-	cursor: pointer;
-}
-
-.UserInput .dropdown .option:hover {
-	background-color: #f0f0f0;
-}
-
-#GetStarted .Pooh input:focus,
-#GetStarted .UserInput input:focus {
-	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-	border: 1px solid rgba(81, 203, 238, 1);
-}
-
-#GetStarted .GetStartedButton {
-	background-color: #0276FF;
-	border-radius: 8px;
-	border-style: none;
-	box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
-	box-sizing: border-box;
-	color: #fff;
-	cursor: pointer;
-	display: flex;
-	flex-direction: row;
-	flex-shrink: 0;
-	font-family: "RM Neue", sans-serif;
-	font-size: 100%;
-	line-height: 1.15;
-	margin: 20px auto 0 auto;
-	padding: 12px 27px;
-	text-align: center;
-	text-transform: none;
-	transition: color .13s ease-in-out, background .13s ease-in-out, opacity .13s ease-in-out, box-shadow .13s ease-in-out;
-	user-select: none;
-	-webkit-user-select: none;
-	touch-action: manipulation;
-}
-
-#GetStarted .GetStartedButton:active {
-	background-color: #006AE8;
-}
-
-#GetStarted .GetStartedButton:hover {
-	background-color: #1C84FF;
-}
-
-#GetStarted .CloseButton {
-	position: absolute;
-	background: none;
-	border: none;
-	font-size: 18px;
-	top: 2%;
-	right: 2%;
-}
-
-#GetStarted .CloseButton:hover {
-	cursor: pointer;
-}
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.UserInput')) {
+            dropdown.style.display = 'none';
+        }
+    });
+    
+});

@@ -467,6 +467,7 @@ a {
     width: 22.75rem;
 	background-color: #ebcfcf;
 	border-radius: 4%;
+	display: none;
 }
 
 #MainContent .image {
@@ -493,6 +494,7 @@ a {
 	position: absolute;
 	right: 5%;
 	bottom: 10%;
+	display: none;
 }
 #MainContent .AddSubject:hover {
 	cursor: pointer;
