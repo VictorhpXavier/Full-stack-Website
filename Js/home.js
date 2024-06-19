@@ -27,6 +27,55 @@ hamburgerButton.addEventListener('click', () => {
 
     }
 });
+//Check User language preference
+document.addEventListener('DOMContentLoaded', function() {
+    const languageButton = document.querySelector('#footer .Country-Flag ')
+    const options = document.querySelectorAll('#footer .dropdown .option');
+    const ChooseLangue = document.querySelector('#footer .dropdown ')
+
+
+    if(languageButton) {
+        languageButton.addEventListener('click', function() {
+            if(ChooseLangue.style.display === 'none' || ChooseLangue.style.display === '') {
+                ChooseLangue.style.display = 'block'
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        if(option) {
+                            alert(option.textContent)
+                            fetch('/checkuserlanguage', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify( { language : option.textContent}),
+                            })
+                            .then(response => response.json())
+                            .then(data => { 
+                                if(data.responseMessage) {
+                                    data.responseMessage.forEach(error => {
+                                        if(error.error === 'CHANGE_TO_ENGLISH') {
+                                            alert('Changing language to english')
+                                        }else if (error.error === 'CHANGE_TO_PORTUGUESE') {
+                                            alert('Changing to portuguese')
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                })
+            }else {
+                ChooseLangue.style.display = ''
+
+            }
+        })
+    }
+   
+    
+})
+
+
+
 //If user is Logged In then show the Profile Menu and remove the register / login
 document.addEventListener('DOMContentLoaded', function() {
     function getCookie(name) {
@@ -42,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (token || loggedIn === 'true') {
         const LoginElement = document.getElementById('Login');
         const AccountStatus = document.getElementById('Circle');
-        
+        document.querySelector('.FreeSignUp-Button').style.display = 'none'
 
         console.log('User is logged in. Modifying the DOM accordingly.');
 

@@ -653,6 +653,60 @@ function updateSubject(userId, Usersubject, res) {
     });
 }
 
+router.post('/checkuserlanguage', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
+    }
+
+    let decoded;
+    try {
+        decoded = jwt.verify(token, secretKey);
+    } catch (err) {
+        return res.status(401).json({ error: 'INVALID_TOKEN', message: 'Invalid or expired token' });
+    }
+
+    const userId = decoded.userId;
+    const query = 'SELECT language FROM Users WHERE id = ?';
+
+    con.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Internal Server Error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'USER_NOT_FOUND', message: 'User not found' });
+        }
+
+        const userLanguage = results[0].language;
+
+        let responseMessage = [];
+
+        if (req.body.language === 'English') {
+            responseMessage.push({ error: 'CHANGE_TO_ENGLISH', message: 'Changing language to English' });
+        
+            const updateQuery = `UPDATE Users SET language = ? WHERE id = ?`;
+            con.query(updateQuery, [req.body.language, userId], (err) => {
+                if (err) {
+                    console.error('Error executing MySQL query:', err);
+                    return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to update language' });
+                }
+            });
+        } else if(req.body.language === 'Portuguese') {
+            responseMessage.push({ error: 'CHANGE_TO_PORTUGUESE', message: 'Changing language to Portuguese' });
+        
+            const updateQuery = `UPDATE Users SET language = ? WHERE id = ?`;
+            con.query(updateQuery, [req.body.language, userId], (err) => {
+                if (err) {
+                    console.error('Error executing MySQL query:', err);
+                    return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to update language' });
+                }
+            });
+        }
+        res.json({ responseMessage, userLanguage });
+    });
+});
 
 module.exports = con;
 module.exports = router;
