@@ -601,7 +601,7 @@ display: flex;
 	display: none;
 	position: absolute;
     margin-top: -55px; 
-	right: 13%;
+	right: 17%;
 	width: 10%;
 	border: 1px solid #ccc;
 	border-radius: 8px;
@@ -676,6 +676,7 @@ display: flex;
 	#footer {
 		position: absolute;
 		top: 310%;
+		font-size: 12px;
 	}
     #footer ul {
 		flex-direction: row
@@ -692,7 +693,7 @@ display: flex;
 		white-space: nowrap;
 		position: absolute;
 		left: 50%;
-		top: 13%;
+		top: 8%;
 		transform: translateX(-50%);
 		font-size: 43px;
 		color: #006097;
@@ -700,10 +701,16 @@ display: flex;
 		
 	}
 	.feature img {
-		margin-top: 10px;
+		margin-top: 30px;
 		width: 70%;
 		height: 80%;
 		object-fit: cover; /* Ensures the image covers the entire area of the container */
+		border-radius: 38px; /* Match the border-radius of the container for a seamless look */
+	}
+	.featurePt img {
+		margin-top: 30px;
+		width: 400px;
+		height: 90%;
 		border-radius: 38px; /* Match the border-radius of the container for a seamless look */
 	}
 	#MainTheme h1{
@@ -721,6 +728,15 @@ display: flex;
 		margin-top: 150px;
 
     }
+	#Services .FeaturesPt {
+		position: absolute;
+        display: flex;
+        flex-direction: column; /* Stacks the feature divs vertically */
+        align-items: center; /* Centers the feature divs horizontally */
+		bottom: 0;
+		margin-top: 150px;
+
+    }
 	
 	.Services-Class h1 {
 		position: absolute;
@@ -728,6 +744,11 @@ display: flex;
 		margin-top: 0;
 	}
     #Services .feature {
+        width: 80%;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+    }
+	#Services .featurePt {
         width: 80%;
         margin-bottom: 20px;
         border: 1px solid #ccc;
