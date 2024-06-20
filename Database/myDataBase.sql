@@ -5,7 +5,8 @@ CREATE TABLE Users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PhotoLink VARCHAR(255)                        
+    PhotoLink VARCHAR(255),
+    language VARCHAR(255) DEFAULT 'english'                    
 );
 
 #CREATE TABLE files (

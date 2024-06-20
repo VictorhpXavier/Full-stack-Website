@@ -653,7 +653,7 @@ function updateSubject(userId, Usersubject, res) {
     });
 }
 
-router.post('/checkuserlanguage', (req, res) => {
+router.post('/ChangeUserLanguage', (req, res) => {
     const token = req.cookies.token;
     if (!token) {
         return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
@@ -708,6 +708,50 @@ router.post('/checkuserlanguage', (req, res) => {
     });
 });
 
+router.post('/CheckUserLanguage', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
+    }
+
+    let decoded;
+    try {
+        decoded = jwt.verify(token, secretKey);
+        console.log('Decoded Token:', decoded); 
+    } catch (err) {
+        console.error('JWT Verification Error:', err);
+        return res.status(401).json({ error: 'INVALID_TOKEN', message: 'Invalid or expired token' });
+    }
+
+    const userId = decoded.userId;
+    console.log('User ID:', userId); 
+
+    const query = 'SELECT language FROM Users WHERE id = ?';
+
+    con.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error executing MySQL query:', err);
+            return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Internal Server Error' });
+        }
+
+        let responseMessage = [];
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'USER_NOT_FOUND', message: 'User not found', responseMessage });
+        }
+
+        const userLanguage = results[0].language;
+        console.log('User Language:', userLanguage); 
+
+        if (userLanguage === 'English') {
+            responseMessage.push({ error: 'USER_PREFERS_ENGLISH', message: 'Change language to English' });
+        }else if (userLanguage === 'Portuguese') {
+            responseMessage.push({ error: 'USER_PREFERS_PORTUGUESE', message: 'Change language to Portuguese' });
+        }
+
+        res.json({ responseMessage });
+    });
+});
 module.exports = con;
 module.exports = router;
 

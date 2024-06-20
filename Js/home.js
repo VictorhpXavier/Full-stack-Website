@@ -32,17 +32,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageButton = document.querySelector('#footer .Country-Flag ')
     const options = document.querySelectorAll('#footer .dropdown .option');
     const ChooseLangue = document.querySelector('#footer .dropdown ')
-
+    const footer = document.querySelector('#footer')
+    const mainthemeP = document.querySelector('#MainTheme p')
+    const SignUp = document.querySelector('.FreeSignUp .FreeSignUp-Button')
+    const DemoButton = document.querySelector('.Demo-Video-Button')
+    const AboutH1 = document.querySelector('#About-section h1')
+    const AboutH2 = document.querySelector('#About-section h2')
+    const AboutEn = document.querySelector('#About-section p')
+    const AboutPt = document.querySelector('#About-section .P-pt')
+    const ServicesH1 = document.querySelector('.Services-Class h1')
+    const featureEn = document.querySelector('#Services .features')
+    const featuresPt = document.querySelector('#Services .FeaturesPt')
+    const userFlag = document.querySelector('#footer .Country-Flag')
 
     if(languageButton) {
         languageButton.addEventListener('click', function() {
             if(ChooseLangue.style.display === 'none' || ChooseLangue.style.display === '') {
                 ChooseLangue.style.display = 'block'
+
                 options.forEach(option => {
                     option.addEventListener('click', () => {
                         if(option) {
-                            alert(option.textContent)
-                            fetch('/checkuserlanguage', {
+                            ChooseLangue.style.display = 'none'
+                            fetch('/ChangeUserLanguage', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -54,9 +66,31 @@ document.addEventListener('DOMContentLoaded', function() {
                                 if(data.responseMessage) {
                                     data.responseMessage.forEach(error => {
                                         if(error.error === 'CHANGE_TO_ENGLISH') {
-                                            alert('Changing language to english')
+                                            mainthemeP.innerHTML = 'Learning your favorite subject has never been easier.<br>Interactive videos will guide you from beginner to master level.' 
+                                            SignUp.innerHTML = ''
+                                            DemoButton.innerHTML = 'Watch Demo'
+                                            AboutH1.innerHTML = 'About'
+                                            AboutH2.innerHTML = 'Our History'
+                                            AboutEn.style.display = 'block'
+                                            AboutPt.style.display = 'none'
+                                            ServicesH1.innerHTML = 'Features & Services'
+                                            featureEn.style.display = 'flex'
+                                            featuresPt.style.display = 'none'
+                                            userFlag.style.backgroundImage = 'url(../Country_Flags/us.jpg)'
+                                            AboutEn.style.display = 'block'
+                                            AboutPt.style.display = 'none'
                                         }else if (error.error === 'CHANGE_TO_PORTUGUESE') {
-                                            alert('Changing to portuguese')
+                                            mainthemeP.innerHTML = 'Aprender o seu conteúdo favorito nunca foi tão fácil. <br> Vídeos interativos irão guiá-lo do nível iniciante ao mestre.' 
+                                            SignUp.innerHTML = 'Registre-se'
+                                            DemoButton.innerHTML = 'Assistir Demo'
+                                            AboutH1.innerHTML = 'Sobre VHX'
+                                            AboutH2.innerHTML = 'Nossa História'
+                                            ServicesH1.innerHTML = 'Recursos e serviços'
+                                            featureEn.style.display = 'none'
+                                            featuresPt.style.display = 'flex'
+                                            userFlag.style.backgroundImage = 'url(../Country_Flags/pt.png)'
+                                            AboutEn.style.display = 'none'
+                                            AboutPt.style.display = 'block'
                                         }
                                     })
                                 }
@@ -65,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                 })
             }else {
-                ChooseLangue.style.display = ''
+                ChooseLangue.style.display = 'none'
 
             }
         })
@@ -74,7 +108,62 @@ document.addEventListener('DOMContentLoaded', function() {
     
 })
 
+document.addEventListener('DOMContentLoaded', function() {
+    const mainthemeP = document.querySelector('#MainTheme p')
+    const SignUp = document.querySelector('.FreeSignUp .FreeSignUp-Button')
+    const DemoButton = document.querySelector('.Demo-Video-Button')
+    const AboutH1 = document.querySelector('#About-section h1')
+    const AboutH2 = document.querySelector('#About-section h2')
+    const AboutEn = document.querySelector('#About-section p')
+    const AboutPt = document.querySelector('#About-section .P-pt')
+    const ServicesH1 = document.querySelector('.Services-Class h1')
+    const featureEn = document.querySelector('#Services .features')
+    const featuresPt = document.querySelector('#Services .FeaturesPt')
+    const userFlag = document.querySelector('#footer .Country-Flag')
 
+    fetch('/CheckUserLanguage', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include' // Include cookies in the request
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+    })
+    .then(data => {
+        if (data.responseMessage && data.responseMessage.length > 0) {
+            data.responseMessage.forEach(message => {
+                if (message.error === 'USER_PREFERS_ENGLISH') {
+                    mainthemeP.innerHTML = 'Learning your favorite subject has never been easier.<br>Interactive videos will guide you from beginner to master level.' 
+                    SignUp.innerHTML = ''
+                    DemoButton.innerHTML = 'Watch Demo'
+                    AboutH1.innerHTML = 'About'
+                    AboutH2.innerHTML = 'Our History'
+                    AboutEn.style.display = 'block'
+                    AboutPt.style.display = 'none'
+
+                } else if (message.error === 'USER_PREFERS_PORTUGUESE') {
+                    mainthemeP.innerHTML = 'Aprender o seu conteúdo favorito nunca foi tão fácil. <br> Vídeos interativos irão guiá-lo do nível iniciante ao mestre.' 
+                    SignUp.innerHTML = 'Registre-se'
+                    DemoButton.innerHTML = 'Assistir Demo'
+                    AboutH1.innerHTML = 'Sobre VHX'
+                    AboutH2.innerHTML = 'Nossa História'
+                    ServicesH1.innerHTML = 'Recursos e serviços'
+                    featureEn.style.display = 'none'
+                    featuresPt.style.display = 'flex'
+                    userFlag.style.backgroundImage = 'url(../Country_Flags/pt.png)'
+                    AboutEn.style.display = 'none'
+                    AboutPt.style.display = 'block'
+
+                    
+                }
+            });
+        } 
+    })
+    
+});
 
 //If user is Logged In then show the Profile Menu and remove the register / login
 document.addEventListener('DOMContentLoaded', function() {
