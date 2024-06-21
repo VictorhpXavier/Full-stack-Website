@@ -710,7 +710,11 @@ router.post('/ChangeUserLanguage', (req, res) => {
 
 router.post('/CheckUserLanguage', (req, res) => {
     const token = req.cookies.token;
+    let responseMessage = [];
+
     if (!token) {
+        responseMessage.push({ error: 'NO_TOKEN', message: 'Change language to English' });
+
         return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
     }
 
@@ -734,7 +738,6 @@ router.post('/CheckUserLanguage', (req, res) => {
             return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Internal Server Error' });
         }
 
-        let responseMessage = [];
 
         if (results.length === 0) {
             return res.status(404).json({ error: 'USER_NOT_FOUND', message: 'User not found', responseMessage });

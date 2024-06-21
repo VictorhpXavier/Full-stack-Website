@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
 document.addEventListener('DOMContentLoaded', function() {
     const subjectInput = document.querySelector('.UserInput .Subject');
     const dropdown = document.querySelector('.UserInput .dropdown');
@@ -211,4 +212,41 @@ document.addEventListener('DOMContentLoaded', function() {
         } 
     })
     .catch(error => console.error('Error checking first time:', error));
+    fetch('/CheckUserLanguage', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include' // Include cookies in the request
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text) });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        if (data.responseMessage && data.responseMessage.length > 0) {
+            data.responseMessage.forEach(message => {
+                if (message.error === 'USER_PREFERS_PORTUGUESE') { 
+                    // Update text for specific elements
+                    document.querySelector('.Pooh p').innerHTML = 'Qual assunto gostarias de aprender?';
+                    document.querySelector('.StartBox h1').innerHTML = 'Vamos começar';
+                    document.querySelector('.UserInput input').placeholder = 'Escolha o assunto';
+                    document.querySelector('.GetStartedButton').innerHTML = 'Aprenda agora';
+                    document.querySelector('.GetStartedButton').style.fontSize = '13px';
+                    const inputBox = document.querySelector('.UserInput input')
+
+                    
+
+                    alert('Pt');
+                }
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
 });

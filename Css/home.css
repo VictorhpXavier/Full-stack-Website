@@ -5,6 +5,7 @@
 	box-sizing: border-box;
 	
 }
+
 body {
     display: flex;
     flex-direction: column; /* Ensure a vertical flow */
@@ -72,24 +73,27 @@ a {
 	margin-right: 1%;
 	margin-left: 1%;
 }
+
 #header .nav-list ul {
-	list-style: none;
-	position: absolute;
-	background-color: rgb(31, 30, 30);
-	width: 100vw;
-	height: 100vh;
-	left: 100%;
-	top: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	z-index: -1;
-	overflow-x: hidden;
-	transition: 0.5s ease left;
+    list-style: none;
+    position: absolute;
+    display: none;
+    background-color: transparent;    
+    width: 110vw; /* Full viewport width */
+    height: 110vh; /* Full viewport height */
+    left: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+    overflow-x: hidden;
+    transition: 0.5s ease left;
 }
+
 #header .nav-list ul.active {
-	left: 0%;
+    left: 0%;
 }
 #header .nav-list ul a {
 	font-size: 2.5rem;
@@ -173,6 +177,7 @@ a {
 	z-index: -1;
 	transition: 0.3s ease letter-spacing;
 }
+
 #header .nav-list ul li:hover a::after {
 	transform: translate(-50%, -50%) scale(1);
 	letter-spacing: initial;
@@ -202,6 +207,7 @@ a {
 	margin-right: 20px;
 
 }
+
 #header .hamburger:after {
 	position: absolute;
 	content: '';
@@ -286,6 +292,32 @@ a {
     animation: fadeIn 1s ease-out forwards;
     animation-delay: 1s; 
 }
+#MainTheme {
+	position: absolute;
+	top: 25%;
+	left: 10%;	
+	height: 100vh; 
+
+}
+/* */
+#MainTheme .h1Pt {
+    position: relative;
+    font-size: 43px;
+    font-weight: 800;
+    color: #0B4F81;
+    animation: text_reveal 0.5s ease forwards;
+	display: none;
+}
+
+
+
+/* */
+#MainTheme span {
+    position: absolute;
+    left: 10%;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 1s; 
+}
 
 #MainTheme h1,
 #MainTheme span {
@@ -338,6 +370,7 @@ a {
     font-size: 16px;
 	left: 2%;
 }
+
 #MainTheme .Demo-Video-Button:hover {
 	transition: 0.1s;
 	background: #e3e4e1;
@@ -487,7 +520,7 @@ display: flex;
 
 #Services .features{
 	position: absolute;
-	display: flex;
+	display: flex !important;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	margin: 2rem 0;
@@ -521,7 +554,6 @@ display: flex;
 
 #Services .FeaturesPt{
 	position: absolute;
-	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	margin: 2rem 0;
@@ -672,231 +704,275 @@ display: flex;
 
 /* End Keyframes */
 
+/* Media Query for Small Devices (e.g., phones) */
 @media (max-width: 768px) {
-	#footer {
-		position: absolute;
-		top: 310%;
-		font-size: 12px;
+	#header {
+		position: fixed;
+		z-index: 1000;
+		left: 0;
+		top: 0;
+		width: 100vw;
+		height: auto;
+		border-bottom: 0.5px solid #888;
+		background-color: #EFEFEF;
 	}
+	#header .header {
+		min-height: 8vh;
+		transition: 0.3s ease background-color;
+	}
+	#header .nav-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100vw;
+		height: 100%;
+		padding: 0 10px;
+		margin-right: 0%;
+		margin-left: 1%;
+	}
+    #footer {
+        position: absolute;
+        top: 310%;
+        font-size: 8px;
+		margin-right: 2px;
+		margin-left: 2px;
+		width: 120%;
+    }
     #footer ul {
-		flex-direction: row
-	}
-
-    #footer .Li-Language, #footer .Country-Flag {
+        flex-direction: row;
+    }
+    #footer .Li-Language {
         left: 0;
-
     }
-	#Services .container {
-		margin-top: 180%; 
-	}
-	.Services-Class h1 {
-		white-space: nowrap;
+	#footer .Country-Flag {
 		position: absolute;
-		left: 50%;
-		top: 8%;
-		transform: translateX(-50%);
-		font-size: 43px;
-		color: #006097;
-		font-weight: 900 lighter;
+		top: 50%;
+		left: 89%;
 		
-	}
-	.feature img {
-		margin-top: 30px;
-		width: 70%;
-		height: 80%;
-		object-fit: cover; /* Ensures the image covers the entire area of the container */
-		border-radius: 38px; /* Match the border-radius of the container for a seamless look */
-	}
-	.featurePt img {
-		margin-top: 30px;
-		width: 400px;
-		height: 90%;
-		border-radius: 38px; /* Match the border-radius of the container for a seamless look */
-	}
-	#MainTheme h1{
-		font-size: 35px
-	}
-	#MainTheme p {
-		font-size: 20px;
-	}
-	#Services .features {
-		position: absolute;
-        display: flex;
-        flex-direction: column; /* Stacks the feature divs vertically */
-        align-items: center; /* Centers the feature divs horizontally */
-		bottom: 0;
-		margin-top: 150px;
 
-    }
-	#Services .FeaturesPt {
-		position: absolute;
-        display: flex;
-        flex-direction: column; /* Stacks the feature divs vertically */
-        align-items: center; /* Centers the feature divs horizontally */
-		bottom: 0;
-		margin-top: 150px;
-
-    }
-	
-	.Services-Class h1 {
-		position: absolute;
-		bottom: 110%;
-		margin-top: 0;
 	}
+    #Services .container {
+        margin-top: 180%;
+    }
+    .Services-Class h1 {
+        white-space: nowrap;
+        position: absolute;
+        left: 50%;
+        top: 1%;
+        transform: translateX(-50%);
+        font-size: 34px;
+        color: #006097;
+        font-weight: 900;
+    }
+    .feature img {
+        margin-top: 30px;
+        width: 70%;
+        height: 80%;
+        object-fit: cover;
+        border-radius: 38px;
+    }
+    .featurePt img {
+        margin-top: 30px;
+        width: 400px;
+        height: 90%;
+        border-radius: 38px;
+    }
+    #MainTheme h1 {
+        font-size: 35px;
+    }
+    #MainTheme p {
+        font-size: 20px;
+    }
+    #Services .features {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        bottom: 0;
+        margin-top: 150px;
+    }
+    .Services-Class h1 {
+        bottom: 130%;
+        margin-top: 0;
+    }
     #Services .feature {
         width: 80%;
         margin-bottom: 20px;
         border: 1px solid #ccc;
     }
-	#Services .featurePt {
-        width: 80%;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
+    #Services img {
+        max-width: 50%;
+        max-height: 50%;
     }
-	#Services img{
-		max-width: 50%;
-		max-height: 50%
-	}
-	#Video-section {
-		display: none;
-	}
-	#About-section p {
-		position: absolute;
-		left: 45%;
-		top: 180%;
-		margin-top: 10px;
-		font-size: 18px;
-		text-align: left;
-		color: #333;
-	}
-	#About-section span {
-		font-size: 20px
-	};
-	#About-section img {
-		background: none;
-	}
-	#header .nav-list .DropDownMenu {
-		background-color: #006097;
-		color: white;
-		padding: 26px;
-		width: 45%;
+    #Video-section {
+        display: none;
+    }
+    #About-section p {
+        position: absolute;
+        left: 45%;
+        top: 180%;
+        margin-top: 10px;
+        font-size: 15px;
+        text-align: left;
+        color: #333;
+    }
+    #About-section span {
+        font-size: 17px;
+    }
+    #About-section img {
+        background: none;
+    }
+    #header .nav-list .DropDownMenu {
+        background-color: #006097;
+        color: white;
+        padding: 26px;
+        width: 45%;
+        font-size: 16px;
+        border: none;
+        position: absolute;
+        display: none;
+    }
+    #footer .dropdown {
+        display: none;
+        position: absolute;
+        margin-top: -40px;
+        right: 3%;
+        width: 40%;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    #footer .dropdown h1 {
+        font-size: 14px;
+    }
+	#MainTheme .FreeSignUp-Button {
+		position: relative;
+		top: 20px;
+		width: 29%;
+		height: 45px;
+		background: #128fdc;
+		border: 1px solid grey;
+		border-radius: 10px;
+		outline: none;
+		box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+		cursor: pointer;
 		font-size: 16px;
-		border: none;
-		position: absolute;
-		display: none;
-	  }
-	 
-	  #footer .dropdown {
-		display: none;
-		position: absolute;
-		margin-top: -40px; 
-		right: 3%;
-		width: 40%;
-		border: 1px solid #ccc;
-		border-radius: 8px;
-		background-color: #fff;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		z-index: 1000;
-		max-height: 200px;
-		overflow-y: auto;
-	}  
-	#footer .dropdown h1 {
-		font-size: 14px;
+		color: white;
+	
 	}
+	#MainTheme .Demo-Video-Button {
+		position: relative;
+		top: 12px;
+		width: 29%;
+		height: 45px;
+		background: #D9D9D9;
+		color: #0081F9;
+		border: 1px solid grey;
+		border-radius: 10px;
+		outline: none;
+		box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+		cursor: pointer;
+		font-size: 16px;
+		left: 2%;
+	}
+	
+	
 }
 
-/* Media Query For Tablet */
-@media only screen and (min-width: 768px) {
-	.cta {
-		font-size: 2.5rem;
-		padding: 20px 60px;
-	}
-	h1.section-title {
-		font-size: 6rem;
-	}
+/* Media Query for Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+    .cta {
+        font-size: 2.5rem;
+        padding: 20px 60px;
+    }
+    h1.section-title {
+        font-size: 6rem;
+    }
 
-	/* Hero */
-	#hero h1 {
-		font-size: 7rem;
-	}
-	/* End Hero */
+    /* Hero */
+    #hero h1 {
+        font-size: 7rem;
+    }
+    /* End Hero */
 
-	/* Project */
-	#projects .project-item {
-		flex-direction: row;
-	}
-	#projects .project-item:nth-child(even) {
-		flex-direction: row-reverse;
-	}
-	#projects .project-item {
-		height: 400px;
-		margin: 0;
-		width: 100%;
-		border-radius: 0;
-	}
-	#projects .all-projects .project-info {
-		height: 100%;
-	}
-	#projects .all-projects .project-img {
-		height: 100%;
-	}
-	/* End Project */
+    /* Project */
+    #projects .project-item {
+        flex-direction: row;
+    }
+    #projects .project-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+    #projects .project-item {
+        height: 400px;
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+    }
+    #projects .all-projects .project-info {
+        height: 100%;
+    }
+    #projects .all-projects .project-img {
+        height: 100%;
+    }
+    /* End Project */
 
-	/* About */
-	#about .about {
-		flex-direction: row;
-	}
-	#about .col-left {
-		width: 600px;
-		height: 400px;
-		padding-left: 60px;
-	}
-	#about .about .col-left .about-img::after {
-		left: -45px;
-		top: 34px;
-		height: 98%;
-		width: 98%;
-		border: 10px solid rgb(179, 0, 255);
-	}
-	#about .col-right {
-		text-align: left;
-		padding: 30px;
-	}
-	#about .col-right h1 {
-		text-align: left;
-	}
-	/* End About */
-
+    /* About */
+    #about .about {
+        flex-direction: row;
+    }
+    #about .col-left {
+        width: 600px;
+        height: 400px;
+        padding-left: 60px;
+    }
+    #about .about .col-left .about-img::after {
+        left: -45px;
+        top: 34px;
+        height: 98%;
+        width: 98%;
+        border: 10px solid rgb(179, 0, 255);
+    }
+    #about .col-right {
+        text-align: left;
+        padding: 30px;
+    }
+    #about .col-right h1 {
+        text-align: left;
+    }
+    /* End About */
 }
-/* End Media Query For Tablet */
 
-/* Media Query For Desktop */
+/* Media Query for Desktop */
 @media only screen and (min-width: 1200px) {
-	/* header */
-	#header .hamburger {
-		display: none;
-	}
-	#header .nav-list ul {
-		position: initial;
-		display: block;
-		height: auto;
-		width: fit-content;
-		background-color: transparent;
-	}
-	#header .nav-list ul li {
-		display: inline-block;
-	}
-	#header .nav-list ul li a {
-		font-size: 1.8rem;
-	}
-	#header .nav-list ul a:after {
-		display: none;
-	}
-	/* End header */
+    /* header */
+    #header .hamburger {
+        display: none;
+    }
+    #header .nav-list ul {
+        position: initial;
+        display: block;
+        height: auto;
+        width: fit-content;
+        background-color: transparent;
+    }
+    #header .nav-list ul li {
+        display: inline-block;
+    }
+    #header .nav-list ul li a {
+        font-size: 1.8rem;
+    }
+    #header .nav-list ul a:after {
+        display: none;
+    }
+    /* End header */
 
-	#services .service-bottom .service-item {
-		flex-basis: 22%;
-		margin: 1.5%;
-	}
+    #services .service-bottom .service-item {
+        flex-basis: 22%;
+        margin: 1.5%;
+    }
 }
 /* End  Media Query For Desktop */
