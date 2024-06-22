@@ -186,7 +186,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         if(error.error === 'ADDED_ID') {
                                             subjectInput.style.border = '';
                                             errormessage.style.display = '';
-                                            alert('User added successfully');
                                             document.querySelector('#GetStarted').style.display = 'none';
                                         }
                                     })
@@ -205,8 +204,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(error.error === 'ID_FOUND') {
                     subjectInput.style.border = '';
                     errormessage.style.display = '';
-                    alert('User already used this before');
+
                     document.querySelector('#GetStarted').style.display = 'none';
+                    document.querySelector('#MainContent .card').style.display = 'block'
+
                 }
             });
         } 
@@ -279,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             subjectInput.style.border = '2px solid red';
                             errormessage.style.display = 'block';
                             errormessage.innerHTML = 'Selecione pelo menos 1 assunto'
+                       
                         } 
                     });
                 
@@ -288,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             dropdown.style.display = 'none';
                         }
                     });
-                    alert('Pt');
                 }
             });
         }
@@ -298,10 +299,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     startButton.addEventListener('click', () => {
         if (subjectInput.value) {
+            document.querySelector('.card').style.display = 'block'
             subjectInput.style.border = '';
             errormessage.style.display = '';
-            alert('User added successfully');
             document.querySelector('#GetStarted').style.display = 'none';
+            document.querySelector('#MainContent .card').style.display = 'block'
+
         }
     })    
     const dropdownPt = document.querySelector('.UserInput .dropdownPt')

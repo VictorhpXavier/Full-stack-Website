@@ -31,15 +31,10 @@ hamburgerButton.addEventListener('click', () => {
         CenaChata.style.display = ''
     }
 });
-menu_item.forEach((item) => {
-    item.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobile_menu.classList.remove('active');
-        
-        mobile_menu.querySelectorAll('a').forEach(link => {
-            link.style.color = '#489be0';
-        });
-    });
+
+window.addEventListener('resize', function () { 
+    "use strict";
+    window.location.reload(); 
 });
 
 //Check User language preference
@@ -241,11 +236,20 @@ document.addEventListener('DOMContentLoaded', function() {
         CircleButton.addEventListener('click', function() {
             if (DropDownMenu.style.display === 'none' || DropDownMenu.style.display === '') {
                 DropDownMenu.style.display = 'inline-block';
+
             } else {
                 DropDownMenu.style.display = 'none';
             }
         });
     }
+    window.addEventListener('click', (event) => {
+        if (CircleButton && !CircleButton.contains(event.target)) {
+            DropDownMenu.style.display = 'none';
+        }
+        if (CircleButton && !CircleButton.contains(event.target)) {
+            DropDownMenu.style.display = 'none';
+        }
+    });
 
     if (SignOutButton) {
         SignOutButton.addEventListener('click', function() {

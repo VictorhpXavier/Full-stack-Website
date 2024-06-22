@@ -475,52 +475,89 @@ a {
 	display: none;
 }
 /*Maincontent section*/
-#MainContent .Retangle{
-	margin-top: 8%;
-	left: 10%;
-	margin-left: 2%;
-	background-clip: padding-box;
-    flex-direction: column;
-    height: 23.375rem;
-    margin-bottom: 1.5rem;
-    margin-right: 1.5rem;
-    overflow: hidden;
-    position: relative;
-    text-align: left;
-    width: 22.75rem;
-	background-color: #ebcfcf;
-	border-radius: 4%;
-	display: none;
-}
 
-#MainContent .image {
-	background-image: url('../wallpapers/image1.png'); 
-	background-size: cover; 
-	height: 100%; 
-    width: 100%;  
-}
-#MainContent .idk {
-	margin-bottom: 40%;
-	border-top: 1px solid black;
-}
-#MainContent .Title {
-	font-size: 15px;
-}
-#MainContent:hover .Retangle {
-	border: 1px solid rgb(172, 172, 172);
-
-}
-#MainContent .Retangle:hover{
-	cursor: pointer;
-}
 #MainContent .AddSubject {
 	position: absolute;
 	right: 5%;
+	top: 50%;
 	bottom: 10%;
 	display: none;
 }
 #MainContent .AddSubject:hover {
 	cursor: pointer;
+}
+#MainContent .card {
+    width: 300px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+	display: none;
+	position: absolute;
+	top: 20%;
+    left: 5%;
+    right: 5%;
+}
+#MainContent .card:hover {
+	cursor: pointer;
+	box-shadow: rgba(149, 157, 165, 0.2) 2px 8px 24px;
+}
+
+#MainContent .card-header {
+    background-color: #607D8B;
+    color: #fff;
+    padding: 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    position: relative;
+}
+
+#MainContent .card-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+#MainContent .card-header p {
+    margin: 0;
+    font-size: 1em;
+}
+
+#MainContent .card-header img {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 50px;
+    height: auto;
+}
+
+#MainContent .card-body {
+    padding: 16px;
+    height: 130px;
+}
+
+#MainContent .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#MainContent .icons {
+    display: flex;
+    gap: 16px;
+}
+
+#MainContent .icons .icon-chart::before,
+#MainContent .icons .icon-folder::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content: "\f201"; /* Font Awesome chart icon */
+}
+
+#MainContent .icons .icon-folder::before {
+    content: "\f07b"; /* Font Awesome folder icon */
 }
 
 @keyframes hamburger_puls {
