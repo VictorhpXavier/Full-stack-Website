@@ -631,6 +631,25 @@ router.post('/PutUserOnTable', (req, res) => {
 });
 
 function updateSubject(userId, Usersubject, res) {
+    const subjectTranslations = {
+        'Math': 'Matemática',
+        'Physic': 'Física',
+        'Chemistry': 'Química',
+        'Computer Science': 'Ciência da Computação',
+        'History': 'História',
+        'Portuguese': 'Português',
+        'English': 'Inglês',
+        'French': 'Francês',
+        'Spanish': 'Espanhol',
+        'Biology': 'Biologia',
+        'Geography': 'Geografia'
+    };
+
+    // Reverse mapping from Portuguese to English
+    const reverseSubjectTranslations = Object.fromEntries(
+        Object.entries(subjectTranslations).map(([key, value]) => [value, key])
+    );
+
     const subjects = ['Math', 'Physic', 'Chemistry', 'CS', 'History', 'Portuguese', 'English', 'French', 'Spanish', 'Biology', 'Geography'];
     let query = 'UPDATE subject SET ';
     const params = [];
@@ -638,7 +657,7 @@ function updateSubject(userId, Usersubject, res) {
     subjects.forEach((subject, index) => {
         query += `${subject} = ?`;
         if (index < subjects.length - 1) query += ', ';
-        params.push(subject === Usersubject ? 1 : 0);
+        params.push(reverseSubjectTranslations[Usersubject] === subject ? 1 : 0);
     });
 
     query += ' WHERE user_id = ?';
@@ -649,7 +668,7 @@ function updateSubject(userId, Usersubject, res) {
             console.error('Error executing MySQL query:', err);
             return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to update subject' });
         }
-        res.json({ errors: [{ error: 'ADDED_ID', message: 'User subject updated successfully' }] });
+        res.json({ message: 'User subject updated successfully' });
     });
 }
 

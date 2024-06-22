@@ -101,32 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 if (data.responseMessage) {
                                     data.responseMessage.forEach(error => {
                                         if (error.error === 'CHANGE_TO_ENGLISH') {
-                                            mainthemeP.innerHTML = 'Learning your favorite subject has never been easier.<br>Interactive videos will guide you from beginner to master level.';
-                                            SignUp.innerHTML = '';
-                                            DemoButton.innerHTML = 'Watch Demo';
-                                            AboutH1.innerHTML = 'About';
-                                            AboutH2.innerHTML = 'Our History';
-                                            AboutEn.style.display = 'block';
-                                            AboutPt.style.display = 'none';
-                                            ServicesH1.innerHTML = 'Features & Services';
-                                            featureEn.style.display = '';
-                                            userFlag.style.backgroundImage = 'url(../Country_Flags/us.jpg)';
-                                            h1.style.display = 'block';
-                                            h1Pt.style.display = 'none';
+                                            
+                                            location.reload()
+
                                         } else if (error.error === 'CHANGE_TO_PORTUGUESE') {
-                                            mainthemeP.innerHTML = 'Learning your favorite subject has never been easier.<br>Interactive videos will guide you from beginner to master level.'
-                                            SignUp.innerHTML = 'Registre-se';
-                                            DemoButton.innerHTML = 'Assistir Demo';
-                                            AboutH1.innerHTML = 'Sobre VHX';
-                                            AboutH2.innerHTML = 'Nossa História';
-                                            ServicesH1.innerHTML = 'Recursos e serviços';
-                                            featureEn.style.display = 'none';
-                                            featuresPt.style.display = 'flex';
-                                            userFlag.style.backgroundImage = 'url(../Country_Flags/pt.png)';
-                                            h1.style.display = 'none';
-                                            h1Pt.style.display = 'block';
-                                            AboutEn.style.display = 'none';
-                                            AboutPt.style.display = 'block';
+                                            
+                                            location.reload()
 
                                             
                                         }

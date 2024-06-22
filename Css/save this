@@ -237,7 +237,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.querySelector('.UserInput input').placeholder = 'Escolha o assunto';
                     document.querySelector('.GetStartedButton').innerHTML = 'Aprenda agora';
                     document.querySelector('.GetStartedButton').style.fontSize = '13px';
-                    const inputBox = document.querySelector('.UserInput input')
+                    dropdown.style.display = 'none';
+                    const dropdownPt = document.querySelector('.UserInput .dropdownPt')
+                    dropdownPt.style.display = 'block';
 
                     
 

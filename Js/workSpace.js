@@ -231,16 +231,63 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.responseMessage && data.responseMessage.length > 0) {
             data.responseMessage.forEach(message => {
                 if (message.error === 'USER_PREFERS_PORTUGUESE') { 
-                    // Update text for specific elements
                     document.querySelector('.Pooh p').innerHTML = 'Qual assunto gostarias de aprender?';
                     document.querySelector('.StartBox h1').innerHTML = 'Vamos começar';
                     document.querySelector('.UserInput input').placeholder = 'Escolha o assunto';
                     document.querySelector('.GetStartedButton').innerHTML = 'Aprenda agora';
                     document.querySelector('.GetStartedButton').style.fontSize = '13px';
                     const inputBox = document.querySelector('.UserInput input')
+                    const dropdownPt = document.querySelector('.UserInput .dropdownPt')
+                    const optionsPt = document.querySelectorAll('.UserInput .dropdownPt .option');
 
-                    
+                    subjectInput.addEventListener('focus', () => {
+                        dropdownPt.style.display = 'block';
+                        dropdown.style.display = 'none'
+                    });
+                
+                    subjectInput.addEventListener('click', () => {
+                        dropdownPt.style.display = 'block';
+                        dropdown.style.display = 'none'
 
+                    });
+                    if (window.innerWidth < 768 && subjectInput.value) { 
+                        document.querySelector('.Pooh img').style.top = '100%';
+                    }
+                    optionsPt.forEach(option => {
+                        option.addEventListener('click', () => {
+                            subjectInput.value = option.textContent;
+                            dropdown.style.display = 'none';
+                            if(subjectInput.value) {
+                               userImage.style.top = '31%';
+                               document.querySelector('.Pooh img').style.top = '12%';
+                               document.querySelector('.UserInput .SubInfo .a213').style.display = 'block';
+                               document.querySelector('.a .pooh').style.top = '46%';
+                               giveInfo.style.display = 'block';
+                               subInfo.style.display = 'block';
+                               MoreInfo.innerHTML = `Escolheste ${option.textContent}. Podes especificar o tópico? Por exemplo, se for História, qual parte (ex.: 2ª Guerra Mundial)?`;
+                               document.querySelector('.UserInput .SubInfoText').placeholder = 'Conte-nos o seu interese (opcional)'
+                               subjectInput.style.border = '';
+                               errormessage.style.display = '';
+                               dropdownPt.style.top = '45%';
+                               dropdownPt.style.display = 'none';
+                            }
+                        });
+                    });
+
+                    startButton.addEventListener('click', () => {
+                        if (!subjectInput.value) {
+                            subjectInput.style.border = '2px solid red';
+                            errormessage.style.display = 'block';
+                            errormessage.innerHTML = 'Selecione pelo menos 1 assunto'
+                        } 
+                    });
+                
+                
+                    document.addEventListener('click', (event) => {
+                        if (!event.target.closest('.UserInput')) {
+                            dropdown.style.display = 'none';
+                        }
+                    });
                     alert('Pt');
                 }
             });
@@ -249,4 +296,24 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(error => {
         console.error('Fetch error:', error);
     });
+    startButton.addEventListener('click', () => {
+        if (subjectInput.value) {
+            subjectInput.style.border = '';
+            errormessage.style.display = '';
+            alert('User added successfully');
+            document.querySelector('#GetStarted').style.display = 'none';
+        }
+    })    
+    const dropdownPt = document.querySelector('.UserInput .dropdownPt')
+
+    window.addEventListener('click', (event) => {
+        if (dropdownPt && !dropdownPt.contains(event.target) && !subjectInput.contains(event.target)) {
+            dropdownPt.style.display = 'none';
+        }
+        if (dropdown && !dropdown.contains(event.target) && !subjectInput.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+   
 });
