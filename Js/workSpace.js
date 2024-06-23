@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    const GetStarted = document.querySelector('#GetStarted')
     const subjectInput = document.querySelector('.UserInput .Subject');
     const dropdown = document.querySelector('.UserInput .dropdown');
     const options = document.querySelectorAll('.UserInput .dropdown .option');
@@ -124,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const giveInfo = document.querySelector('.a');
     const errormessage = document.querySelector('.UserInput .ErrorMessage');
     const subInfo = document.querySelector('.UserInput .SubInfo .SubInfoText');
-    
+    const addSubject = document.querySelector('#AddSubject .AddSubject')
     fetch('/CheckFirstTime', {
         method: 'POST',
         headers: {
@@ -137,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.responseMessage) {
             data.responseMessage.forEach(error => { 
                 if (error.error === 'ID_NOT_FOUND') {
-                    document.querySelector('#GetStarted').style.display = 'block';
+                    GetStarted.style.display = 'block';
                     subjectInput.addEventListener('focus', () => {
                         dropdown.style.display = 'block';
                     });
@@ -186,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         if(error.error === 'ADDED_ID') {
                                             subjectInput.style.border = '';
                                             errormessage.style.display = '';
-                                            document.querySelector('#GetStarted').style.display = 'none';
+                                            GetStarted.style.display = 'none';
                                         }
                                     })
                                 } 
@@ -204,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(error.error === 'ID_FOUND') {
                     subjectInput.style.border = '';
                     errormessage.style.display = '';
-
-                    document.querySelector('#GetStarted').style.display = 'none';
+                    addSubject.style.display = 'block'
+                    GetStarted.style.display = 'none';
                     document.querySelector('#MainContent .card').style.display = 'block'
 
                 }
@@ -300,9 +301,10 @@ document.addEventListener('DOMContentLoaded', function() {
     startButton.addEventListener('click', () => {
         if (subjectInput.value) {
             document.querySelector('.card').style.display = 'block'
+            addSubject.style.display = 'block'
             subjectInput.style.border = '';
             errormessage.style.display = '';
-            document.querySelector('#GetStarted').style.display = 'none';
+            GetStarted.style.display = 'none';
             document.querySelector('#MainContent .card').style.display = 'block'
 
         }
@@ -317,6 +319,29 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdown.style.display = 'none';
         }
     });
-
+    
    
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const addSubject = document.querySelector('#AddSubject .AddSubject')
+    const closeSubject = document.querySelector('.CloseButton')
+    addSubject.addEventListener('click', function(){
+        alert('clicked')
+        GetStarted.style.display = 'block'
+        closeSubject.style.display = 'block'
+        addSubject.style.display = 'none'
+                    document.querySelector('#MainContent .card').style.display = 'none'
+        document.body.classList.toggle('blur')
+        if(closeSubject) {
+            closeSubject.addEventListener('click', function() {
+                GetStarted.style.display = 'none'
+                addSubject.style.display = 'block'
+                document.querySelector('#MainContent .card').style.display = 'block'
+                location.reload()
+            })
+        } else {
+            
+        }
+    })
+    
+})
