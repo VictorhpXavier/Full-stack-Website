@@ -1,28 +1,27 @@
 Use VHX_DataBase;
 
 CREATE TABLE Users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PhotoLink VARCHAR(255),
-    language VARCHAR(255) DEFAULT 'english'                    
-);
+  id int NOT NULL AUTO_INCREMENT,
+  email varchar(255) NOT NULL,
+  password_hash varchar(255) NOT NULL,
+  created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PhotoLink varchar(255) DEFAULT NULL,
+  language varchar(255) DEFAULT 'english',
+  PRIMARY KEY (id),
+  UNIQUE KEY email (email)
+)
 
-#CREATE TABLE files (
-#  file_id INT AUTO_INCREMENT PRIMARY KEY,
-#  user_id INT NOT NULL,
-#  filename VARCHAR(255) NOT NULL,
-# file_data BLOB,  -- Consider alternative for large files
-#  file_type VARCHAR(255),  -- New column for video/photo distinction
-#  FOREIGN KEY (user_id) REFERENCES users(user_id)
-#); 
-#Table files not in use
-
-CREATE TABLE history (
-    user_id INT NOT NULL,
-    Subject VARCHAR(255) NOT NULL,
-    PartofSubject VARCHAR(255) NOT NULL,
-    text_file MEDIUMTEXT,
-    video_file LONGTEXT
-);
+CREATE TABLE subject (
+  user_id int NOT NULL,
+  Math tinyint(1) DEFAULT NULL,
+  Physic tinyint(1) DEFAULT NULL,
+  Chemistry tinyint(1) DEFAULT NULL,
+  CS tinyint(1) DEFAULT NULL,
+  History tinyint(1) DEFAULT NULL,
+  Portuguese tinyint(1) DEFAULT NULL,
+  English tinyint(1) DEFAULT NULL,
+  French tinyint(1) DEFAULT NULL,
+  Spanish tinyint(1) DEFAULT NULL,
+  Biology tinyint(1) DEFAULT NULL,
+  Geography tinyint(1) DEFAULT NULL
+)

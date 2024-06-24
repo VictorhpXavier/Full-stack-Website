@@ -354,3 +354,56 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }) 
 });
+
+
+
+
+
+
+
+
+
+
+
+alert('clicked')
+GetStarted.style.display = 'block'
+closeSubject.style.display = 'block'
+addSubject.style.display = 'none'
+            document.querySelector('#MainContent .card').style.display = 'none'
+document.body.classList.toggle('blur')
+if(closeSubject) {
+    closeSubject.addEventListener('click', function() {
+        GetStarted.style.display = 'none'
+        addSubject.style.display = 'block'
+        document.querySelector('#MainContent .card').style.display = 'block'
+        location.reload()
+    })
+} else {
+    startButton.addEventListener('click', () => {
+        if (!subjectInput.value) {
+            subjectInput.style.border = '2px solid red';
+            errormessage.style.display = 'block';
+        } else {
+            fetch('/PutUserOnTable', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Usersubject: subjectInput.value }), // Update this line to send Usersubject
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    data.errors.forEach(error => { 
+                        if(error.error === 'ADDED_ID') {
+                            subjectInput.style.border = '';
+                            errormessage.style.display = '';
+                            GetStarted.style.display = 'none';
+                        }
+                    })
+                } 
+            })    
+          .catch(error => console.error('Error checking first time:', error));
+        }
+    });
+}

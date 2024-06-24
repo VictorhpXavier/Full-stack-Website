@@ -590,10 +590,18 @@ router.post('/CheckFirstTime', (req, res) => {
 
 router.post('/PutUserOnTable', (req, res) => {
     const token = req.cookies.token;
-    const { Usersubject } = req.body;
+    let { Usersubjects } = req.body; 
 
     if (!token) {
         return res.status(401).json({ error: 'NO_TOKEN', message: 'Token is required' });
+    }
+
+    if (!Usersubjects) {
+        return res.status(400).json({ error: 'INVALID_INPUT', message: 'Usersubjects is required' });
+    }
+
+    if (!Array.isArray(Usersubjects)) {
+        Usersubjects = [Usersubjects];
     }
 
     let decoded;
@@ -621,21 +629,21 @@ router.post('/PutUserOnTable', (req, res) => {
                     console.error('Error executing MySQL query:', err);
                     return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to create user' });
                 } else {
-                    updateSubject(userId, Usersubject, res);
+                    updateSubject(userId, Usersubjects, res);
                 }
             });
         } else {
-            updateSubject(userId, Usersubject, res);
+            updateSubject(userId, Usersubjects, res);
         }
     });
 });
 
-function updateSubject(userId, Usersubject, res) {
+function updateSubject(userId, Usersubjects, res) {
     const subjectTranslations = {
         'Math': 'Matemática',
         'Physic': 'Física',
         'Chemistry': 'Química',
-        'Computer Science': 'Ciência da Computação',
+        'CS': 'Ciência da Computação',
         'History': 'História',
         'Portuguese': 'Português',
         'English': 'Inglês',
@@ -650,6 +658,9 @@ function updateSubject(userId, Usersubject, res) {
         Object.entries(subjectTranslations).map(([key, value]) => [value, key])
     );
 
+    // Translate the Usersubjects to their English equivalents
+    const selectedSubjects = Usersubjects.map(subject => reverseSubjectTranslations[subject] || subject);
+
     const subjects = ['Math', 'Physic', 'Chemistry', 'CS', 'History', 'Portuguese', 'English', 'French', 'Spanish', 'Biology', 'Geography'];
     let query = 'UPDATE subject SET ';
     const params = [];
@@ -657,7 +668,7 @@ function updateSubject(userId, Usersubject, res) {
     subjects.forEach((subject, index) => {
         query += `${subject} = ?`;
         if (index < subjects.length - 1) query += ', ';
-        params.push(reverseSubjectTranslations[Usersubject] === subject ? 1 : 0);
+        params.push(selectedSubjects.includes(subject) ? 1 : 0);
     });
 
     query += ' WHERE user_id = ?';
@@ -668,10 +679,9 @@ function updateSubject(userId, Usersubject, res) {
             console.error('Error executing MySQL query:', err);
             return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to update subject' });
         }
-        res.json({ message: 'User subject updated successfully' });
+        res.json({ message: 'User subjects updated successfully' });
     });
 }
-
 router.post('/ChangeUserLanguage', (req, res) => {
     const token = req.cookies.token;
     if (!token) {
