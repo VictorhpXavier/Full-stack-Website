@@ -1,5 +1,6 @@
 {
     "dataworkspace.excludedProjects": [
         "VHXDB/VHXDB.sqlproj"
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }

@@ -10,6 +10,7 @@ hamburgerButton.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     mobile_menu.classList.toggle('active');
     if (mobile_menu.classList.contains('active')) {
+
         mobile_menu.querySelectorAll('a').forEach(item => {
             item.style.color = 'white';
         });

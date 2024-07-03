@@ -516,20 +516,28 @@ a {
     visibility: visible;
     opacity: 1;
 }
+#MainContent {
+    display: flex;
+    justify-content: center; /* Centers the cards horizontally */
+    align-items: flex-start; /* Aligns cards to the top */
+    gap: 20px; /* Adds space between the cards */
+    padding: 20px; /* Adds some padding around the content */
+	margin-top: 10%;
+    min-height: 100vh; /* Ensures the section takes at least the full viewport height */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+}
+
 #MainContent .card {
     width: 300px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     background-color: #fff;
-	display: none;
-	position: absolute;
-	top: 20%;
-    left: 5%;
-    right: 5%;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
 }
+
 #MainContent .card:hover {
-	cursor: pointer;
-	box-shadow: rgba(149, 157, 165, 0.2) 2px 8px 24px;
+    cursor: pointer;
+    box-shadow: rgba(149, 157, 165, 0.2) 2px 8px 24px;
 }
 
 #MainContent .card-header {
@@ -583,6 +591,9 @@ a {
 #MainContent .icons .icon-folder::before {
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
+}
+
+#MainContent .icons .icon-chart::before {
     content: "\f201"; /* Font Awesome chart icon */
 }
 
