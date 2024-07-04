@@ -1,34 +1,179 @@
-/* Reset some basic styles */
 body, html {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    height: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    background-color: #181818;
+
 }
 
 .container {
     display: flex;
     height: 100vh;
-    background-color: #181818; /* Dark background */
-    color: #ffffff; /* White text */
+    background-color: #181818;
+    color: #ffffff; 
 }
+
+/*Header */
+.User {
+    position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: auto;
+}
+.nav-list  #CircleButton #Circle {
+    display: inline-block;
+    position: absolute;
+    margin-right: 2%;
+    visibility: visible;
+    width: 45px;
+    height: 45px;
+    right: 0;
+    border-radius: 50%;
+    vertical-align: middle;
+    background: none;
+    background-image: url('../UserIcon/UnkwonUser.png');
+    background-size: cover;
+}
+.nav-list #CircleButton #Circle:hover {
+    cursor: pointer;
+    border: 3px solid #006097;
+}
+.nav-list .DropDownMenu {
+    display: none;
+    background-color: #006097;
+    color: white;
+    padding: 26px;
+    width: 15%;
+    margin-right: 0;
+    right: 0%;
+    margin-top: 2%;
+    font-size: 16px;
+    border: none;
+    position: absolute;
+}
+.nav-list .DropDownContent {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: #006097;
+    cursor: pointer;
+}
+.nav-list .DropDownContent a{
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid black;
+}
+.nav-list .DropDownContent a:hover {
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.nav-list .DropDownContent {
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+  
+/* Bot Section */
+
 #NewChat {
     position: absolute;
-    left: 50;
+    left: 20px;
     width: 90%;
     bottom: 25px;
 }
-.MotivationalSpeech {
-    position: absolute;
-    top: 10%;
-    left: 35%;
+
+/* UserInput field */
+.content {
+    flex-grow: 1;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 100%;
 }
 
+/* Chat window */
+.content #chatWindow {
+
+    padding: 20px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.chat-window {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Chat messages */
+.chat-message {
+
+    margin: 10px 0;
+    display: flex;
+    color: black;
+    width: 100%;
+    justify-content: center;
+}
+
+.chat-message .message {
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+    
+    
+}
+
+.chat-message.user .message {
+    background-color: #e1ffc7;
+    max-width: 30%;
+    justify-content: right; /* Center align items */
+
+}
+
+.chat-message.bot .message {
+    background-color: #f1f1f1;
+    justify-content: left; /* Center align items */
+
+}
+
+/* Footer */
+.footer {
+    display: flex;
+    align-items: center;
+}
+
+#chatInput {
+    flex-grow: 1;
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: none; /* Disable manual resize */
+    overflow: hidden;
+    max-width: calc(100% - 80px); /* Adjust based on other elements in the footer */
+}
+
+/* Sidebar */
 .sidebar {
-    width: 20%;
-    background-color: #212121; 
+    size: 15%;
+    min-width: 15%;
+    width: 15%;
+    background-color: #212121;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -36,17 +181,35 @@ body, html {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease;
     position: relative;
-    z-index: 999;
+    z-index: 3;
 }
 
+#Hamburger-menu {
+    position: absolute;
+    top: 2%;
+    left: 1%;
+    z-index: 3000;
+    background-color: #424242; 
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    width: 2%;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
 
 .sidebar-item {
     display: flex;
     flex-direction: column;
 }
+
 .sidebar-item p {
     margin-top: 20%;
-    background-color: none;
     font-size: 21px;
     color: #ffffff;
     border: none;
@@ -62,7 +225,7 @@ body, html {
 }
 
 .sidebar-item button {
-    background-color: #424242; /* Button background */
+    background-color: #424242; 
     color: #ffffff;
     border: none;
     padding: 10px;
@@ -87,8 +250,7 @@ body, html {
     background-color: #424242;
     border-radius: 8px;
 }
-
-/* Collapsible section transition */
+ 
 .collapse {
     max-height: 0;
     overflow: hidden;
@@ -96,20 +258,13 @@ body, html {
 }
 
 .collapse.open {
-    max-height: 200px; /* Adjust based on your content */
+    max-height: 200px; 
 }
 
-.content {
-    flex-grow: 1;
-    background-color: #181818; /* Match the main content background */
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding: 20px;
-}
+
 
 .footer {
-    width: 100%;
+    width: 80%;
     background-color: #282828;
     display: flex;
     align-items: center;
@@ -117,16 +272,19 @@ body, html {
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
     gap: 10px;
+    transform: translateX(14%);
 }
 
-.footer input {
+.footer textarea {
     flex-grow: 1;
     padding: 10px;
     border: none;
     border-radius: 8px;
     background-color: #424242;
     color: #ffffff;
-    font-size: 1em;
+    font-size: 1.2em;
+    white-space: pre-wrap; 
+    resize: none;
 }
 
 .footer button {
@@ -143,10 +301,17 @@ body, html {
     transition: background-color 0.3s ease;
 }
 
+.footer .SendChat {
+    cursor: not-allowed;
+    background-color: #424242;
+    opacity: 35%;
+}
+
 .footer button:hover {
     background-color: #616161;
 }
-.sidebar #hamburgerMenu {
+
+.sidebar #Hamburger-menu {
     width: 2%;
 }
 
@@ -170,18 +335,120 @@ body, html {
 
 
 /* Responsive Styles */
+@media (max-width: 1800px) {
+    body {
+        overflow-x: hidden;
+    }
+    #header {
+		position: fixed;
+		z-index: 1000;
+		left: 0;
+		top: 0;
+		width: 100vw;
+		height: auto;
+		border-bottom: 0.5px solid #888;
+		background-color: #EFEFEF;
+	}
+	#header .header {
+		min-height: 8vh;
+		transition: 0.3s ease background-color;
+	}
+	#header .nav-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100vw;
+		height: 100%;
+		padding: 0 10px;
+		margin-right: 0%;
+		margin-left: 1%;
+	}
+    
+    .footer {
+        width: 70%;
+        background-color: #282828;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        gap: 10px;
+        transform: translateX(14%);
+    }
+
+    #Hamburger-menu {
+        position: absolute;
+        top: 2%;
+        left: 1%;
+        z-index: 3000;
+        background-color: #424242; /* Button background */
+        color: #ffffff;
+        border: none;
+        padding: 10px;
+        width: 5%;
+        cursor: pointer;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+    
+
+ }
 @media (max-width: 768px) {
+    #header {
+		position: fixed;
+		z-index: 1000;
+		left: 0;
+		top: 0;
+		width: 100vw;
+		height: auto;
+		border-bottom: 0.5px solid #888;
+		background-color: #EFEFEF;
+	}
+	#header .header {
+		min-height: 8vh;
+		transition: 0.3s ease background-color;
+	}
+	#header .nav-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100vw;
+		height: 100%;
+		padding: 0 10px;
+		margin-right: 0%;
+		margin-left: 1%;
+	}
+     #header .nav-list .DropDownMenu {
+        background-color: #006097;
+        color: white;
+        padding: 26px;
+        width: 45%;
+        font-size: 16px;
+        border: none;
+        position: absolute;
+        display: none;
+    }
+    body {
+        overflow: hidden;
+    }
     .sidebar {
         position: fixed;
+        display: none;
         top: 0;
         left: 0;
         width: 250px;
         height: 100%;
-        transform: translateX(-100%);
         z-index: 999;
         transition: transform 0.3s ease;
     }
-
+    .sidebar #NewChat {
+        margin-bottom: 10%;
+    }
     .container {
         flex-direction: column;
     }
@@ -192,18 +459,42 @@ body, html {
     }
 
     .footer {
-        width: 100%;
-        margin-right: 40px;
-        margin-left: 10px;
+        position: relative;
+        width: 70%;
+        background-color: #282828;
+        display: flex;
+        align-items: center;
+        bottom: 10px;
+        padding: 10px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        gap: 10px;
+        transform: translateX(14%);
+        margin-top: 40px;
+        margin-bottom: 40px;
     }
 
-    .hamburger-menu {
-        display: block;
+
+    #Hamburger-menu {
+        position: absolute;
+        top: 2%;
+        left: 1%;
+        z-index: 3000;
+        background-color: #424242; /* Button background */
+        color: #ffffff;
+        border: none;
+        padding: 10px;
+        width: 9%;
+        cursor: pointer;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
     }
 
-    .sidebar.show {
-        transform: translateX(0);
-    }
+    
 }
 
 @media (max-width: 480px) {

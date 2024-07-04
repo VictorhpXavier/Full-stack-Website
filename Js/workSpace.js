@@ -322,6 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
    
 });
+/* 
 document.addEventListener('DOMContentLoaded', function() {
     const addSubject = document.querySelector('#AddSubject .AddSubject')
     const closeSubject = document.querySelector('.CloseButton')
@@ -503,12 +504,4 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     
 })
-
-document.addEventListener('DOMContentLoaded', function() {
-    const videoCreator = document.querySelector('#VideoCreator')
-    videoCreator.addEventListener('click', function() {
-        if(videoCreator) {
-            location.href = '../html/videocreator.html'
-        }
-    })
-})
+*/

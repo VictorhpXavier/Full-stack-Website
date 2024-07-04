@@ -92,11 +92,11 @@ const roadToForgotPassword = '/forgotpassword'
 app.get(roadToForgotPassword.toLocaleLowerCase(), (req, res) => {
     res.sendFile(path.join(__dirname, '../html/forgotpassword.html'))
 });
-app.get('/textbot', (req, res) => {
-    res.send(path.join(__dirname, '../html/textbot.html'))
+app.get('/chat', (req, res) => {
+    res.sendFile(path.join(__dirname, '../html/Chat.html'))
 })
 app.get('/videocreator', (req, res) => {
-    res.send(path.join(__dirname, '../html/videocreator.html'))
+    res.sendFile(path.join(__dirname, '../html/videocreator.html'))
 })
 
 app.get('/test', (req, res) => {

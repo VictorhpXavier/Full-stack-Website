@@ -7,70 +7,67 @@
     <title>Chat</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
 <body>
+    <div class="User">
+        <div class="nav-list">
+            <div id="dadHamburger" class="hamburger">
+                <div class="bar"></div>
+            </div>
+            <ul id="myList">
+                <li><a><button id="CircleButton"><span id="Circle"></span></button></a></li>
+            </ul>
+            <div class="DropDownMenu">
+                <div class="DropDownContent">
+                    <a id="Home" href="/home"><i class="fa-solid fa-house"></i> Home</a>
+                    <a id="WorkSpace" href="/workspace"><i class="fas fa-cog"></i> WorkSpace</a>
+                    <a id="DarkMode"><i  class="fas fa-moon"></i> Dark mode</a>
+                    <a id="SignOut" ><i  class="fas fa-sign-out-alt"></i> Sign out</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
     <div class="container">
-        <button class="hamburger-menu" id="hamburgerMenu">
+        <button class="hamburger-menu" id="mainHamburgerMenu">
+            <i class="fas fa-bars"></i>
+        </button>
+        <button class="hamburger-menu sidebarHamburgerMenu" id="Hamburger-menu">
             <i class="fas fa-bars"></i>
         </button>
         <div class="sidebar" id="sidebar">
+            
             <div class="sidebar-item" data-collapse-target="#collapse-recentes">
-                <button class="hamburger-menu" id="hamburgerMenu">
-                    <i class="fas fa-bars"></i>
-                </button>
                 <p>Recentes</p>
                 <div class="collapse" id="collapse-recentes">
-                    <!-- Collapsible content for Recentes -->
                     <p>Recent conversation...</p>
                 </div>
             </div>
             <div class="sidebar-item" data-collapse-target="#collapse-mais">
                 <button>Mostrar mais <i class="fas fa-chevron-down"></i></button>
                 <div class="collapse" id="collapse-mais">
-                    <!-- Collapsible content for Mostrar mais -->
                     <p>More content...</p>
                 </div>
             </div>
-            <div class="sidebar-item" data-collapse-target="#collapse-conversa" >
-                <button id="NewChat" >Nova conversa<i class="fas fa-plus"></i></button>
+            <div class="sidebar-item" data-collapse-target="#collapse-conversa">
+                <button id="NewChat">Nova conversa <i class="fas fa-plus"></i></button>
                 <div class="collapse" id="collapse-conversa">
-                    <!-- Collapsible content for Nova conversa -->
                     <p>New conversation content...</p>
                 </div>
             </div>
         </div>
         <div class="content">
-            <div class="footer">
-                <button><i class="fas fa-image"></i></button>
-                <input type="text" placeholder="Digite uma pergunta ou comando" >
-                <button><i class="fa-solid fa-arrow-right" id="Arrow"></i></button>
-                
-                
+            <div id="chatWindow" class="chat-window">
             </div>
-        </div>
-        <div class="MotivationalSpeech">
-            <h1>Start Chatting</h1>
+            <div class="footer">
+                <button class="SendImage"><i class="fas fa-image"></i></button>
+                <textarea id="chatInput" placeholder="Message Something"></textarea>
+                <button class="SendChat" id="sendButton"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
         </div>
         
     </div>
-    
-   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const hamburgerMenu = document.querySelector('#hamburgerMenu');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarItems = document.querySelectorAll('.sidebar-item');
-
-    if (hamburgerMenu) {
-        hamburgerMenu.addEventListener('click', function() {
-            alert('test');
-        });
-    } else {
-        console.error('Hamburger menu not found');
-    }
-});
-   </script>
-
+    <script src="../Js/ChatScript.js"></script>
 </body>
-
 </html>

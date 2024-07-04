@@ -99,23 +99,24 @@
     </section>
     -->
     <section id="MainContent">
-        <div class="card" id="Chatbot" >
-        <div class="card-header">
-            <h1>Ai chat bot</h1>
-            <p><strong>Speak with a Trained AI</strong></p>
-        </div>
-        <div class="card-body">
-        </div>
-        <div class="card-footer" >
-            <div class="icons">
-                <i class="icon-chart"></i>
-                <i class="icon-folder"></i>
+        <form action="/chat" id="chatbotForm">
+            <div class="card" id="Chatbot" onclick="document.getElementById('chatbotForm').submit();">
+                <div class="card-header">
+                    <h1>Ai chat bot</h1>
+                    <p><strong>Speak with a Trained AI</strong></p>
+                </div>
+                <div class="card-body">
+                </div>
+                <div class="card-footer">
+                    <div class="icons">
+                        <i class="icon-chart"></i>
+                        <i class="icon-folder"></i>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    
-    </div>
-    <div class="card" id="VideoCreator" >
+        </form>
+    <form action="/videocreator" id="VideoCreatorForm">
+    <div class="card" id="VideoCreator" onclick="document.getElementById('VideoCreatorForm').submit();" >
         <div class="card-header" >
             <h1>Ai video creator</h1>
             <p><strong>Make your fantasies come true with AI videos</strong></p>
@@ -129,7 +130,7 @@
                 <i class="icon-folder"></i>
             </div>
         </div>
- 
+    </form>
     
     </section>
        <section id="AddSubject">
