@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('User is not logged in.');
     }
 });
+
 //Handle Profile Menu
 document.addEventListener('DOMContentLoaded', function() {
     const CircleButton = document.querySelector('#CircleButton'); 
@@ -113,19 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //Handle Style customization
 document.addEventListener('DOMContentLoaded', function() {
-    const emailText = document.querySelector('#Settings .SettingsContainer p');
     const AccountText = document.querySelector('#Settings .SettingsContainer .SettingUl .Account');
     const ProfileText = document.querySelector('#Settings .SettingsContainerProfile .SettingUl .Profile');
-    const ChangeEmail = document.querySelector('#ChangeEmail .ChangeEmail');
-    const UserEmail = document.querySelector('#ChangeEmail #ChangeEmailForm .ChangeEmail .UserEmail');
-    const ChangePassword = document.querySelector('#ChangePassword .ChangePassword');
-    const BackGroundBlur = document.querySelector('.BackGroundBlur');
-    const emailError = document.querySelector('#ChangeEmail #ChangeEmailForm .ChangeEmail .EmailError');
-    const passwordError = document.querySelector('#ChangeEmail #ChangeEmailForm .ChangeEmail .PasswordError');
-    const emailButton = document.querySelector('#Settings .SettingsContainer .EmailButton');
-    const passwordButton = document.querySelector('#Settings .SettingsContainer .PasswordButton');
-    const confirmEmailChangeButton = document.querySelector('#ChangeEmail #ChangeEmailForm .ChangeEmail .ChangeEmailButton');
-    const confirmPasswordChangeButton = document.querySelector('#ChangePassword #ChangePasswordForm .ChangePassword .ChangePasswordButton');
+   
 
     if (window.location.href === 'http://localhost:3000/settings/account' || window.location.href === 'http://localhost:3000/settings/') {
         AccountText.style.color = '#1C1C1C';
@@ -135,61 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ProfileText.style.color = '#1C1C1C';
         ProfileText.style.borderBottom = '#128fdc 2px solid';
     }
-//Change profile pic
-document.addEventListener('DOMContentLoaded', function() {
-    const changeProfilePicButton = document.querySelector('#Settings .SettingsContainerProfile .DropImageButton .testbutton');
-    const fileInput = document.querySelector('#Settings .SettingsContainerProfile .DropImageButton #fileInput');
-    const profileImageElement = document.querySelector('#header .nav-list ul a #Circle');
 
-    fetch('/get-user-id', {
-        method: 'get',
-        credentials: 'include'
-    })
-    .then(response => response.json())
-    .then(data => {
-        let userid = data.id;
-
-        if (changeProfilePicButton && fileInput) {
-            changeProfilePicButton.addEventListener('click', function() {
-                fileInput.click();
-            });
-
-            fileInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const formData = new FormData();
-                    formData.append('profileImage', file);
-                    formData.append('id', userid);
-
-                    console.log('Uploading file:', file.name);
-
-                    fetch('/upload-profile-image', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('File uploaded successfully');
-                            profileImageElement.style.backgroundImage = `url(${data.filePath})`;
-                            console.log('Profile image updated:', data.filePath);
-                        } else {
-                            alert('File upload failed');
-                            console.error('Upload failed:', data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error uploading file:', error);
-                        alert('An error occurred while uploading the file');
-                    });
-                }
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching user ID:', error);
-    });
-});
 })
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -314,3 +251,131 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error clearing dark mode preference:', error));
     }
 });
+
+//Change profile pic
+document.addEventListener('DOMContentLoaded', function() {
+    /* 
+    CHECK USER PROFILE PHOTO IF HE NEVER UPLOAD ONE USE DEFAULT ELSE
+    USE HIS PHOTO
+
+    fetch('/CheckUserPhoto', {
+        method: 'POST',
+    })
+    .then(response => response.json())
+    .then(data => {
+        const imageUrl = data.imageUrl;
+        if(error.error === 'NULL') {
+            //If user is Logged In then show the Profile Menu and remove the register / login
+            document.addEventListener('DOMContentLoaded', function() {
+                function getCookie(name) {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+                }
+            
+
+                const token = getCookie('token');
+                const loggedIn = getCookie('loggedIn');
+            
+                if (token || loggedIn === 'true') {
+                    const LoginElement = document.getElementById('Login');
+                    const AccountStatus = document.getElementById('Circle');
+
+                
+                    console.log('User is logged in. Modifying the DOM accordingly.');
+                
+                    LoginElement.innerHTML = "WorkSpace";
+                    LoginElement.href = '/workspace';
+                    LoginElement.dataset.after = 'Work\nspace';
+                    document.getElementById('Register').innerHTML = '';
+                    AccountStatus.style.display = 'inline-block';
+                
+                } else {
+                    console.log('User is not logged in.');
+                }
+            });
+        }else {
+            //If user is Logged In and has a photo use his photo
+            document.addEventListener('DOMContentLoaded', function() {
+                function getCookie(name) {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+                }
+        
+                const token = getCookie('token');
+                const loggedIn = getCookie('loggedIn');
+            
+                if (token || loggedIn === 'true') {
+                    const LoginElement = document.getElementById('Login');
+                    const AccountStatus = document.getElementById('Circle');
+
+                
+                    console.log('User is logged in. Modifying the DOM accordingly.');
+                
+                    LoginElement.innerHTML = "WorkSpace";
+                    LoginElement.href = '/workspace';
+                    LoginElement.dataset.after = 'Work\nspace';
+                    document.getElementById('Register').innerHTML = '';
+                    AccountStatus.style.backgroundImage = imageUrl
+                
+                } else {
+                    console.log('User is not logged in.');
+                }
+            });
+        }
+    })
+    */
+})
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert('No file selected!');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    fetch('/userPhoto', {  
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const imageUrl = data.imageUrl;
+            updateUserPhotoLink(imageUrl);
+        } else {
+            alert('File upload failed');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('File upload failed');
+    });
+});
+
+function updateUserPhotoLink(imageUrl) {
+    fetch('/updatePhotoLink', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ photoLink: imageUrl })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('Circle').style.backgroundImage = `url(${imageUrl})`;
+        } else {
+            alert('Failed to update photo link');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Failed to update photo link');
+    });
+}

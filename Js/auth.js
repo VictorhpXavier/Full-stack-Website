@@ -7,9 +7,9 @@ const path = require('path')
 const cookieParser = require('cookie-parser');
 
 const multer = require('multer');
+
 const fs = require('fs');
-const { message } = require('statuses');
-const { error } = require('console');
+const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
@@ -37,6 +37,7 @@ con.connect((err) => {
 });
 
 const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 
 
 router.post('/signup', (req, res) => {
@@ -354,20 +355,7 @@ router.post('/Change-Password', (req, res) => {
     }
 });
   
-router.get('/get-email', (req, res) => {
-    const token = req.cookies.token; 
-    if (!token) {
-        return res.status(401).json({ error: 'Access Denied' });
-    }
 
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        const email = decoded.email;
-        res.json({ email, token });
-    } catch (err) {
-        return res.status(400).json({ error: 'Invalid Token' });
-    }
-});
 
 router.post('/forgotpassword', (req, res) => {
     const { email } = req.body;
@@ -422,6 +410,7 @@ router.post('/cleardarkmode', (req, res) => {
 //Handle User profile pic
 //* This creates the upload file
 //Funciona
+/*
 const testUploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(testUploadDir)) {
     fs.mkdirSync(testUploadDir, { recursive: true });
@@ -438,19 +427,7 @@ fs.writeFile(testFilePath, 'This is a test file.', (err) => {
     }
 });
 
-router.get('/get-user-id', (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.status(401).json({ error: 'Access Denied' });
-    }
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        const id = decoded.id;
-        res.json({ id });
-    } catch (err) {
-        return res.status(400).json({ error: 'Invalid Token' });
-    }
-});
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -468,8 +445,6 @@ const storage = multer.diskStorage({
         cb(null, filename);
     }
 });
-
-const upload = multer({ storage: storage });
 
 router.post('/upload-profile-image', upload.single('profileImage'), (req, res) => {
     const file = req.file;
@@ -496,7 +471,7 @@ router.post('/upload-profile-image', upload.single('profileImage'), (req, res) =
         res.status(400).json({ success: false, message: 'File upload failed or userId missing' });
     }
 });
-
+*/
 //workspace code
 
 /*router.post('/checkFirstTime', (req, res) => {
@@ -548,7 +523,6 @@ router.post('/updateStatus', (req, res) => {
     }
 });
 
-*/
 router.post('/CheckFirstTime', (req, res) => {
     const token = req.cookies.token;
 
@@ -682,6 +656,8 @@ function updateSubject(userId, Usersubjects, res) {
         res.json({ message: 'User subjects updated successfully' });
     });
 }
+*/
+/*Change user language */
 router.post('/ChangeUserLanguage', (req, res) => {
     const token = req.cookies.token;
     if (!token) {
@@ -736,7 +712,7 @@ router.post('/ChangeUserLanguage', (req, res) => {
         res.json({ responseMessage, userLanguage });
     });
 });
-
+/* Check User language */
 router.post('/CheckUserLanguage', (req, res) => {
     const token = req.cookies.token;
     let responseMessage = [];
@@ -784,6 +760,96 @@ router.post('/CheckUserLanguage', (req, res) => {
         res.json({ responseMessage });
     });
 });
+/* Get User info */
+router.get('/get-user-id', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ error: 'Access Denied' });
+    }
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        const id = decoded.id;
+        res.json({ id });
+    } catch (err) {
+        return res.status(400).json({ error: 'Invalid Token' });
+    }
+});
+
+router.get('/get-email', (req, res) => {
+    const token = req.cookies.token; 
+    if (!token) {
+        return res.status(401).json({ error: 'Access Denied' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        const email = decoded.email;
+        res.json({ email, token });
+    } catch (err) {
+        return res.status(400).json({ error: 'Invalid Token' });
+    }
+});
+/* Change USer profile photo */
+app.post('/userPhoto', upload.single('file'), (req, res) => {
+    console.log('File received:', req.file);
+    if (!req.file) {
+        console.log('No file uploaded');
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, 'uploads', req.file.originalname);
+
+    fs.rename(tempPath, targetPath, err => {
+        if (err) {
+            console.log('File move failed:', err);
+            return res.status(500).json({ success: false, message: 'File move failed' });
+        }
+
+        const fileUrl = `http://localhost:3000/uploads/${req.file.originalname}`;
+        console.log('File uploaded to:', fileUrl);
+        res.json({ success: true, imageUrl: fileUrl });
+    });
+});
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.post('/updatePhotoLink', (req, res) => {
+    const { photoLink } = req.body;
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+
+    const verifyUserQuery = 'SELECT * FROM Users WHERE id = ?';
+    con.query(verifyUserQuery, [userId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Database query failed' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const updatePhotoLinkQuery = 'UPDATE Users SET PhotoLink = ? WHERE id = ?';
+        con.query(updatePhotoLinkQuery, [photoLink, userId], (err, results) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Failed to update photo link' });
+            }
+
+            res.json({ success: true });
+        });
+    });
+});
+
 module.exports = con;
 module.exports = router;
 
