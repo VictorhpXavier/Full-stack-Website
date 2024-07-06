@@ -23,10 +23,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "My!Super(16)Secret#(05)Password$",
-    database: "VHX_DataBase"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 con.connect((err) => {
     if (err) {
