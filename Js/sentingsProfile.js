@@ -41,8 +41,9 @@ menu_item.forEach((item) => {
     });
 });
 
-//If user is Logged In then show the Profile Menu and remove the register / login
 document.addEventListener('DOMContentLoaded', function() {
+    //If user is Logged In then show the Profile Menu and remove the register / login
+
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -69,10 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.log('User is not logged in.');
     }
-});
+    //Handle Profile Menu
 
-//Handle Profile Menu
-document.addEventListener('DOMContentLoaded', function() {
     const CircleButton = document.querySelector('#CircleButton'); 
     const DropDownMenu = document.querySelector('.DropDownMenu');
     const SignOutButton = document.querySelector('.DropDownMenu .DropDownContent #SignOut');
@@ -109,11 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error:', error));
         });
     }
-});
+    //Handle Style customization
 
-
-//Handle Style customization
-document.addEventListener('DOMContentLoaded', function() {
     const AccountText = document.querySelector('#Settings .SettingsContainer .SettingUl .Account');
     const ProfileText = document.querySelector('#Settings .SettingsContainerProfile .SettingUl .Profile');
    
@@ -126,10 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ProfileText.style.color = '#1C1C1C';
         ProfileText.style.borderBottom = '#128fdc 2px solid';
     }
-
-})
-
-document.addEventListener('DOMContentLoaded', function() {
+    //Handle DarkMode
     const DarkModeButton = document.querySelector('#DarkMode');
     const brandSpans = document.querySelectorAll('.brand h1 span');
     const headerLinks = document.querySelectorAll('#header .nav-list ul a');

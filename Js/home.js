@@ -38,8 +38,55 @@ window.addEventListener('resize', function () {
     window.location.reload(); 
 });
 
-//Check User language preference
 document.addEventListener('DOMContentLoaded', function() {
+     //Handle Profile Menu
+
+     const CircleButton = document.querySelector('#CircleButton'); 
+     const DropDownMenu = document.querySelector('.DropDownMenu');
+     const SignOutButton = document.querySelector('.DropDownMenu .DropDownContent #SignOut');
+ 
+     if (CircleButton) {
+         CircleButton.addEventListener('click', function() {
+             if (DropDownMenu.style.display === 'none' || DropDownMenu.style.display === '') {
+                 DropDownMenu.style.display = 'inline-block';
+ 
+             } else {
+                 DropDownMenu.style.display = 'none';
+             }
+         });
+     }
+     window.addEventListener('click', (event) => {
+         if (CircleButton && !CircleButton.contains(event.target)) {
+             DropDownMenu.style.display = 'none';
+         }
+         if (CircleButton && !CircleButton.contains(event.target)) {
+             DropDownMenu.style.display = 'none';
+         }
+     });
+ 
+     if (SignOutButton) {
+         SignOutButton.addEventListener('click', function() {
+             // Clear cookies
+             document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+             document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+ 
+             // Optionally make a request to the server to clear any server-side session
+             fetch('/signout', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 }
+             })
+             .then(response => response.json())
+             .then(data => {
+                 console.log(data.message);
+                 // Redirect the user to the login page or home page
+                 window.location.href = '/login';
+             })
+             .catch(error => console.error('Error:', error));
+         });
+     }
+    //Check User language preference
     const languageButton = document.querySelector('#footer .Country-Flag');
     const options = document.querySelectorAll('#footer .dropdown .option');
     const ChooseLangue = document.querySelector('#footer .dropdown');
@@ -56,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userFlag = document.querySelector('#footer .Country-Flag');
     const h1 = document.querySelector('#MainTheme .h1');
     const h1Pt = document.querySelector('#MainTheme .h1Pt');
+    
 
     // Ensure the element exists
     if (languageButton) {
@@ -117,24 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const mainthemeP = document.querySelector('#MainTheme p')
-    const SignUp = document.querySelector('.FreeSignUp .FreeSignUp-Button')
-    const DemoButton = document.querySelector('.Demo-Video-Button')
-    const AboutH1 = document.querySelector('#About-section h1')
-    const AboutH2 = document.querySelector('#About-section h2')
-    const AboutEn = document.querySelector('#About-section p')
-    const AboutPt = document.querySelector('#About-section .P-pt')
-    const ServicesH1 = document.querySelector('.Services-Class h1')
-    const featureEn = document.querySelector('#Services .features')
-    const featuresPt = document.querySelector('#Services .FeaturesPt')
-    const userFlag = document.querySelector('#footer .Country-Flag')
-    const h1 = document.querySelector('#MainTheme .h1')
-    const h1Pt = document.querySelector('#MainTheme .h1Pt')
+    
     
     fetch('/CheckUserLanguage', {
         method: 'POST',
@@ -195,12 +226,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         } 
     })
-    
-});
+     //If user is Logged In then show the Profile Menu and remove the register / login
 
-//If user is Logged In then show the Profile Menu and remove the register / login
-document.addEventListener('DOMContentLoaded', function() {
-    function getCookie(name) {
+     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
@@ -226,68 +254,16 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.log('User is not logged in.');
     }
-});
-//Handle Profile Menu
-document.addEventListener('DOMContentLoaded', function() {
-    const CircleButton = document.querySelector('#CircleButton'); 
-    const DropDownMenu = document.querySelector('.DropDownMenu');
-    const SignOutButton = document.querySelector('.DropDownMenu .DropDownContent #SignOut');
-
-    if (CircleButton) {
-        CircleButton.addEventListener('click', function() {
-            if (DropDownMenu.style.display === 'none' || DropDownMenu.style.display === '') {
-                DropDownMenu.style.display = 'inline-block';
-
-            } else {
-                DropDownMenu.style.display = 'none';
-            }
-        });
-    }
-    window.addEventListener('click', (event) => {
-        if (CircleButton && !CircleButton.contains(event.target)) {
-            DropDownMenu.style.display = 'none';
-        }
-        if (CircleButton && !CircleButton.contains(event.target)) {
-            DropDownMenu.style.display = 'none';
-        }
-    });
-
-    if (SignOutButton) {
-        SignOutButton.addEventListener('click', function() {
-            // Clear cookies
-            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-            // Optionally make a request to the server to clear any server-side session
-            fetch('/signout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message);
-                // Redirect the user to the login page or home page
-                window.location.href = '/login';
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
+    //Dark mode Logic
     const DarkModeButton = document.querySelector('#DarkMode');
     const brandSpans = document.querySelectorAll('.brand h1 span');
     const headerLinks = document.querySelectorAll('#header .nav-list ul a')
     const mainthemeH1 = document.querySelectorAll('#MainTheme h1')
-    const mainthemeP = document.querySelector('#MainTheme p')
     const servicesH3 = document.querySelectorAll('#Services h3')
     const servicesP = document.querySelectorAll('#Services p')
     const features = document.querySelectorAll('#Services .feature')
     const footer = document.querySelector('#footer')
     const footerbutton = document.querySelectorAll('#footer button')
-    const featuresPt = document.querySelector('#Services .FeaturesPt');
 
     function applyDarkMode(isDarkMode) {
         if (isDarkMode) {
@@ -411,6 +387,11 @@ fetch('/darkmode', {
         })
         .catch(error => console.error('Error clearing dark mode preference:', error));
     }
-    
 });
+
+
+
+
+
+
 

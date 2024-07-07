@@ -41,8 +41,9 @@ menu_item.forEach((item) => {
     });
 });
 
-//If user is Logged In then show the Profile Menu and remove the register / login
 document.addEventListener('DOMContentLoaded', function() {
+    //If user is Logged In then show the Profile Menu and remove the register / login
+
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -69,10 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.log('User is not logged in.');
     }
-});
+    //Handle Profile Menu
 
-//Handle Profile Menu
-document.addEventListener('DOMContentLoaded', function() {
     const CircleButton = document.querySelector('#CircleButton'); 
     const DropDownMenu = document.querySelector('.DropDownMenu');
     const SignOutButton = document.querySelector('.DropDownMenu .DropDownContent #SignOut');
@@ -109,12 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error:', error));
         });
     }
-});
-
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
+    /* Get Started Not using right now 
     const GetStarted = document.querySelector('#GetStarted')
     const subjectInput = document.querySelector('.UserInput .Subject');
     const dropdown = document.querySelector('.UserInput .dropdown');
@@ -319,9 +313,10 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdown.style.display = 'none';
         }
     });
-    
-   
+    */
 });
+
+
 /* 
 document.addEventListener('DOMContentLoaded', function() {
     const addSubject = document.querySelector('#AddSubject .AddSubject')
