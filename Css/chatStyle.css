@@ -208,7 +208,7 @@ body, html {
     flex-direction: column;
 }
 
-.sidebar-item p {
+.sidebar-item h1 {
     margin-top: 20%;
     font-size: 21px;
     color: #ffffff;
@@ -243,6 +243,8 @@ body, html {
     background-color: #616161;
 }
 
+
+
 .sidebar-item .collapse {
     display: none;
     padding: 10px;
@@ -261,8 +263,34 @@ body, html {
     max-height: 200px; 
 }
 
+/* User's chat */
+.ChatButton {
+    display: none;
+    flex-direction: column;
+  }
+  
+  .ChatButton button {
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-size: 17px;
+    margin-bottom: 30px;
+    font-weight: 650;
+    width: 90%;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s ease;
+    background: none;
+  }
+  
+  .ChatButton button:hover {
+    background-color: #a7a7a7;
+  }
 
-
+/* footer section / chat input */
 .footer {
     width: 80%;
     background-color: #282828;

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sendChat = document.querySelector('#sendButton');
     const chatInput = document.querySelector('#chatInput');
     const chatWindow = document.querySelector('#chatWindow');
+    const UserChat = document.querySelector('.ChatButton')
 
     if (mainHamburgerMenu) {
         mainHamburgerMenu.addEventListener('click', function() {
@@ -23,17 +24,23 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error('Main hamburger menu not found');
     }
-
-    sendChat.addEventListener('click', function() {
-        const chat = chatInput.value.trim();
-        if (chat.length >= 1) {
+    if (sendChat) {
+        sendChat.addEventListener('click', function () {
+          const chatButton = document.getElementById('chatButton'); 
+          chatButton.textContent = 'This is a test'; 
+          UserChat.style.display = 'flex';
+      
+          const chat = chatInput.value.trim();
+          if (chat.length >= 1) {
             addMessageToChat('user', chat);
             chatInput.value = '';
             setTimeout(() => {
-                addMessageToChat('bot', getBotResponse(chat));
+              addMessageToChat('bot', getBotResponse(chat));
             }, 100);
-        }
-    });
+          }
+        });
+    }
+    
 
     chatInput.addEventListener('input', function() {
         if (chatInput.value.length >= 1) {
