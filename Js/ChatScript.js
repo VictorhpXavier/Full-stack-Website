@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const sendChat = document.querySelector('#sendButton');
     const chatInput = document.querySelector('#chatInput');
     const chatWindow = document.querySelector('#chatWindow');
-    const UserChat = document.querySelector('.ChatButton')
+    const UserChat = document.querySelector('.ChatButton');
+    const chatButton = document.getElementById('chatButton'); 
 
     if (mainHamburgerMenu) {
         mainHamburgerMenu.addEventListener('click', function() {
@@ -24,23 +25,22 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error('Main hamburger menu not found');
     }
+
     if (sendChat) {
         sendChat.addEventListener('click', function () {
-          const chatButton = document.getElementById('chatButton'); 
-          chatButton.textContent = 'This is a test'; 
-          UserChat.style.display = 'flex';
-      
-          const chat = chatInput.value.trim();
-          if (chat.length >= 1) {
-            addMessageToChat('user', chat);
-            chatInput.value = '';
-            setTimeout(() => {
-              addMessageToChat('bot', getBotResponse(chat));
-            }, 100);
-          }
+            const chatMessage = chatInput.value.trim();
+            if (chatMessage.length >= 1) {
+                addMessageToChat('user', chatMessage);
+                chatInput.value = '';
+                chatButton.textContent = 'This is a test';
+                UserChat.style.display = 'flex';
+
+                setTimeout(() => {
+                    addMessageToChat('bot', getBotResponse(chatMessage));
+                }, 100);
+            }
         });
     }
-    
 
     chatInput.addEventListener('input', function() {
         if (chatInput.value.length >= 1) {
@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const responseKey = Object.keys(responses).find(key => userMessage.toLowerCase().includes(key));
         return responses[responseKey] || responses.default;
     }
+    
     //Handle profile menu
     const CircleButton = document.querySelector('.nav-list  #CircleButton #Circle'); 
     const DropDownMenu = document.querySelector('.nav-list .DropDownMenu');
