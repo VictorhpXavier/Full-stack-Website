@@ -31,13 +31,37 @@ document.addEventListener('DOMContentLoaded', function () {
             const chatMessage = chatInput.value.trim();
             if (chatMessage.length >= 1) {
                 addMessageToChat('user', chatMessage);
-                chatInput.value = '';
-                chatButton.textContent = 'This is a test';
-                UserChat.style.display = 'flex';
 
                 setTimeout(() => {
                     addMessageToChat('bot', getBotResponse(chatMessage));
                 }, 100);
+
+                const data = {
+                    chat_name: 'Chat with Bot',
+                    message: chatMessage
+                };
+
+                fetch('/addChatToDB', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) { 
+                        chatInput.value = '';
+                        chatButton.textContent = 'This is a test';
+                        UserChat.style.display = 'flex';
+                    } else {
+                        console.error('Failed to create chat:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error creating chat:', error);
+                });
             }
         });
     }
@@ -70,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const responseKey = Object.keys(responses).find(key => userMessage.toLowerCase().includes(key));
         return responses[responseKey] || responses.default;
     }
-    
     //Handle profile menu
     const CircleButton = document.querySelector('.nav-list  #CircleButton #Circle'); 
     const DropDownMenu = document.querySelector('.nav-list .DropDownMenu');

@@ -43,9 +43,9 @@ function ensureLoggedIn(req, res, next) {
     next()
 }
 
-app.get('/', ensureNotLoggedIn, (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../html/home.html'));
-  });
+});
 
 const roadToHome = '/home';
 app.get(roadToHome.toLowerCase(), (req, res) => {
@@ -82,20 +82,20 @@ app.get(SettingsProfile.toLocaleLowerCase(), ensureLoggedIn, (req, res) => {
     res.sendFile(path.join(__dirname, '../html/SettingsProfile.html'))
 })
 
-app.post('/signout', (req, res) => {
-    res.clearCookie('token');
-    res.clearCookie('loggedIn');
-    res.status(200).json({ message: 'Signed out successfully' });
-});
+
 
 const roadToForgotPassword = '/forgotpassword'
-app.get(roadToForgotPassword.toLocaleLowerCase(), (req, res) => {
+app.get(roadToForgotPassword.toLocaleLowerCase(), ensureLoggedIn, (req, res) => {
     res.sendFile(path.join(__dirname, '../html/forgotpassword.html'))
 });
-app.get('/chat', (req, res) => {
+
+const roadToChatWS = '/workspace/chat'
+app.get(roadToChatWS.toLocaleLowerCase(), ensureLoggedIn, (req, res) => {
     res.sendFile(path.join(__dirname, '../html/Chat.html'))
 })
-app.get('/videocreator', (req, res) => {
+
+const roadToVideoCreatorWS = '/workspace/videocreator'
+app.get(roadToVideoCreatorWS.toLocaleLowerCase(), ensureLoggedIn, (req, res) => {
     res.sendFile(path.join(__dirname, '../html/videocreator.html'))
 })
 
@@ -105,6 +105,11 @@ app.get('/test', (req, res) => {
 
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '../html/Page-Not-Found.html'));
+});
+app.post('/signout', (req, res) => {
+    res.clearCookie('token');
+    res.clearCookie('loggedIn');
+    res.status(200).json({ message: 'Signed out successfully' });
 });
 
 app.listen(port, () => {

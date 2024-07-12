@@ -39,7 +39,37 @@ con.connect((err) => {
 const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
+/* Get User info */
+router.get('/get-user-id', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ error: 'Access Denied' });
+    }
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        const id = decoded.id;
+        res.json({ id });
+    } catch (err) {
+        return res.status(400).json({ error: 'Invalid Token' });
+    }
+});
 
+router.get('/get-email', (req, res) => {
+    const token = req.cookies.token; 
+    if (!token) {
+        return res.status(401).json({ error: 'Access Denied' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        const email = decoded.email;
+        res.json({ email, token });
+    } catch (err) {
+        return res.status(400).json({ error: 'Invalid Token' });
+    }
+});
+
+//Handle Signup Logic
 router.post('/signup', (req, res) => {
     const { email, password } = req.body;
     
@@ -110,6 +140,7 @@ router.post('/signup', (req, res) => {
         }
     });
 });
+//Handle Login Logic
 
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
@@ -122,11 +153,9 @@ router.post('/login', (req, res) => {
     
     if (!password) {
         errors.push({ error: 'NO_PASSWORD', message: 'Please enter a password' });
-        console.log('No password')
     }
     if (!email) {
         errors.push({ error: 'NO_EMAIL', message: 'Please enter an email' });
-        console.log('No email')
     } else if (!isValidEmail.test(email)) {
         errors.push({ error: 'INVALID_EMAIL', message: 'Please enter a valid email address' });
     }
@@ -176,6 +205,7 @@ router.post('/login', (req, res) => {
     });
 });
 
+//Change Email logic
 router.post('/Change-Email', (req, res) => {
     const { email, password } = req.body;
     const token = req.cookies.token;
@@ -267,6 +297,9 @@ router.post('/Change-Email', (req, res) => {
         res.status(401).json({ error: 'INVALID_TOKEN', message: 'Token is invalid or expired' });
     }
 });
+
+//Change Password logic
+
 router.post('/Change-Password', (req, res) => {
     const { email, password, newpassword } = req.body;
     const token = req.cookies.token;
@@ -355,7 +388,8 @@ router.post('/Change-Password', (req, res) => {
     }
 });
   
-
+//Forgot Password logic not done, need to compare user password 
+//with the hash, then if hash is the same ask user for new password
 
 router.post('/forgotpassword', (req, res) => {
     const { email } = req.body;
@@ -386,7 +420,10 @@ router.post('/forgotpassword', (req, res) => {
         res.status(200).json({ message: 'Password recovery email sent' });
     });
 });
+
+
 //Create token for darkmode
+//Maybe I should put the darkMode preference on DB instead of cookies?
 // Endpoint to get dark mode preference
 router.get('/darkmode', (req, res) => {
     const darkMode = req.cookies.darkMode === 'true';
@@ -657,6 +694,7 @@ function updateSubject(userId, Usersubjects, res) {
     });
 }
 */
+
 /*Change user language */
 router.post('/ChangeUserLanguage', (req, res) => {
     const token = req.cookies.token;
@@ -760,35 +798,7 @@ router.post('/CheckUserLanguage', (req, res) => {
         res.json({ responseMessage });
     });
 });
-/* Get User info */
-router.get('/get-user-id', (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.status(401).json({ error: 'Access Denied' });
-    }
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        const id = decoded.id;
-        res.json({ id });
-    } catch (err) {
-        return res.status(400).json({ error: 'Invalid Token' });
-    }
-});
 
-router.get('/get-email', (req, res) => {
-    const token = req.cookies.token; 
-    if (!token) {
-        return res.status(401).json({ error: 'Access Denied' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        const email = decoded.email;
-        res.json({ email, token });
-    } catch (err) {
-        return res.status(400).json({ error: 'Invalid Token' });
-    }
-});
 /* Change USer profile photo */
 app.post('/userPhoto', upload.single('file'), (req, res) => {
     console.log('File received:', req.file);
@@ -846,6 +856,46 @@ app.post('/updatePhotoLink', (req, res) => {
             }
 
             res.json({ success: true });
+        });
+    });
+});
+
+
+//Put the user chat on the Database
+app.post('/addChatToDB', (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+
+    const chatName = req.body.chat_name || 'Chat with Bot';
+    const firstMessage = req.body.message;
+
+    const sqlInsertChat = 'INSERT INTO Chats (user_id, chat_name) VALUES (?, ?)';
+    
+    db.query(sqlInsertChat, [userId, chatName], (err, result) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Failed to insert chat into database', error: err });
+        }
+
+        const chatId = result.insertId;
+        const sqlInsertMessage = 'INSERT INTO Messages (chat_id, user_id, message_content) VALUES (?, ?, ?)';
+
+        db.query(sqlInsertMessage, [chatId, userId, firstMessage], (err, result) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Failed to insert message into database', error: err });
+            }
+
+            res.status(200).json({ success: true, message: 'Chat created and message added successfully', chatId: chatId });
         });
     });
 });
