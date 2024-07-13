@@ -900,6 +900,46 @@ app.post('/addChatToDB', (req, res) => {
     });
 });
 
+// Retrieve messages for a chat
+app.get('/getMessages', (req, res) => {
+    const token = req.cookies.token;
+    const chatId = req.query.chat_id; // Assuming chat ID is passed as a query parameter
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+
+    const sqlCheckOwnership = 'SELECT COUNT(*) AS count FROM Chats WHERE chat_id = ? AND user_id = ?';
+    
+    db.query(sqlCheckOwnership, [chatId, userId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Failed to verify chat ownership', error: err });
+        }
+
+        if (result[0].count === 0) {
+            return res.status(403).json({ success: false, message: 'Access denied: You do not own this chat' });
+        }
+
+        const sqlGetMessages = 'SELECT message_id, message_content, timestamp FROM Messages WHERE chat_id = ? ORDER BY timestamp ASC';
+        
+        db.query(sqlGetMessages, [chatId], (err, messages) => {
+            if (err) {
+                return res.status(500).json({ success: false, message: 'Failed to retrieve messages', error: err });
+            }
+
+            res.status(200).json({ success: true, messages: messages });
+        });
+    });
+});
+
 module.exports = con;
 module.exports = router;
 

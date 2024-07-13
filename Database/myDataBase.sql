@@ -24,23 +24,23 @@ CREATE TABLE Users (
 --  Spanish tinyint(1) DEFAULT NULL,
 --  Biology tinyint(1) DEFAULT NULL,
 --  Geography tinyint(1) DEFAULT NULL
---)
+-- )
 
 CREATE TABLE Chats (
-    chat_id INT AUTO_INCREMENT PRIMARY KEY,
+    chat_id CHAR(36) NOT NULL PRIMARY KEY,
     user_id INT NOT NULL,
     chat_name VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
 CREATE TABLE Messages (
-    message_id INT AUTO_INCREMENT PRIMARY KEY,
-    chat_id INT NOT NULL,
+	message_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    chat_id CHAR(36) NOT NULL,
     user_id INT NOT NULL,
     message_content TEXT NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (chat_id) REFERENCES Chats(chat_id),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (user_id) REFERENCES Users(id)
 );

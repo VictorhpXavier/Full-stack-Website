@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const chatWindow = document.querySelector('#chatWindow');
     const UserChat = document.querySelector('.ChatButton');
     const chatButton = document.getElementById('chatButton'); 
+    const chat = chatInput.value.trim();
 
     if (mainHamburgerMenu) {
         mainHamburgerMenu.addEventListener('click', function() {
@@ -26,46 +27,28 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Main hamburger menu not found');
     }
 
+    
     if (sendChat) {
         sendChat.addEventListener('click', function () {
-            const chatMessage = chatInput.value.trim();
-            if (chatMessage.length >= 1) {
-                addMessageToChat('user', chatMessage);
+           //I should put the fetch here
+            alert('test')
+            chatInput.value = '';
+            chatButton.textContent = 'This is a test';
+            UserChat.style.display = 'flex';
+          
 
-                setTimeout(() => {
-                    addMessageToChat('bot', getBotResponse(chatMessage));
-                }, 100);
-
-                const data = {
-                    chat_name: 'Chat with Bot',
-                    message: chatMessage
-                };
-
-                fetch('/addChatToDB', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify(data),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) { 
-                        chatInput.value = '';
-                        chatButton.textContent = 'This is a test';
-                        UserChat.style.display = 'flex';
-                    } else {
-                        console.error('Failed to create chat:', data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error creating chat:', error);
-                });
-            }
+          if (chat.length >= 1) {
+            //add User message
+            addMessageToChat('user', chat);
+            //Get Bot response
+            setTimeout(() => {
+              addMessageToChat('bot', getBotResponse(chat));
+            }, 100);
+          }
         });
     }
 
+    //Show the input button if user didnt input anything button is blocked
     chatInput.addEventListener('input', function() {
         if (chatInput.value.length >= 1) {
             sendChat.style.opacity = '100%';
@@ -76,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    
+    //Put User message in the html structure 
     function addMessageToChat(sender, message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('chat-message', sender);
@@ -84,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
+    //Get Response from the bot
     function getBotResponse(userMessage) {
         const responses = {
             hello: 'Hi there!',
@@ -94,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const responseKey = Object.keys(responses).find(key => userMessage.toLowerCase().includes(key));
         return responses[responseKey] || responses.default;
     }
+    
     //Handle profile menu
     const CircleButton = document.querySelector('.nav-list  #CircleButton #Circle'); 
     const DropDownMenu = document.querySelector('.nav-list .DropDownMenu');
@@ -115,9 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             DropDownMenu.style.display = 'none';
 
         }
-        if (CircleButton && !CircleButton.contains(event.target)) {
-            DropDownMenu.style.display = 'none';
-        }
+        
     });
 
     if (SignOutButton) {
@@ -145,12 +130,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+//Scroll to the last Message
 document.getElementById('sendButton').addEventListener('click', () => {
     const chatContainer = document.getElementById('chatContainer');
     chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
 
+//Reload page if user change page size
 window.addEventListener('resize', function () { 
     "use strict";
     window.location.reload(); 
