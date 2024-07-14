@@ -102,41 +102,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const UserChat = document.querySelector('.ChatButton');
         const chatButton = document.getElementById('chatButton');
         const chat = chatInput.value.trim();
-        //Send chat message to the backend
-        const message = { message: chat }
+        const currentPath = window.location.pathname;
+        const isWorkspaceChat = currentPath.startsWith('/workspace/chat');
+    
         if (chat.length >= 1) {
             chatInput.value = '';
             chatButton.textContent = 'This is a test';
             UserChat.style.display = 'flex';
-            //add User message
+            // Add User message
             addMessageToChat('user', chat);
-            //Get Bot response
+            // Get Bot response
             setTimeout(() => {
                 addMessageToChat('bot', getBotResponse(chat));
             }, 100);
         }
-        //fetch should be outside of Chat.length >= 1
-        //I should put the fetch here
-
-        if (window.location.pathname === '/workspace/chat') {
-            fetch('/AddChat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },       
-                //Send chat message to the backend
-                body: JSON.stringify(message),
-
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if(data.success) {
-                        const uuidLocation = `${window.location.origin}/workspace/chat/${data.uuid}`;
-                        window.location.href = uuidLocation;
-
-                    }
-                });
-        } else {
+    
+        const message = { message: chat };
+    
+        if (isWorkspaceChat) {
+            const chatId = currentPath.split('/').pop();
+            message.chatId = chatId;  // Include chatId in the message object
             fetch('/AddMessages', {
                 method: 'POST',
                 headers: {
@@ -146,7 +131,26 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                   
+                    if (!data.success) {
+                        console.error('Failed to add message');
+                    }
+                });
+        } else {
+            fetch('/AddChat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(message),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        const uuidLocation = `${window.location.origin}/workspace/chat/${data.uuid}`;
+                        window.location.href = uuidLocation;
+                    } else {
+                        console.error('Failed to add chat');
+                    }
                 });
         }
     });
@@ -199,7 +203,9 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         })
             .then((response) => response.json())
-            .then((data) => {})
+            .then((data) => {
+                
+            })
     }
     // The user is not on a chat page or the UUID is not valid
     else {

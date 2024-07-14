@@ -908,12 +908,12 @@ router.post('/AddChat', (req, res) => {
     console.log(userId);
 });
 
-//Add Messages
+//Add Messages Wont create a chat
 router.post('/AddMessages', (req, res) => {
     const token = req.cookies.token;
-    const chatMessage = req.body.message; // Get the chat message from the frontend
-    const uuid = uuidv4();
-    console.log(chatMessage)
+    const chatMessage = req.body.message;
+    const chatId = req.body.chatId;  // Get the existing chat ID from the request body
+    console.log(chatMessage);
 
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
@@ -926,23 +926,25 @@ router.post('/AddMessages', (req, res) => {
     } catch (error) {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
+    
     const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content) VALUES (?, ?, ?)';
-    con.query(addMessageToChat, [userId, uuid, chatMessage ], (err, results) => {
+    con.query(addMessageToChat, [userId, chatId, chatMessage], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ success: false, message: 'Failed to add Message' });
         }
-        res.status(200).json({ success: true, message: 'Message added successfully'});
-    })
+        res.status(200).json({ success: true, message: 'Message added successfully' });
+    });
 
-    console.log(`UUID: ${uuid}`);
-    console.log(userId)
-})
+    console.log(`Chat ID: ${chatId}`);
+    console.log(userId);
+});
 
 //Get User Text History and Chats
+
+//this is working do not touch
 router.post('/GetUserInfo', (req, res) => {
     const token = req.cookies.token;
-
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
     }
@@ -954,6 +956,18 @@ router.post('/GetUserInfo', (req, res) => {
     } catch (error) {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
+    const ChatHistory = 'SELECT chat_name FROM Chats WHERE user_id = ?';
+
+    con.query(ChatHistory, [userId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
+        }
+
+        console.log(results);
+
+        res.status(200).json({ success: true, chatHistory: results });
+    });
 })
 
 //Handle signout
