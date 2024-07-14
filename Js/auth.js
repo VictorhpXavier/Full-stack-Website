@@ -862,90 +862,14 @@ router.post('/updatePhotoLink', (req, res) => {
 });
 
 
-//Put the user chat on the Database
-router.post('/addChatToDB', (req, res) => {
+
+
+// Put the user chat on the Database
+router.post('/AddChat', (req, res) => {
     const token = req.cookies.token;
-
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
-
-    const chatName = req.body.chat_name || 'Chat with Bot';
-    const firstMessage = req.body.message;
-
-    const sqlInsertChat = 'INSERT INTO Chats (user_id, chat_name) VALUES (?, ?)';
-    
-    con.query(sqlInsertChat, [userId, chatName], (err, result) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: 'Failed to insert chat into database', error: err });
-        }
-
-        const chatId = result.insertId;
-        const sqlInsertMessage = 'INSERT INTO Messages (chat_id, user_id, message_content) VALUES (?, ?, ?)';
-
-        con.query(sqlInsertMessage, [chatId, userId, firstMessage], (err, result) => {
-            if (err) {
-                return res.status(500).json({ success: false, message: 'Failed to insert message into database', error: err });
-            }
-
-            res.status(200).json({ success: true, message: 'Chat created and message added successfully', chatId: chatId });
-        });
-    });
-});
-
-// Retrieve messages for a chat
-router.get('/getMessages', (req, res) => {
-    const token = req.cookies.token;
-    const chatId = req.query.chat_id; // Assuming chat ID is passed as a query parameter
-
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
-
-    const sqlCheckOwnership = 'SELECT COUNT(*) AS count FROM Chats WHERE chat_id = ? AND user_id = ?';
-    
-    con.query(sqlCheckOwnership, [chatId, userId], (err, result) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: 'Failed to verify chat ownership', error: err });
-        }
-
-        if (result[0].count === 0) {
-            return res.status(403).json({ success: false, message: 'Access denied: You do not own this chat' });
-        }
-
-        const sqlGetMessages = 'SELECT message_id, message_content, timestamp FROM Messages WHERE chat_id = ? ORDER BY timestamp ASC';
-        
-        con.query(sqlGetMessages, [chatId], (err, messages) => {
-            if (err) {
-                return res.status(500).json({ success: false, message: 'Failed to retrieve messages', error: err });
-            }
-
-            res.status(200).json({ success: true, messages: messages });
-        });
-    });
-});
-
-//Put the user chat on the Database
-router.post('/AddChat', (req, res)=> {
-    const token = req.cookies.token;
-    const chatMessage = req.body.chatMessage; // Get the chat message from the request body
+    const chatMessage = req.body.message; // Get the chat message from the frontend
     const uuid = uuidv4();
+    console.log('User message: ', chatMessage);
 
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
@@ -959,36 +883,78 @@ router.post('/AddChat', (req, res)=> {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
 
-    
-    // Check if a chat record already exists for this user
-    const checkChatQuery = 'SELECT * FROM Chats WHERE user_id = ?';
-    con.query(checkChatQuery, [userId], (err, results) => {
+    // Insert the chat
+    const addChatQuery = 'INSERT INTO Chats (chat_id, user_id, chat_name) VALUES (?, ?, ?)';
+    con.query(addChatQuery, [uuid, userId, 'test'], (err, results) => {
         if (err) {
             console.error(err);
-            return res.status(500).json({ success: false, message: 'Database query failed' });
+            return res.status(500).json({ success: false, message: 'Failed to add chat' });
         }
 
-        if (results.length === 0) {
-            // No existing chat record, create a new chat
-            const addChatQuery = 'INSERT INTO Chats (chat_id, user_id, chat_name) VALUES (?, ?, ?)';
-            con.query(addChatQuery, [uuid, userId, 'test'], (err, results) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).json({ success: false, message: 'Failed to add chat' });
-                }
-                res.status(200).json({ success: true, message: 'Chat added successfully' });
-            });
-        } else {
-            // Chat record exists
-            res.status(200).json({ success: true, message: 'Chat already exists' });
-        }
+        // Insert the message
+        const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content) VALUES (?, ?, ?)';
+        con.query(addMessageToChat, [userId, uuid, chatMessage], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ success: false, message: 'Failed to add Message' });
+            }
+
+            // Respond after both the chat and message have been added successfully
+            res.status(200).json({ success: true, message: 'Chat and message added successfully', uuid: uuid });
+        });
     });
 
     console.log(`UUID: ${uuid}`);
+    console.log(userId);
+});
+
+//Add Messages
+router.post('/AddMessages', (req, res) => {
+    const token = req.cookies.token;
+    const chatMessage = req.body.message; // Get the chat message from the frontend
+    const uuid = uuidv4();
+    console.log(chatMessage)
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+    const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content) VALUES (?, ?, ?)';
+    con.query(addMessageToChat, [userId, uuid, chatMessage ], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Failed to add Message' });
+        }
+        res.status(200).json({ success: true, message: 'Message added successfully'});
+    })
+
+    console.log(`UUID: ${uuid}`);
     console.log(userId)
-})  
+})
 
+//Get User Text History and Chats
+router.post('/GetUserInfo', (req, res) => {
+    const token = req.cookies.token;
 
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+})
 
 //Handle signout
 router.post('/signout', (req, res) => {

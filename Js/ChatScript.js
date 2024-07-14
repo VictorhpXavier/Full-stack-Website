@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const mainHamburgerMenu = document.querySelector('#Hamburger-menu');
     const sideBar = document.querySelector('.sidebar');
-    const sendChat = document.querySelector('#sendButton');
-    const chatInput = document.querySelector('#chatInput');
+
     const chatWindow = document.querySelector('#chatWindow');
 
     if (mainHamburgerMenu) {
@@ -28,74 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } else {
         console.error('Main hamburger menu not found');
-    }
-
-    if (sendChat) {
-        sendChat.addEventListener('click', function () {
-            const UserChat = document.querySelector('.ChatButton');
-            const chatButton = document.getElementById('chatButton');
-            const chat = chatInput.value.trim();
-            const WindowLocation = window.location.pathname.split('/').pop();
-            if (chat.length >= 1) {
-                console.log(chat);
-
-                alert('test');
-                chatInput.value = '';
-                chatButton.textContent = 'This is a test';
-                UserChat.style.display = 'flex';
-                //add User message
-                addMessageToChat('user', chat);
-                //Get Bot response
-                setTimeout(() => {
-                    addMessageToChat('bot', getBotResponse(chat));
-                }, 100);
-            }
-            //fetch should be outside of Chat.length >= 1
-            //I should put the fetch here
-            fetch('/AddChat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    chatMessage: chat,
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => {});
-        });
-    }
-
-    //Show the input button if user didnt input anything button is blocked
-    chatInput.addEventListener('input', function () {
-        if (chatInput.value.length >= 1) {
-            sendChat.style.opacity = '100%';
-            sendChat.style.cursor = 'pointer';
-        } else {
-            sendChat.style.opacity = '35%';
-            sendChat.style.cursor = 'not-allowed';
-        }
-    });
-
-    //Put User message in the html structure
-    function addMessageToChat(sender, message) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('chat-message', sender);
-        messageElement.innerHTML = `<div class="message">${message}</div>`;
-        chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-
-    //Get Response from the bot
-    function getBotResponse(userMessage) {
-        const responses = {
-            hello: 'Hi there!',
-            hi: 'Hello!',
-            how: 'I am just a bot, but I am here to help!',
-            default: 'Sorry, I did not understand that.',
-        };
-        const responseKey = Object.keys(responses).find((key) =>
-            userMessage.toLowerCase().includes(key)
-        );
-        return responses[responseKey] || responses.default;
     }
 
     //Handle profile menu
@@ -163,3 +94,124 @@ window.addEventListener('resize', function () {
     'use strict';
     window.location.reload();
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sendChat = document.querySelector('#sendButton');
+    const chatInput = document.querySelector('#chatInput');
+    sendChat.addEventListener('click', function () {
+        const UserChat = document.querySelector('.ChatButton');
+        const chatButton = document.getElementById('chatButton');
+        const chat = chatInput.value.trim();
+        //Send chat message to the backend
+        const message = { message: chat }
+        if (chat.length >= 1) {
+            chatInput.value = '';
+            chatButton.textContent = 'This is a test';
+            UserChat.style.display = 'flex';
+            //add User message
+            addMessageToChat('user', chat);
+            //Get Bot response
+            setTimeout(() => {
+                addMessageToChat('bot', getBotResponse(chat));
+            }, 100);
+        }
+        //fetch should be outside of Chat.length >= 1
+        //I should put the fetch here
+
+        if (window.location.pathname === '/workspace/chat') {
+            fetch('/AddChat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },       
+                //Send chat message to the backend
+                body: JSON.stringify(message),
+
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if(data.success) {
+                        const uuidLocation = `${window.location.origin}/workspace/chat/${data.uuid}`;
+                        window.location.href = uuidLocation;
+
+                    }
+                });
+        } else {
+            fetch('/AddMessages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(message),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                   
+                });
+        }
+    });
+
+    //Show the input button if user didnt input anything button is blocked
+    chatInput.addEventListener('input', function () {
+        if (chatInput.value.length >= 1) {
+            sendChat.style.opacity = '100%';
+            sendChat.style.cursor = 'pointer';
+        } else {
+            sendChat.style.opacity = '35%';
+            sendChat.style.cursor = 'not-allowed';
+        }
+    });
+
+    //Put User message in the html structure
+    function addMessageToChat(sender, message) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('chat-message', sender);
+        messageElement.innerHTML = `<div class="message">${message}</div>`;
+        chatWindow.appendChild(messageElement);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    //Get Response from the bot
+    function getBotResponse(userMessage) {
+        const responses = {
+            hello: 'Hi there!',
+            hi: 'Hello!',
+            how: 'I am just a bot, but I am here to help!',
+            default: 'Sorry, I did not understand that.',
+        };
+        const responseKey = Object.keys(responses).find((key) =>
+            userMessage.toLowerCase().includes(key)
+        );
+        return responses[responseKey] || responses.default;
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // The user is on a chat page with a valid UUID
+
+    if (/^\/workspace\/chat\/[0-9a-fA-F-]{36}$/.test(window.location.pathname)) {
+        console.log('User is on a chat page with a valid UUID');
+        fetch('/GetUserInfo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {})
+    }
+    // The user is not on a chat page or the UUID is not valid
+    else {
+        console.log('User is not on a chat page with a valid UUID');
+        fetch('/GetUserChatHistory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {})
+    }
+
+})

@@ -93,6 +93,10 @@ const roadToChatWS = '/workspace/chat'
 app.get(roadToChatWS.toLocaleLowerCase(), ensureLoggedIn, (req, res) => {
     res.sendFile(path.join(__dirname, '../html/Chat.html'))
 })
+const roadToChatWSWithId = '/workspace/chat';
+app.get(`${roadToChatWSWithId.toLocaleLowerCase()}/:id`, ensureLoggedIn, (req, res) => {
+    res.sendFile(path.join(__dirname, '../html/Chat.html'));
+});
 
 const roadToVideoCreatorWS = '/workspace/videocreator'
 app.get(roadToVideoCreatorWS.toLocaleLowerCase(), ensureLoggedIn, (req, res) => {
