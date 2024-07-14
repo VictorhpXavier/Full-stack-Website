@@ -106,11 +106,7 @@ app.get('/test', (req, res) => {
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '../html/Page-Not-Found.html'));
 });
-app.post('/signout', (req, res) => {
-    res.clearCookie('token');
-    res.clearCookie('loggedIn');
-    res.status(200).json({ message: 'Signed out successfully' });
-});
+
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

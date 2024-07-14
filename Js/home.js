@@ -64,28 +64,28 @@ document.addEventListener('DOMContentLoaded', function() {
          }
      });
  
-     if (SignOutButton) {
-         SignOutButton.addEventListener('click', function() {
-             // Clear cookies
-             document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-             document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
- 
-             // Optionally make a request to the server to clear any server-side session
-             fetch('/signout', {
-                 method: 'POST',
-                 headers: {
-                     'Content-Type': 'application/json'
-                 }
-             })
-             .then(response => response.json())
-             .then(data => {
-                 console.log(data.message);
-                 // Redirect the user to the login page or home page
-                 window.location.href = '/login';
-             })
-             .catch(error => console.error('Error:', error));
-         });
-     }
+    if (SignOutButton) {
+        SignOutButton.addEventListener('click', function() {
+            // Clear cookies
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    
+            // Optionally make a request to the server to clear any server-side session
+            fetch('/signout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                // Redirect the user to the login page or home page
+                window.location.href = '/login';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
     //Check User language preference
     const languageButton = document.querySelector('#footer .Country-Flag');
     const options = document.querySelectorAll('#footer .dropdown .option');

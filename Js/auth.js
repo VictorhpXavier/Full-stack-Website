@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const path = require('path')
 const cookieParser = require('cookie-parser');
-
+const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 
 const fs = require('fs');
@@ -140,6 +140,7 @@ router.post('/signup', (req, res) => {
         }
     });
 });
+
 //Handle Login Logic
 
 router.post('/login', (req, res) => {
@@ -278,7 +279,7 @@ router.post('/Change-Email', (req, res) => {
                         return res.status(400).json({ errors });
                     } else {
                         const updateQuery = 'UPDATE Users SET email = ? WHERE id = ?';
-                        con .query(updateQuery, [email, userId], (err, result) => {
+                        con.query(updateQuery, [email, userId], (err, result) => {
                              if (err) {
                                  console.error('Error updating email:', err);
                                  return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to update email' });
@@ -800,7 +801,7 @@ router.post('/CheckUserLanguage', (req, res) => {
 });
 
 /* Change USer profile photo */
-app.post('/userPhoto', upload.single('file'), (req, res) => {
+router.post('/userPhoto', upload.single('file'), (req, res) => {
     console.log('File received:', req.file);
     if (!req.file) {
         console.log('No file uploaded');
@@ -821,9 +822,9 @@ app.post('/userPhoto', upload.single('file'), (req, res) => {
     });
 });
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+router.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.post('/updatePhotoLink', (req, res) => {
+router.post('/updatePhotoLink', (req, res) => {
     const { photoLink } = req.body;
     const token = req.cookies.token;
 
@@ -862,7 +863,7 @@ app.post('/updatePhotoLink', (req, res) => {
 
 
 //Put the user chat on the Database
-app.post('/addChatToDB', (req, res) => {
+router.post('/addChatToDB', (req, res) => {
     const token = req.cookies.token;
 
     if (!token) {
@@ -882,7 +883,7 @@ app.post('/addChatToDB', (req, res) => {
 
     const sqlInsertChat = 'INSERT INTO Chats (user_id, chat_name) VALUES (?, ?)';
     
-    db.query(sqlInsertChat, [userId, chatName], (err, result) => {
+    con.query(sqlInsertChat, [userId, chatName], (err, result) => {
         if (err) {
             return res.status(500).json({ success: false, message: 'Failed to insert chat into database', error: err });
         }
@@ -890,7 +891,7 @@ app.post('/addChatToDB', (req, res) => {
         const chatId = result.insertId;
         const sqlInsertMessage = 'INSERT INTO Messages (chat_id, user_id, message_content) VALUES (?, ?, ?)';
 
-        db.query(sqlInsertMessage, [chatId, userId, firstMessage], (err, result) => {
+        con.query(sqlInsertMessage, [chatId, userId, firstMessage], (err, result) => {
             if (err) {
                 return res.status(500).json({ success: false, message: 'Failed to insert message into database', error: err });
             }
@@ -901,7 +902,7 @@ app.post('/addChatToDB', (req, res) => {
 });
 
 // Retrieve messages for a chat
-app.get('/getMessages', (req, res) => {
+router.get('/getMessages', (req, res) => {
     const token = req.cookies.token;
     const chatId = req.query.chat_id; // Assuming chat ID is passed as a query parameter
 
@@ -919,7 +920,7 @@ app.get('/getMessages', (req, res) => {
 
     const sqlCheckOwnership = 'SELECT COUNT(*) AS count FROM Chats WHERE chat_id = ? AND user_id = ?';
     
-    db.query(sqlCheckOwnership, [chatId, userId], (err, result) => {
+    con.query(sqlCheckOwnership, [chatId, userId], (err, result) => {
         if (err) {
             return res.status(500).json({ success: false, message: 'Failed to verify chat ownership', error: err });
         }
@@ -930,7 +931,7 @@ app.get('/getMessages', (req, res) => {
 
         const sqlGetMessages = 'SELECT message_id, message_content, timestamp FROM Messages WHERE chat_id = ? ORDER BY timestamp ASC';
         
-        db.query(sqlGetMessages, [chatId], (err, messages) => {
+        con.query(sqlGetMessages, [chatId], (err, messages) => {
             if (err) {
                 return res.status(500).json({ success: false, message: 'Failed to retrieve messages', error: err });
             }
@@ -940,6 +941,64 @@ app.get('/getMessages', (req, res) => {
     });
 });
 
+//Put the user chat on the Database
+router.post('/AddChat', (req, res)=> {
+    const token = req.cookies.token;
+    const chatMessage = req.body.chatMessage; // Get the chat message from the request body
+    const uuid = uuidv4();
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+
+    
+    // Check if a chat record already exists for this user
+    const checkChatQuery = 'SELECT * FROM Chats WHERE user_id = ?';
+    con.query(checkChatQuery, [userId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Database query failed' });
+        }
+
+        if (results.length === 0) {
+            // No existing chat record, create a new chat
+            const addChatQuery = 'INSERT INTO Chats (chat_id, user_id, chat_name) VALUES (?, ?, ?)';
+            con.query(addChatQuery, [uuid, userId, 'test'], (err, results) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ success: false, message: 'Failed to add chat' });
+                }
+                res.status(200).json({ success: true, message: 'Chat added successfully' });
+            });
+        } else {
+            // Chat record exists
+            res.status(200).json({ success: true, message: 'Chat already exists' });
+        }
+    });
+
+    console.log(`UUID: ${uuid}`);
+    console.log(userId)
+})  
+
+
+
+//Handle signout
+router.post('/signout', (req, res) => {
+    console.log('Signout route hit');
+    res.clearCookie('loggedIn', { path: '/' });
+    res.clearCookie('token', { path: '/' });
+    console.log('Cookies cleared');
+
+    res.status(200).json({ message: 'Signed out successfully' });
+});
 module.exports = con;
 module.exports = router;
 
