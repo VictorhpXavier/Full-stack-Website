@@ -867,9 +867,8 @@ router.post('/updatePhotoLink', (req, res) => {
 // Put the user chat on the Database
 router.post('/AddChat', (req, res) => {
     const token = req.cookies.token;
-    const chatMessage = req.body.message; // Get the chat message from the frontend
+    const chatMessage = req.body.message;
     const uuid = uuidv4();
-    console.log('User message: ', chatMessage);
 
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
@@ -883,7 +882,6 @@ router.post('/AddChat', (req, res) => {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
 
-    // Insert the chat
     const addChatQuery = 'INSERT INTO Chats (chat_id, user_id, chat_name) VALUES (?, ?, ?)';
     con.query(addChatQuery, [uuid, userId, 'test'], (err, results) => {
         if (err) {
@@ -891,29 +889,22 @@ router.post('/AddChat', (req, res) => {
             return res.status(500).json({ success: false, message: 'Failed to add chat' });
         }
 
-        // Insert the message
         const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content) VALUES (?, ?, ?)';
         con.query(addMessageToChat, [userId, uuid, chatMessage], (err, results) => {
             if (err) {
                 console.error(err);
-                return res.status(500).json({ success: false, message: 'Failed to add Message' });
+                return res.status(500).json({ success: false, message: 'Failed to add message' });
             }
 
-            // Respond after both the chat and message have been added successfully
             res.status(200).json({ success: true, message: 'Chat and message added successfully', uuid: uuid });
         });
     });
-
-    console.log(`UUID: ${uuid}`);
-    console.log(userId);
 });
 
-//Add Messages Wont create a chat
+// Add Messages Route
 router.post('/AddMessages', (req, res) => {
     const token = req.cookies.token;
-    const chatMessage = req.body.message;
-    const chatId = req.body.chatId;  // Get the existing chat ID from the request body
-    console.log(chatMessage);
+    const { message, chatId } = req.body;
 
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
@@ -926,18 +917,16 @@ router.post('/AddMessages', (req, res) => {
     } catch (error) {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
-    
+
     const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content) VALUES (?, ?, ?)';
-    con.query(addMessageToChat, [userId, chatId, chatMessage], (err, results) => {
+    con.query(addMessageToChat, [userId, chatId, message], (err, results) => {
         if (err) {
             console.error(err);
-            return res.status(500).json({ success: false, message: 'Failed to add Message' });
+            return res.status(500).json({ success: false, message: 'Failed to add message' });
         }
+
         res.status(200).json({ success: true, message: 'Message added successfully' });
     });
-
-    console.log(`Chat ID: ${chatId}`);
-    console.log(userId);
 });
 
 //Get User Text History and Chats
