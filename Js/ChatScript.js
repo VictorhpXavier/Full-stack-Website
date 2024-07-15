@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const chatButton = document.getElementById('chatButton');
         const chat = chatInput.value.trim();
         const currentPath = window.location.pathname;
+        const botMessage = getBotResponse(chat)
 
         if (chat.length >= 1) {
             chatInput.value = '';
@@ -116,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 100);
         }
 
-        const message = { message: chat };
+        const message = { message: chat, botMessage: botMessage };
 
         if (currentPath === '/workspace/chat') {
             fetch('/AddChat', {
@@ -124,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(message),
+                body: JSON.stringify(message, botMessage),
             })
                 .then((response) => response.json())
                 .then((data) => {
@@ -147,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: chat, chatId: chatId }),
+                body: JSON.stringify({ message: chat, chatId: chatId, botMessage: botMessage }),
             })
                 .then((response) => response.json())
                 .then((data) => {

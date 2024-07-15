@@ -868,6 +868,7 @@ router.post('/updatePhotoLink', (req, res) => {
 router.post('/AddChat', (req, res) => {
     const token = req.cookies.token;
     const chatMessage = req.body.message;
+    const botMessage = req.body.botMessage
     const uuid = uuidv4();
 
     if (!token) {
@@ -889,8 +890,8 @@ router.post('/AddChat', (req, res) => {
             return res.status(500).json({ success: false, message: 'Failed to add chat' });
         }
 
-        const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content) VALUES (?, ?, ?)';
-        con.query(addMessageToChat, [userId, uuid, chatMessage], (err, results) => {
+        const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content, bot_message) VALUES (?, ?, ?, ?)';
+        con.query(addMessageToChat, [userId, uuid, chatMessage, botMessage], (err, results) => {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ success: false, message: 'Failed to add message' });
@@ -905,7 +906,7 @@ router.post('/AddChat', (req, res) => {
 router.post('/AddMessages', (req, res) => {
     const token = req.cookies.token;
     const { message, chatId } = req.body;
-
+    const botMessage = req.body.botMessage
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
     }
@@ -918,8 +919,8 @@ router.post('/AddMessages', (req, res) => {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
 
-    const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content) VALUES (?, ?, ?)';
-    con.query(addMessageToChat, [userId, chatId, message], (err, results) => {
+    const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content, bot_message) VALUES (?, ?, ?, ?)';
+    con.query(addMessageToChat, [userId, chatId, message, botMessage], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ success: false, message: 'Failed to add message' });
