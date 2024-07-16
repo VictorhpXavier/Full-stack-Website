@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const sendChat = document.querySelector('#sendButton');
     const chatInput = document.querySelector('#chatInput');
     sendChat.addEventListener('click', function () {
-
         const chat = chatInput.value.trim();
         const currentPath = window.location.pathname;
         const botMessage = getBotResponse(chat);
@@ -206,10 +205,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    const chatButton = document.getElementById('chatButton');
+    const chatsLinks = document.getElementById('chatButton');
     const UserChat = document.querySelector('.ChatButton');
     const buttonContainer = document.getElementById('chatButtonContainer');
-
+    const pathname = window.location.pathname;
+    const parts = pathname.split('/');
+    const uuid = parts[parts.length - 1];
     // The user is on a chat page with a valid UUID
     if (
         /^\/workspace\/chat\/[0-9a-fA-F-]{36}$/.test(window.location.pathname)
@@ -228,19 +229,55 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (chats.length > 0) {
                         UserChat.style.display = 'flex';
                         for (let i = 0; i < chats.length; i++) {
-                            const chat = chats[i]
+                            const chat = chats[i];
                             const newButton = document.createElement('a');
                             newButton.textContent = chat.chat_name;
                             newButton.href = `/workspace/chat/${chat.chat_id}`;
                             buttonContainer.appendChild(newButton);
                         }
-                    } 
+                    }
                 } else {
                     console.error('Failed to retrieve chat history');
                 }
             })
             .catch((error) => {
                 console.error('Error fetching chat history:', error);
+            });
+        fetch('/GetUserMessages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ chatId: uuid }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    const userMessages = data.userMessages;
+                    const botMessages = data.botMessages;
+            
+                    // Function to add a message to the chat window
+                    function addMessageToChat(sender, message) {
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('chat-message', sender);
+                        messageElement.innerHTML = `<div class="message">${message}</div>`;
+                        chatWindow.appendChild(messageElement);
+                        chatWindow.scrollTop = chatWindow.scrollHeight;
+                    }
+            
+                    // Loop through user messages and add them to the chat window
+                    userMessages.forEach(message => {
+                        addMessageToChat('user', message);
+                    });
+            
+                    // Loop through bot messages and add them to the chat window
+                    botMessages.forEach(message => {
+                        addMessageToChat('bot', message);
+                    });
+                }
+                else {
+                    console.error('Failed to retrieve messages');
+                }
             });
     }
     // The user is not on a chat page or the UUID is not valid
@@ -260,13 +297,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (chats.length > 0) {
                         UserChat.style.display = 'flex';
                         for (let i = 0; i < chats.length; i++) {
-                            const chat = chats[i]
+                            const chat = chats[i];
                             const newButton = document.createElement('a');
                             newButton.textContent = chat.chat_name;
                             newButton.href = `/workspace/chat/${chat.chat_id}`;
                             buttonContainer.appendChild(newButton);
                         }
-                    } 
+                    }
                 } else {
                     console.error('Failed to retrieve chat history');
                 }

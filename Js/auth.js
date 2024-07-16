@@ -955,7 +955,6 @@ router.post('/GetUserInfo', (req, res) => {
             return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
         }
 
-        console.log(results);
 
         res.status(200).json({ success: true, chatHistory: results });
     });
@@ -985,11 +984,53 @@ router.post('/GetUserChatHistory', (req, res) => {
             return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
         }
 
-        console.log(results);
 
         res.status(200).json({ success: true, chatHistory: results });
     });
 })
+
+
+router.post('/GetUserMessages', (req, res) => {
+    const chatId = req.body.chatId;
+    console.log(chatId);
+
+    const GetUserMessages = 'SELECT message_content FROM Messages WHERE chat_id = ?';
+    const GetBotMessages = 'SELECT bot_message FROM Messages WHERE chat_id = ?';
+
+    Promise.all([
+        new Promise((resolve, reject) => {
+            con.query(GetUserMessages, [chatId], (err, results) => {
+                if (err) {
+                    console.error('Error retrieving user messages:', err);
+                    reject(err);
+                    return;
+                }
+                const userMessages = results.map(result => result.message_content);
+                console.log('User Messages:', userMessages);
+                resolve(userMessages);
+            });
+        }),
+        new Promise((resolve, reject) => {
+            con.query(GetBotMessages, [chatId], (err, results) => {
+                if (err) {
+                    console.error('Error retrieving bot messages:', err);
+                    reject(err);
+                    return;
+                }
+                const botMessages = results.map(result => result.bot_message);
+                console.log('Bot Messages:', botMessages);
+                resolve(botMessages);
+            });
+        })
+    ])
+    .then(([userMessages, botMessages]) => {
+        res.status(200).json({ success: true, userMessages, botMessages });
+    })
+    .catch((error) => {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ success: false, message: 'Failed to retrieve messages' });
+    });
+});
 
 //Handle signout
 router.post('/signout', (req, res) => {
@@ -1000,6 +1041,7 @@ router.post('/signout', (req, res) => {
 
     res.status(200).json({ message: 'Signed out successfully' });
 });
+
 module.exports = con;
 module.exports = router;
 
