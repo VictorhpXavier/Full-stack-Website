@@ -268,8 +268,9 @@ body, html {
     flex-direction: column;
   }
   
-.ChatButton button {
+.ChatButton a {
     color: #ffffff;
+    text-decoration: none;
     border: none;
     padding: 10px;
     font-size: 17px;
@@ -285,7 +286,7 @@ body, html {
     background: none;
 }
 
-.ChatButton button:hover {
+.ChatButton a:hover {
     background-color: #a7a7a7;
 }
 

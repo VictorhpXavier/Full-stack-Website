@@ -930,10 +930,41 @@ router.post('/AddMessages', (req, res) => {
     });
 });
 
-//Get User Text History and Chats
 
-//this is working do not touch
 router.post('/GetUserInfo', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    //Get User ID
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (error) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+
+    //Get User chat's History
+    const ChatHistory = 'SELECT chat_name, chat_id FROM Chats WHERE user_id = ?';
+
+    con.query(ChatHistory, [userId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
+        }
+
+        console.log(results);
+
+        res.status(200).json({ success: true, chatHistory: results });
+    });
+})
+
+//Get User Chats
+
+//this is working do not touch get UserChats
+router.post('/GetUserChatHistory', (req, res) => {
     const token = req.cookies.token;
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
@@ -946,7 +977,7 @@ router.post('/GetUserInfo', (req, res) => {
     } catch (error) {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
-    const ChatHistory = 'SELECT chat_name FROM Chats WHERE user_id = ?';
+    const ChatHistory = 'SELECT chat_name, chat_id FROM Chats WHERE user_id = ?';
 
     con.query(ChatHistory, [userId], (err, results) => {
         if (err) {
