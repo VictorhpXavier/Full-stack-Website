@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const mainHamburgerMenu = document.querySelector('#Hamburger-menu');
     const sideBar = document.querySelector('.sidebar');
-
+    const newChatButton = document.getElementById('NewChat')
     const chatWindow = document.querySelector('#chatWindow');
-
+    
     if (mainHamburgerMenu) {
         mainHamburgerMenu.addEventListener('click', function () {
             var screenWidth = window.innerWidth;
@@ -81,6 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch((error) => console.error('Error:', error));
         });
     }
+    
+    newChatButton.addEventListener('click', function() {
+        window.location.pathname = '/workspace/chat'
+    })
 });
 
 //Scroll to the last Message
@@ -116,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const message = { message: chat, botMessage: botMessage };
 
-        if (currentPath === '/workspace/chat') {
+        if (currentPath === '/workspace/chat' || currentPath === '/workspace/chat/') {
             fetch('/AddChat', {
                 method: 'POST',
                 headers: {
@@ -313,3 +317,18 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+window.addEventListener('resize', adjustChatButtonHeight);
+window.addEventListener('load', adjustChatButtonHeight);
+
+function adjustChatButtonHeight() {
+    const chatButton = document.getElementById('chatButtonContainer');
+    const sidebarItem = chatButton.closest('.sidebar-item2');
+
+    // Calculate the space available
+    const viewportHeight = window.innerHeight;
+    const sidebarItemTop = sidebarItem.getBoundingClientRect().top;
+    const availableHeight = viewportHeight - sidebarItemTop - 60; // 20px from bottom
+
+    chatButton.style.maxHeight = `${availableHeight}px`;
+}

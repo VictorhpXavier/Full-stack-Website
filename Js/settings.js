@@ -85,7 +85,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
+    window.addEventListener('click', (event) => {
+        if (CircleButton && !CircleButton.contains(event.target)) {
+            DropDownMenu.style.display = 'none';
+        }
+        
+    });
     if (SignOutButton) {
         SignOutButton.addEventListener('click', function() {
             // Clear cookies
@@ -151,10 +156,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (emailButton) {
         emailButton.addEventListener('click', function() {
+            //Closing 
             if (ChangeEmail.style.display === 'block') {
                 ChangeEmail.style.display = 'none';
                 BackGroundBlur.style.display = 'none';
-            } else {
+            }
+            //open menu 
+            else {
                 ChangeEmail.style.display = 'block';
                 BackGroundBlur.style.display = 'block';
             }

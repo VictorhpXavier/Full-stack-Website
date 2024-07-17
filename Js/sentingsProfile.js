@@ -85,7 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
+    window.addEventListener('click', (event) => {
+        if (CircleButton && !CircleButton.contains(event.target)) {
+            DropDownMenu.style.display = 'none';
+        }
+    });
     if (SignOutButton) {
         SignOutButton.addEventListener('click', function() {
             // Clear cookies
@@ -114,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const ProfileText = document.querySelector('#Settings .SettingsContainerProfile .SettingUl .Profile');
    
 
-    if (window.location.href === 'http://localhost:3000/settings/account' || window.location.href === 'http://localhost:3000/settings/') {
+    if (window.location.href === 'http://localhost:3000/settings/account' ) {
         AccountText.style.color = '#1C1C1C';
         AccountText.style.borderBottom = '#128fdc 2px solid';
 

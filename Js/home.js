@@ -59,9 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
          if (CircleButton && !CircleButton.contains(event.target)) {
              DropDownMenu.style.display = 'none';
          }
-         if (CircleButton && !CircleButton.contains(event.target)) {
-             DropDownMenu.style.display = 'none';
-         }
+        
      });
  
     if (SignOutButton) {

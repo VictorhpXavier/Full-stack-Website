@@ -203,9 +203,15 @@ body, html {
     transition: background-color 0.3s ease;
 }
 
+
+.sidebar {
+    position: relative;
+    width: 300px; /* Adjust as needed */
+}
 .sidebar-item {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .sidebar-item h1 {
@@ -222,11 +228,12 @@ body, html {
     font-weight: 500;
     transition: background-color 0.3s ease;
 }
-
 .sidebar-item button {
     background-color: #424242; 
     color: #ffffff;
     border: none;
+    position: absolute;
+    bottom: 20%;
     padding: 10px;
     width: 90%;
     cursor: pointer;
@@ -263,18 +270,31 @@ body, html {
 }
 
 /* User's chat */
+
 .ChatButton {
-    display: none;
+    position: absolute;
+    top: 14%;
+    left: 3%;
+    width: 90%;
+    max-height: calc(100vh - 21% - 80px); /* Adjusted to consider bottom spacing */
+    padding: 10px;
+    display: flex;
     flex-direction: column;
-  }
-  
+    overflow-y: auto; 
+    border-radius: 8px;
+    transition: all 0.3s ease; 
+}
+
 .ChatButton a {
-    color: #ffffff;
+    min-height: 15px;
+
     text-decoration: none;
+    background-color: #424242; 
+    color: #ffffff;
     border: none;
     padding: 10px;
     font-size: 17px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-weight: 650;
     width: 90%;
     cursor: pointer;
@@ -283,13 +303,35 @@ body, html {
     align-items: center;
     justify-content: space-between;
     transition: background-color 0.3s ease;
-    background: none;
+    overflow: hidden;           
+    text-overflow: ellipsis;    
+    white-space: nowrap;        
 }
-
 .ChatButton a:hover {
     background-color: #a7a7a7;
 }
+/* Chat History Scrollbar */
+/* For Webkit-based browsers (Chrome, Safari) */
+.ChatButton::-webkit-scrollbar {
+    width: 14px; /* Width of the scrollbar */
+}
 
+.ChatButton::-webkit-scrollbar-track {
+    background: #2c2c2c; /* Background color of the scrollbar track */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.ChatButton::-webkit-scrollbar-thumb {
+    background-color: #424242; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners */
+    border: 3px solid #2c2c2c; /* Padding around thumb */
+}
+
+/* For Firefox */
+.ChatButton {
+    scrollbar-width: thin; /* Width of the scrollbar */
+    scrollbar-color: #5c5b5b #2c2c2c; /* Thumb color, track color */
+}
 /* footer section / chat input */
 .footer {
     width: 80%;

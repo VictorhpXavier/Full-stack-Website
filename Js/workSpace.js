@@ -85,7 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
+    window.addEventListener('click', (event) => {
+        if (CircleButton && !CircleButton.contains(event.target)) {
+            DropDownMenu.style.display = 'none';
+        }
+    });
     if (SignOutButton) {
         SignOutButton.addEventListener('click', function() {
             // Clear cookies
