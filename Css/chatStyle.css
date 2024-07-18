@@ -219,9 +219,9 @@ body, html {
     font-size: 21px;
     color: #ffffff;
     border: none;
+    border-bottom: 1px solid #424242;
     padding: 10px;
     width: 90%;
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;

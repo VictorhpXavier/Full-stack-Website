@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const mainHamburgerMenu = document.querySelector('#Hamburger-menu');
     const sideBar = document.querySelector('.sidebar');
-    const newChatButton = document.getElementById('NewChat')
+    const newChatButton = document.getElementById('NewChat');
     const chatWindow = document.querySelector('#chatWindow');
-    
+
     if (mainHamburgerMenu) {
         mainHamburgerMenu.addEventListener('click', function () {
             var screenWidth = window.innerWidth;
@@ -81,10 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch((error) => console.error('Error:', error));
         });
     }
-    
-    newChatButton.addEventListener('click', function() {
-        window.location.pathname = '/workspace/chat'
-    })
+
+    newChatButton.addEventListener('click', function () {
+        window.location.pathname = '/workspace/chat';
+    });
 });
 
 //Scroll to the last Message
@@ -102,34 +102,37 @@ window.addEventListener('resize', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const sendChat = document.querySelector('#sendButton');
     const chatInput = document.querySelector('#chatInput');
-    sendChat.addEventListener('click', function () {
+    const chatWindow = document.querySelector('#chatWindow');
+
+    sendChat.addEventListener('click', async function () {
         const chat = chatInput.value.trim();
         const currentPath = window.location.pathname;
-        const botMessage = getBotResponse(chat);
 
         if (chat.length >= 1) {
             chatInput.value = '';
-
-            // Add User message
             addMessageToChat('user', chat);
-            // Get Bot response
-            setTimeout(() => {
-                addMessageToChat('bot', getBotResponse(chat));
-            }, 100);
-        }
 
-        const message = { message: chat, botMessage: botMessage };
+            // Fetch the bot response
+            const botMessage = await getBotResponseFromServer(chat);
 
-        if (currentPath === '/workspace/chat' || currentPath === '/workspace/chat/') {
-            fetch('/AddChat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(message, botMessage),
-            })
-                .then((response) => response.json())
-                .then((data) => {
+            addMessageToChat('bot', botMessage);
+            console.log(botMessage);
+
+            const message = { message: chat, botMessage: botMessage };
+
+            if (
+                currentPath === '/workspace/chat' ||
+                currentPath === '/workspace/chat/'
+            ) {
+                fetch('/AddChat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(message),
+                })
+                .then(response => response.json())
+                .then(data => {
                     if (data.success) {
                         const chatId = data.uuid; // Get the chat ID from response
                         const uuidLocation = `${window.location.origin}/workspace/chat/${chatId}`;
@@ -139,31 +142,32 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error('Failed to add chat');
                     }
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.error('Error:', error);
                 });
-        } else {
-            const chatId = extractChatIdFromPath(currentPath); // Extract chat ID from the current path
-            fetch('/AddMessages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: chat,
-                    chatId: chatId,
-                    botMessage: botMessage,
-                }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
+            } else {
+                const chatId = extractChatIdFromPath(currentPath); // Extract chat ID from the current path
+                fetch('/AddMessages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: chat,
+                        chatId: chatId,
+                        botMessage: botMessage,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
                     if (!data.success) {
                         console.error('Failed to add message');
                     }
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.error('Error:', error);
                 });
+            }
         }
     });
 
@@ -173,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return pathSegments[pathSegments.length - 1]; // Assuming the chat ID is the last segment
     }
 
-    //Show the input button if user didnt input anything button is blocked
+    // Show the input button if user didn't input anything; button is blocked
     chatInput.addEventListener('input', function () {
         if (chatInput.value.length >= 1) {
             sendChat.style.opacity = '100%';
@@ -184,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    //Put User message in the html structure
+    // Put User message in the html structure
     function addMessageToChat(sender, message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('chat-message', sender);
@@ -193,18 +197,22 @@ document.addEventListener('DOMContentLoaded', function () {
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    //Get Response from the bot
-    function getBotResponse(userMessage) {
-        const responses = {
-            hello: 'Hi there!',
-            hi: 'Hello!',
-            how: 'I am just a bot, but I am here to help!',
-            default: 'Sorry, I did not understand that.',
-        };
-        const responseKey = Object.keys(responses).find((key) =>
-            userMessage.toLowerCase().includes(key)
-        );
-        return responses[responseKey] || responses.default;
+    async function getBotResponseFromServer(userMessage) {
+        try {
+            // Fetch bot response from server
+            const response = await fetch('/getBotResponse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ chat: userMessage }),
+            });
+            const data = await response.json();
+            return data.response;
+        } catch (error) {
+            console.error('Error:', error);
+            return 'Sorry, something went wrong.';
+        }
     }
 });
 
@@ -259,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     const userMessages = data.userMessages;
                     const botMessages = data.botMessages;
-            
+
                     // Function to add a message to the chat window
                     function addMessageToChat(sender, message) {
                         const messageElement = document.createElement('div');
@@ -268,18 +276,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         chatWindow.appendChild(messageElement);
                         chatWindow.scrollTop = chatWindow.scrollHeight;
                     }
-            
+
                     // Loop through user messages and add them to the chat window
-                    userMessages.forEach(message => {
+                    userMessages.forEach((message) => {
                         addMessageToChat('user', message);
                     });
-            
+
                     // Loop through bot messages and add them to the chat window
-                    botMessages.forEach(message => {
+                    botMessages.forEach((message) => {
                         addMessageToChat('bot', message);
                     });
-                }
-                else {
+                } else {
                     console.error('Failed to retrieve messages');
                 }
             });

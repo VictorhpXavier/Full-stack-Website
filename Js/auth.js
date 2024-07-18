@@ -7,6 +7,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
+const { spawn } = require('child_process');
 
 const fs = require('fs');
 const upload = multer({ dest: 'uploads/' });
@@ -902,6 +903,7 @@ router.post('/AddChat', (req, res) => {
     });
 });
 
+
 // Add Messages Route
 router.post('/AddMessages', (req, res) => {
     const token = req.cookies.token;
@@ -1031,6 +1033,28 @@ router.post('/GetUserMessages', (req, res) => {
         res.status(500).json({ success: false, message: 'Failed to retrieve messages' });
     });
 });
+
+//Get Bot response
+router.post('/getBotResponse', (req, res) => {
+    const chat = req.body.chat;
+    const pythonProcess = spawn('python3', ['python/GetData.py', chat]);
+
+    pythonProcess.stdout.on('data', (data) => {
+        const response = data.toString().trim();
+        console.log(`Python script output: ${response}`);
+        res.json({ response });
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+        res.status(500).json({ error: 'An error occurred while processing your request.' });
+    });
+
+    pythonProcess.on('close', (code) => {
+        console.log(`Python script process exited with code ${code}`);
+    });
+});
+
 
 //Handle signout
 router.post('/signout', (req, res) => {
