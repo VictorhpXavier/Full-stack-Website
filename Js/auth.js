@@ -885,7 +885,7 @@ router.post('/AddChat', (req, res) => {
     }
 
     const addChatQuery = 'INSERT INTO Chats (chat_id, user_id, chat_name) VALUES (?, ?, ?)';
-    con.query(addChatQuery, [uuid, userId, 'test'], (err, results) => {
+    con.query(addChatQuery, [uuid, userId, chatMessage], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ success: false, message: 'Failed to add chat' });

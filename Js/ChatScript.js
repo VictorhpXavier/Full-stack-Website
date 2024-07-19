@@ -93,11 +93,7 @@ document.getElementById('sendButton').addEventListener('click', () => {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
-//Reload page if user change page size
-window.addEventListener('resize', function () {
-    'use strict';
-    window.location.reload();
-});
+
 
 document.addEventListener('DOMContentLoaded', function () {
     const sendChat = document.querySelector('#sendButton');
