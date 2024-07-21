@@ -42,7 +42,20 @@
                   <input type="password" class="Password" name="Password" placeholder="Create a Password" required>
                   <button type="button" class="ShowButton">show</button>
               </div>
-              <span class="PasswordError">Please enter your Password</span>
+              <span class="PasswordError"></span>
+              <div class="Errors">
+                <div class="Warning">
+                  Password Should have Atleast
+                </div>
+                <p id="CharP"><i class="fa-solid fa-xmark" id="CharI">  </i> 8 Characters</p>
+                <br>
+                <p><i class="fa-solid fa-xmark" id="Cap">  </i> 1 Capital Letter</p>
+                <br>
+                <p><i class="fa-solid fa-xmark" id="Num"> </i> 1 Number</p>
+                <br>
+                <p><i class="fa-solid fa-xmark" id="Spec"> </i> 1 Special Character</p>
+
+              </div>
           </div>
           <button type="submit" class="Sign-Up-button">Sign-Up</button>
       </form>

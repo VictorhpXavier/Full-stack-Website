@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.Login-Button').addEventListener('click', handleLogin);
 });
@@ -117,8 +116,7 @@ function handleRegistration(event) {
     const emailError = document.querySelector('.EmailError');
     const passwordError = document.querySelector('.PasswordError');
     const data = { email: emailValue, password: passValue };
-
-
+    
     fetch('/signup', {
         method: 'POST',
         headers: {
@@ -136,15 +134,58 @@ function handleRegistration(event) {
                         passwordError.innerHTML = error.message;
                         document.querySelector('.Password').style.border = '2px solid red';
                     }
+                    
+                    else if (error.error === 'INVALID_PASSWORD') {
+                        passwordError.style.display = 'block';
+                        passwordError.innerHTML = '';
+                        document.querySelector('.Password').style.border = '2px solid red';
+                        document.querySelector('.Errors').style.display = 'block'
+                        const passRequirements = document.querySelector('.Errors');
+
+                        const requirements = {
+                            Char: { 
+                                regex: /.{8,}/, 
+                                element: document.getElementById('CharI') 
+                            },
+                            Cap: { 
+                                regex: /[A-Z]/, 
+                                element: document.getElementById('Cap') 
+                            },
+                            Spec: { 
+                                regex: /[!"#$%&'()*+,-./:;<=>?@\[\\\]_`{}~]/, // Escaped square brackets and backslash
+                                element: document.getElementById('Spec') 
+                            },
+                            Num: { 
+                                regex: /\d/, 
+                                element: document.getElementById('Num') 
+                            },
+                        };
+                    
+                        for (const key in requirements) {
+                            if (requirements[key].regex.test(passValue)) {
+                                requirements[key].element.classList.remove('fa-xmark');
+                                requirements[key].element.classList.add('fa-check');
+                                requirements[key].element.style.color = 'green';
+                                requirements[key].element.parentElement.style.color = 'green'; 
+                            } else {
+                                requirements[key].element.classList.remove('fa-check');
+                                requirements[key].element.classList.add('fa-xmark');
+                                requirements[key].element.style.color = 'red';
+                                requirements[key].element.parentElement.style.color = 'red'; 
+                                isValid = false;
+                            }
+                        }
+                    
+                        if (!isValid) {
+                            passRequirements.style.display = 'block';
+                            return;
+                        }
+                    }
+                   
                     else if (error.error === 'NO_EMAIL') {
                         emailError.style.display = 'block';
                         emailError.innerHTML = error.message;
                         document.querySelector('.Email-address').style.border = '2px solid red';
-                    }
-                    else if (error.error === 'INVALID_PASSWORD') {
-                        passwordError.style.display = 'block';
-                        passwordError.innerHTML = error.message;
-                        document.querySelector('.Password').style.border = '2px solid red';
                     }
                     else if (error.error === 'INVALID_EMAIL') {
                         emailError.style.display = 'block';

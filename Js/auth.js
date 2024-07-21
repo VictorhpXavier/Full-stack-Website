@@ -76,18 +76,16 @@ router.post('/signup', (req, res) => {
     
     let errors = [];
     const token = req.cookies.token;
-
+    let safePassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
     if(token) {
         errors.push({ error: 'ALREADY_LOGGED_IN', message: 'Already logged in' });
     }
-    
-
     if (!password) {
         errors.push({ error: 'NO_PASSWORD', message: 'Please enter a password' });
         
-    } else if (password.length < 8) {
-        errors.push({ error: 'INVALID_PASSWORD', message: 'Password must be 8 characters or more' });
-    }
+    } else if (!safePassword.test(password)) {
+        errors.push({ error: 'INVALID_PASSWORD' });
+    } 
     if (!email) {
         errors.push({ error: 'NO_EMAIL', message: 'Please enter an email' });
     } else if (!isValidEmail.test(email)) {
@@ -1068,4 +1066,3 @@ router.post('/signout', (req, res) => {
 
 module.exports = con;
 module.exports = router;
-

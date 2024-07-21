@@ -298,7 +298,18 @@ a {
     text-decoration: underline;
 }
 
-
+h3 {
+	margin-top: 50px;
+	font-size: 14px;
+	text-align: center;
+	color: black;
+	border-bottom: 1px solid black ;
+	margin-bottom: 15px;
+}
+.ConnectGoogle {
+	transform: translateX(50%);
+}
+/* Handle Errors */
 .EmailError {
     display: none;
     visibility: visible;
@@ -317,16 +328,24 @@ a {
     color: rgb(255, 0, 0);
     font-weight: bold;
 }
-h3 {
-	margin-top: 50px;
-	font-size: 14px;
-	text-align: center;
-	color: black;
-	border-bottom: 1px solid black ;
-	margin-bottom: 15px;
+.Errors {
+	display: none;
 }
-.ConnectGoogle {
-	transform: translateX(50%);
+.Errors .Warning {
+	border: none;
+	font-size: 14px;
+	font-weight: 700;
+	color: rgb(255, 0, 0);
+}
+.Errors i{
+	margin-top: 5px;
+	color: red;
+	font-size: 13px;
+}
+.Errors p {
+	font-weight: 700 ;
+	font-size: 12px;
+	color: red;
 }
 /* Keyframes */
 @keyframes hamburger_puls {
