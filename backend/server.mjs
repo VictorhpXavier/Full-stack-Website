@@ -1,13 +1,15 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import authRoutes from '../Js/auth.js'; // Import auth routes
+import ipLogger from './ipLogger.js'
+import authRoutes from './auth.js'; // Import auth routes
 import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use(ipLogger)
 
 app.use(authRoutes);
 
@@ -111,6 +113,7 @@ app.get('/test', (req, res) => {
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '../html/Page-Not-Found.html'));
 });
+
 
 
 app.listen(port, () => {

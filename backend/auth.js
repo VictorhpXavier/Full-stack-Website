@@ -1,4 +1,3 @@
-const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -8,13 +7,12 @@ const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 const { spawn } = require('child_process');
-
+const con = require('../Database/Dbconnection.js')
 const fs = require('fs');
 const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
-require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 router.use(cookieParser());
 
@@ -23,19 +21,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const con = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-});
-con.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err);
-        return;
-    }
-    console.log('Connected to MySQL database');
-});
 
 const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -73,7 +58,8 @@ router.get('/get-email', (req, res) => {
 //Handle Signup Logic
 router.post('/signup', (req, res) => {
     const { email, password } = req.body;
-    
+    const clientIp = req.clientIp;
+
     let errors = [];
     const token = req.cookies.token;
     let safePassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
@@ -111,8 +97,8 @@ router.post('/signup', (req, res) => {
                     console.error('Error hashing password:', err);
                     return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to hash password' });
                 }
-                const insertQuery = 'INSERT INTO Users (email, password_hash) VALUES (?, ?)';
-                con.query(insertQuery, [email, hash], (err) => {
+                const insertQuery = 'INSERT INTO Users (email, password_hash, last_ip) VALUES (?, ?, ?)';
+                con.query(insertQuery, [email, hash, clientIp], (err) => {
                     if (err) {
                         console.error('Error executing MySQL query:', err);
                         return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to create user' });
