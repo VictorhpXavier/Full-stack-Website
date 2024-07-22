@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import ipLogger from './ipLogger.js'
+import DeviceLogger from './DeviceLogger.js'
 import authRoutes from './auth.js'; // Import auth routes
 import cookieParser from 'cookie-parser';
 
@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(ipLogger)
+app.use(DeviceLogger)
 
 app.use(authRoutes);
 

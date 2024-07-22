@@ -16,10 +16,9 @@ const router = express.Router();
 const secretKey = process.env.SECRET_KEY;
 router.use(cookieParser());
 
-const app = express();
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+router.use(bodyParser.json());
+router.use(cookieParser());
+router.use(express.static(path.join(__dirname, 'public')));
 
 
 const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +55,7 @@ router.get('/get-email', (req, res) => {
 });
 
 //Handle Signup Logic
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
     const clientIp = req.clientIp;
 
@@ -97,8 +96,8 @@ router.post('/signup', (req, res) => {
                     console.error('Error hashing password:', err);
                     return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to hash password' });
                 }
-                const insertQuery = 'INSERT INTO Users (email, password_hash, last_ip) VALUES (?, ?, ?)';
-                con.query(insertQuery, [email, hash, clientIp], (err) => {
+                const insertQuery = 'INSERT INTO Users (email, password_hash) VALUES (?, ?)';
+                con.query(insertQuery, [email, hash], (err) => {
                     if (err) {
                         console.error('Error executing MySQL query:', err);
                         return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to create user' });
@@ -119,7 +118,16 @@ router.post('/signup', (req, res) => {
                    
                     console.log('Secret Token:', token);
                     console.log('User created successfully');
+                    const ImplementSecurity = 'INSERT INTO Security (email, Default_Ip_Address, Current_Ip) VALUES (?, ?, ?)'
+                    con.query(ImplementSecurity, [email, clientIp, clientIp], (err) => {
+                        if (err) {
+                            console.error('Error executing MySQL query:', err);
+                        }
+
+                    })
                     return res.status(201).json({ message: 'User created successfully' });
+
+                    
                 });
             });
         }
