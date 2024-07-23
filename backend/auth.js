@@ -10,7 +10,7 @@ const { spawn } = require('child_process');
 const con = require('../Database/Dbconnection.js')
 const fs = require('fs');
 const upload = multer({ dest: 'uploads/' });
-
+const security = require('./DeviceLogger');
 const router = express.Router();
 
 const secretKey = process.env.SECRET_KEY;
@@ -190,10 +190,9 @@ router.post('/login', (req, res) => {
                     maxAge: 60 * 60 * 7 * 24 * 365 * 1000, // 1 year
                     secure: process.env.NODE_ENV === 'production',
                 })
-                console.log('Secret Token:', token);
-
-                console.log('User logged in successfully');
                 return res.status(200).json({ message: 'User logged in successfully' });
+                
+                
             });
         }
     });
