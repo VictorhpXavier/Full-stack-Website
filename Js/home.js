@@ -1,3 +1,4 @@
+
 const hamburger = document.querySelector(
     '.header .nav-bar .nav-list .hamburger'
 );
@@ -41,6 +42,7 @@ window.addEventListener('resize', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    updateUserPhotoLink()
     //Handle Profile Menu
     const CircleButton = document.querySelector('#CircleButton');
     const DropDownMenu = document.querySelector('.DropDownMenu');
@@ -413,3 +415,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
    
 });
+function updateUserPhotoLink() {
+    fetch('/updatePhotoLink', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // Ensure cookies are sent with the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        const circleElement = document.getElementById('Circle');
+        if (data.success) {
+            if (data.photoLink) {
+                const photoUrl = `/uploads/${data.photoLink}`;
+                circleElement.style.backgroundImage = `url(${photoUrl})`;
+            } 
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update photo link');
+    });
+}

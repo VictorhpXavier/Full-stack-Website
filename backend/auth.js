@@ -9,16 +9,14 @@ const multer = require('multer');
 const { spawn } = require('child_process');
 const con = require('../Database/Dbconnection.js')
 const fs = require('fs');
-const upload = multer({ dest: 'uploads/' });
-const security = require('./DeviceLogger');
 const router = express.Router();
 
 const secretKey = process.env.SECRET_KEY;
-router.use(cookieParser());
 
 router.use(bodyParser.json());
 router.use(cookieParser());
 router.use(express.static(path.join(__dirname, 'public')));
+const upload = multer({ dest: 'uploads/' });
 
 
 const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,7 +51,6 @@ router.get('/get-email', (req, res) => {
         return res.status(400).json({ error: 'Invalid Token' });
     }
 });
-
 //Handle Signup Logic
 router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
@@ -793,63 +790,57 @@ router.post('/CheckUserLanguage', (req, res) => {
 });
 
 /* Change USer profile photo */
+
 router.post('/userPhoto', upload.single('file'), (req, res) => {
     console.log('File received:', req.file);
+
     if (!req.file) {
         console.log('No file uploaded');
         return res.status(400).json({ error: 'No file uploaded' });
     }
+
+    const email = req.email;
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, 'uploads', req.file.originalname);
 
-    fs.rename(tempPath, targetPath, err => {
+    const photoName = req.file.filename;
+    const InsertPhoto = 'UPDATE Users SET PhotoLink = ? WHERE email = ?';
+
+    con.query(InsertPhoto, [photoName, email], (err) => {
         if (err) {
-            console.log('File move failed:', err);
-            return res.status(500).json({ success: false, message: 'File move failed' });
+            console.log('Database update failed:', err);
+            return res.status(500).json({ success: false, message: 'Database update failed' });
         }
 
         const fileUrl = `http://localhost:3000/uploads/${req.file.originalname}`;
-        console.log('File uploaded to:', fileUrl);
+        console.log('File uploaded to2sasfsaf:', fileUrl);
         res.json({ success: true, imageUrl: fileUrl });
     });
 });
 
-router.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 router.post('/updatePhotoLink', (req, res) => {
-    const { photoLink } = req.body;
     const token = req.cookies.token;
-
+    const email = req.email; 
     if (!token) {
         return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
+    const GetPhotoLink = 'SELECT PhotoLink FROM Users WHERE email = ?';
 
-    const verifyUserQuery = 'SELECT * FROM Users WHERE id = ?';
-    con.query(verifyUserQuery, [userId], (err, results) => {
+    con.query(GetPhotoLink, [email], (err, results) => {
         if (err) {
+            console.log('Database query error:', err);
             return res.status(500).json({ success: false, message: 'Database query failed' });
         }
 
         if (results.length === 0) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+            return res.status(404).json({ success: false, message: 'No photo link found' });
         }
 
-        const updatePhotoLinkQuery = 'UPDATE Users SET PhotoLink = ? WHERE id = ?';
-        con.query(updatePhotoLinkQuery, [photoLink, userId], (err, results) => {
-            if (err) {
-                return res.status(500).json({ success: false, message: 'Failed to update photo link' });
-            }
-
-            res.json({ success: true });
-        });
+        const photoLink = results[0].PhotoLink; 
+        res.json({ success: true, photoLink: photoLink });
     });
 });
 
@@ -1056,6 +1047,7 @@ router.post('/signout', (req, res) => {
 
     res.status(200).json({ message: 'Signed out successfully' });
 });
+
 
 module.exports = con;
 module.exports = router;

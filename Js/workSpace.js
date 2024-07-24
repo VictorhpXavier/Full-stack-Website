@@ -42,6 +42,7 @@ menu_item.forEach((item) => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    updateUserPhotoLink()
     //If user is Logged In then show the Profile Menu and remove the register / login
 
     function getCookie(name) {
@@ -504,3 +505,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
 })
 */
+function updateUserPhotoLink() {
+    fetch('/updatePhotoLink', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // Ensure cookies are sent with the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        const circleElement = document.getElementById('Circle');
+        if (data.success) {
+            if (data.photoLink) {
+                const photoUrl = `/uploads/${data.photoLink}`;
+                circleElement.style.backgroundImage = `url(${photoUrl})`;
+            } 
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update photo link');
+    });
+}

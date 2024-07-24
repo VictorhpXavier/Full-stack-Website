@@ -1,13 +1,17 @@
 const express = require('express');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const security = express.Router();
+const security = express();
 const con = require('../Database/Dbconnection.js')
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
+const requestIp = require('request-ip');
+
+security.use(requestIp.mw());
 
 require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
+
 
 security.use(async (req, res, next) => {
     const staticPaths = ['/Logo', '/Css', '/wallpapers', '/Country_Flags', '/Features_Images', '/UserIcon', '/imagesRevamp', '/mascot', '/Js', '/uploads', '/python'];
@@ -24,6 +28,8 @@ security.use(async (req, res, next) => {
         ip = ip.substr(7);
     }
     req.clientIp = ip;
+    
+
 
     // check the location of the user based on IP
     const checkLocation = async (ip) => {
@@ -181,6 +187,9 @@ const sendVerificationCode = (req, res, next) => {
 const showCaptcha = (req, res, next) => {
     next();
 };
+
+
+
 
 module.exports = security
 

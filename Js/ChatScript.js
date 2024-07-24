@@ -96,6 +96,8 @@ document.getElementById('sendButton').addEventListener('click', () => {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    updateUserPhotoLink()
+
     const sendChat = document.querySelector('#sendButton');
     const chatInput = document.querySelector('#chatInput');
     const chatWindow = document.querySelector('#chatWindow');
@@ -334,4 +336,28 @@ function adjustChatButtonHeight() {
     const availableHeight = viewportHeight - sidebarItemTop - 60; // 20px from bottom
 
     chatButton.style.maxHeight = `${availableHeight}px`;
+}
+
+function updateUserPhotoLink() {
+    fetch('/updatePhotoLink', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // Ensure cookies are sent with the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        const circleElement = document.getElementById('Circle');
+        if (data.success) {
+            if (data.photoLink) {
+                const photoUrl = `/uploads/${data.photoLink}`;
+                circleElement.style.backgroundImage = `url(${photoUrl})`;
+            } 
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update photo link');
+    });
 }

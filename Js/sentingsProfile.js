@@ -42,6 +42,9 @@ menu_item.forEach((item) => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    //ChangeProfile Pic
+    updateUserPhotoLink()
+
     //If user is Logged In then show the Profile Menu and remove the register / login
 
     function getCookie(name) {
@@ -249,81 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-//Change profile pic
-document.addEventListener('DOMContentLoaded', function() {
-    /* 
-    CHECK USER PROFILE PHOTO IF HE NEVER UPLOAD ONE USE DEFAULT ELSE
-    USE HIS PHOTO
 
-    fetch('/CheckUserPhoto', {
-        method: 'POST',
-    })
-    .then(response => response.json())
-    .then(data => {
-        const imageUrl = data.imageUrl;
-        if(error.error === 'NULL') {
-            //If user is Logged In then show the Profile Menu and remove the register / login
-            document.addEventListener('DOMContentLoaded', function() {
-                function getCookie(name) {
-                    const value = `; ${document.cookie}`;
-                    const parts = value.split(`; ${name}=`);
-                    if (parts.length === 2) return parts.pop().split(';').shift();
-                }
-            
-
-                const token = getCookie('token');
-                const loggedIn = getCookie('loggedIn');
-            
-                if (token || loggedIn === 'true') {
-                    const LoginElement = document.getElementById('Login');
-                    const AccountStatus = document.getElementById('Circle');
-
-                
-                    console.log('User is logged in. Modifying the DOM accordingly.');
-                
-                    LoginElement.innerHTML = "WorkSpace";
-                    LoginElement.href = '/workspace';
-                    LoginElement.dataset.after = 'Work\nspace';
-                    document.getElementById('Register').innerHTML = '';
-                    AccountStatus.style.display = 'inline-block';
-                
-                } else {
-                    console.log('User is not logged in.');
-                }
-            });
-        }else {
-            //If user is Logged In and has a photo use his photo
-            document.addEventListener('DOMContentLoaded', function() {
-                function getCookie(name) {
-                    const value = `; ${document.cookie}`;
-                    const parts = value.split(`; ${name}=`);
-                    if (parts.length === 2) return parts.pop().split(';').shift();
-                }
-        
-                const token = getCookie('token');
-                const loggedIn = getCookie('loggedIn');
-            
-                if (token || loggedIn === 'true') {
-                    const LoginElement = document.getElementById('Login');
-                    const AccountStatus = document.getElementById('Circle');
-
-                
-                    console.log('User is logged in. Modifying the DOM accordingly.');
-                
-                    LoginElement.innerHTML = "WorkSpace";
-                    LoginElement.href = '/workspace';
-                    LoginElement.dataset.after = 'Work\nspace';
-                    document.getElementById('Register').innerHTML = '';
-                    AccountStatus.style.backgroundImage = imageUrl
-                
-                } else {
-                    console.log('User is not logged in.');
-                }
-            });
-        }
-    })
-    */
-})
 document.getElementById('fileInput').addEventListener('change', function(event) {
     const fileInput = event.target;
     const file = fileInput.files[0];
@@ -355,23 +284,25 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
     });
 });
 
-function updateUserPhotoLink(imageUrl) {
+function updateUserPhotoLink() {
     fetch('/updatePhotoLink', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ photoLink: imageUrl })
+        credentials: 'include' // Ensure cookies are sent with the request
     })
     .then(response => response.json())
     .then(data => {
+        const circleElement = document.getElementById('Circle');
         if (data.success) {
-            document.getElementById('Circle').style.backgroundImage = `url(${imageUrl})`;
-        } else {
-            alert('Failed to update photo link');
-        }
+            if (data.photoLink) {
+                const photoUrl = `/uploads/${data.photoLink}`;
+                circleElement.style.backgroundImage = `url(${photoUrl})`;
+            } 
+        } 
     })
-    .catch((error) => {
+    .catch(error => {
         console.error('Error:', error);
         alert('Failed to update photo link');
     });
