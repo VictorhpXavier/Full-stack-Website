@@ -1,4 +1,4 @@
-
+/*
 const hamburger = document.querySelector(
     '.header .nav-bar .nav-list .hamburger'
 );
@@ -35,63 +35,17 @@ hamburgerButton.addEventListener('click', () => {
         CenaChata.style.display = '';
     }
 });
-
+*/
 window.addEventListener('resize', function () {
     'use strict';
     window.location.reload();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    updateUserPhotoLink()
-    //Handle Profile Menu
-    const CircleButton = document.querySelector('#CircleButton');
-    const DropDownMenu = document.querySelector('.DropDownMenu');
-    const SignOutButton = document.querySelector(
-        '.DropDownMenu .DropDownContent #SignOut'
-    );
+    
 
-    if (CircleButton) {
-        CircleButton.addEventListener('click', function () {
-            if (
-                DropDownMenu.style.display === 'none' ||
-                DropDownMenu.style.display === ''
-            ) {
-                DropDownMenu.style.display = 'inline-block';
-            } else {
-                DropDownMenu.style.display = 'none';
-            }
-        });
-    }
-    window.addEventListener('click', (event) => {
-        if (CircleButton && !CircleButton.contains(event.target)) {
-            DropDownMenu.style.display = 'none';
-        }
-    });
-
-    if (SignOutButton) {
-        SignOutButton.addEventListener('click', function () {
-            // Clear cookies
-            document.cookie =
-                'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            document.cookie =
-                'loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-
-            // Optionally make a request to the server to clear any server-side session
-            fetch('/signout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data.message);
-                    // Redirect the user to the login page or home page
-                    window.location.href = '/login';
-                })
-                .catch((error) => console.error('Error:', error));
-        });
-    }
+    
+    /*
     //Check User language preference
     const languageButton = document.querySelector('#footer .Country-Flag');
     const options = document.querySelectorAll('#footer .dropdown .option');
@@ -243,31 +197,83 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
+        */
     //If user is Logged In then show the Profile Menu and remove the register / login
-
+        alert('test')
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-
+    
+    // Handle Profile pic
     const token = getCookie('token');
     const loggedIn = getCookie('loggedIn');
-
     if (token || loggedIn === 'true') {
-        const LoginElement = document.getElementById('Login');
-        const AccountStatus = document.getElementById('Circle');
-        document.querySelector('.FreeSignUp-Button').style.display = 'none';
-
+        const LoginElement = document.querySelector('#header .Auth .Login');
+        const AccountStatus = document.querySelector('#header .Auth ul li a #Circle');
+        document.querySelector('.SignUpul').style.display = 'none';
+    
         console.log('User is logged in. Modifying the DOM accordingly.');
-
+        LoginElement.style.marginTop = '100px'
         LoginElement.innerHTML = 'WorkSpace';
         LoginElement.href = '/workspace';
         LoginElement.dataset.after = 'Work\nspace';
-        document.getElementById('Register').innerHTML = '';
+
         AccountStatus.style.display = 'inline-block';
     } else {
-        console.log('User is not logged in.');
+        AccountStatus.style.display = 'none'
+    }
+    
+    // Toggle dropdown menu visibility
+    const CircleButton = document.querySelector('#header .Auth #CircleButton');
+    const DropDownMenu = document.querySelector('#header .DropDownMenu');
+    
+    
+    //Handle Profile Menu
+
+    const SignOutButton = document.querySelector('.DropDownMenu .DropDownContent #SignOut' );
+
+    if (CircleButton) {
+        CircleButton.addEventListener('click', function () {
+            if (
+                DropDownMenu.style.display === 'none' ||
+                DropDownMenu.style.display === ''
+            ) {
+                DropDownMenu.style.display = 'inline-block';
+            } else {
+                DropDownMenu.style.display = 'none';
+            }
+        });
+    }
+    window.addEventListener('click', (event) => {
+        if (CircleButton && !CircleButton.contains(event.target)) {
+            DropDownMenu.style.display = 'none';
+        }
+    });
+    if (SignOutButton) {
+        SignOutButton.addEventListener('click', function () {
+            // Clear cookies
+            document.cookie =
+                'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie =
+                'loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+            // Optionally make a request to the server to clear any server-side session
+            fetch('/signout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data.message);
+                    // Redirect the user to the login page or home page
+                    window.location.href = '/login';
+                })
+                .catch((error) => console.error('Error:', error));
+        });
     }
     //Dark mode Logic
     const DarkModeButton = document.querySelector('#DarkMode');
