@@ -65,7 +65,8 @@
             </form>
         </div>
         <div class="WatchDemo">
-            <button>Watch Demo</button>
+            
+            <a href="#DemoVideo"><button>Watch Demo</button></a>
         </div>
     </div>
 </section>
@@ -128,11 +129,23 @@
         <p>Join thousands of learners who are transforming <br>their educational experience with <strong>V<span>H</span>X</strong>. Sign up now <br>to unlock the power of AI-driven content.</p>
     </div>
     <div class="form-content">
-        <form id="signup-form">
+        <form id="signup-form" method="post" onsubmit="handleRegistration(event)">
             <h1>Create Account</h1>
-            <input type="email" id="email" name="email" placeholder="Create an Email" required>
-            <input type="password" id="password" name="password" placeholder="Create a Password" required>
-            <button type="submit">Sign up now</button>
+            <input type="email" id="email" name="Email" placeholder="Create an Email" required>
+            <span class="EmailError">Please enter your Email address</span>
+            <div class="Password-container">
+                <input type="password" id="password" name="password" placeholder="Create a Password" required>
+                <button type="button" class="ShowButton">show</button>
+            </div>
+            <span class="PasswordError"></span>
+            <div class="Errors">
+                <div class="Warning">Password Should have At least</div>
+                <p id="CharP"><i class="fa-solid fa-xmark" id="CharI"></i> 8 Characters</p>
+                <p><i class="fa-solid fa-xmark" id="Cap"></i> 1 Capital Letter</p>
+                <p><i class="fa-solid fa-xmark" id="Num"></i> 1 Number</p>
+                <p><i class="fa-solid fa-xmark" id="Spec"></i> 1 Special Character</p>
+            </div>
+            <button type="submit" class="Sign-Up-button">Sign up now</button>
         </form>
     </div>
 </section>
@@ -146,8 +159,8 @@
         <div class="footer-links">
             <div class="links-column">
                 <a href="#">Home</a>
-                <a href="#">Features</a>
-                <a href="#">About us</a>
+                <a href="#Features">Features</a>
+                <a href="#About">About us</a>
                 <a href="#">Contact</a>
                 <a href="#">Common questions</a>
             </div>

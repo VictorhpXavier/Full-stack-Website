@@ -491,7 +491,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 subjectInput.style.border = '';
                                 errormessage.style.display = '';
                                 GetStarted.style.display = 'none';
-                                alert('UserAdded')
                                 location.reload()
 
                             }
@@ -522,9 +521,9 @@ function updateUserPhotoLink() {
                 circleElement.style.backgroundImage = `url(${photoUrl})`;
             } 
         } 
+        circleElement.style.backgroundImage = `url('../UserIcon/UnkwonUser.png')`;
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Failed to update photo link');
     });
 }

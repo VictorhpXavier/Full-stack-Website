@@ -258,7 +258,6 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
     const file = fileInput.files[0];
 
     if (!file) {
-        alert('No file selected!');
         return;
     }
 
@@ -274,13 +273,10 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
         if (data.success) {
             const imageUrl = data.imageUrl;
             updateUserPhotoLink(imageUrl);
-        } else {
-            alert('File upload failed');
-        }
+        } 
     })
     .catch((error) => {
         console.error('Error:', error);
-        alert('File upload failed');
     });
 });
 
@@ -301,9 +297,9 @@ function updateUserPhotoLink() {
                 circleElement.style.backgroundImage = `url(${photoUrl})`;
             } 
         } 
+        circleElement.style.backgroundImage = `url('../UserIcon/UnkwonUser.png')`;
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Failed to update photo link');
     });
 }
