@@ -42,8 +42,6 @@ window.addEventListener('resize', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    updateUserPhotoLink()
-
     
     /*
     //Check User language preference
@@ -221,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
         LoginElement.dataset.after = 'Work\nspace';
         document.querySelector('#CTA').style.display = 'none'
         AccountStatus.style.display = 'inline-block';
+        updateUserPhotoLink()
     }
     
     // Toggle dropdown menu visibility
@@ -419,29 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
    
 });
-function updateUserPhotoLink() {
-    fetch('/updatePhotoLink', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include' // Ensure cookies are sent with the request
-    })
-    .then(response => response.json())
-    .then(data => {
-        const circleElement = document.getElementById('Circle');
-        if (data.success) {
-            if (data.photoLink) {
-                const photoUrl = `/uploads/${data.photoLink}`;
-                circleElement.style.backgroundImage = `url(${photoUrl})`;
-            } 
-        } 
-        circleElement.style.backgroundImage = `url('../UserIcon/UnkwonUser.png')`;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const showButton = document.querySelector('#CTA .form-content .ShowButton');
@@ -568,5 +545,27 @@ function handleRegistration(event) {
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
+    });
+}
+function updateUserPhotoLink() {
+    fetch('/updatePhotoLink', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // Ensure cookies are sent with the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        const circleElement = document.querySelector('#header .Auth ul li a #Circle');
+        if (data.success) {
+            if (data.photoLink) {
+                const photoUrl = `/uploads/${data.photoLink}`;
+                circleElement.style.backgroundImage = `url(${photoUrl})`;
+            } 
+        } 
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
 }

@@ -931,7 +931,7 @@ router.post('/GetUserInfo', (req, res) => {
     }
 
     //Get User chat's History
-    const ChatHistory = 'SELECT chat_name, chat_id FROM Chats WHERE user_id = ?';
+    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ?';
 
     con.query(ChatHistory, [userId], (err, results) => {
         if (err) {
@@ -960,7 +960,7 @@ router.post('/GetUserChatHistory', (req, res) => {
     } catch (error) {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
-    const ChatHistory = 'SELECT chat_name, chat_id FROM Chats WHERE user_id = ?';
+    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ?';
 
     con.query(ChatHistory, [userId], (err, results) => {
         if (err) {
@@ -976,7 +976,6 @@ router.post('/GetUserChatHistory', (req, res) => {
 
 router.post('/GetUserMessages', (req, res) => {
     const chatId = req.body.chatId;
-    console.log(chatId);
 
     const GetUserMessages = 'SELECT message_content FROM Messages WHERE chat_id = ?';
     const GetBotMessages = 'SELECT bot_message FROM Messages WHERE chat_id = ?';
@@ -1037,6 +1036,31 @@ router.post('/getBotResponse', (req, res) => {
     });
 });
 
+router.post('/RenameChat', (req, res) => {
+    const token = req.cookies.token;
+    const { chatlink, newName } = req.body;
+    const chatlinkId = chatlink.match(/\/([^\/]+)$/)[1];
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    let userId;
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        userId = decoded.userId;
+    } catch (err) {
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
+    }
+
+    const renameChat = 'UPDATE Chats SET chat_name = ? WHERE chat_id = ?';
+    con.query(renameChat, [newName, chatlinkId], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: 'Database update failed' });
+        }
+        res.status(200).json({ success: true });
+    });
+});
 
 //Handle signout
 router.post('/signout', (req, res) => {

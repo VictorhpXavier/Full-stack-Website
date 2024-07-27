@@ -235,18 +235,159 @@ document.addEventListener('DOMContentLoaded', function () {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    const chats = data.chatHistory;
-                    if (chats.length > 0) {
+                    const chats = data.chatHistory; 
+                    console.log('Original chats:', chats);
+                    
+                    // Filter out chats that are not visible to the user
+                    const visibleChats = chats.filter(chat => chat.visibleToUser === 1);
+                    
+                    if (visibleChats.length > 0) {
+                        // Sort the visible chats by updated_at date in descending order
+                        visibleChats.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                
                         UserChat.style.display = 'flex';
-                        for (let i = 0; i < chats.length; i++) {
-                            const chat = chats[i];
+                        for (let i = 0; i < visibleChats.length; i++) {
+                            const chat = visibleChats[i];
                             const newButton = document.createElement('a');
-                            newButton.textContent = chat.chat_name;
                             newButton.href = `/workspace/chat/${chat.chat_id}`;
+                            newButton.classList.add('chat-button');
+
+                            // Create a container for the chat name
+                            const chatNameContainer = document.createElement('span');
+                            chatNameContainer.textContent = chat.chat_name;
+
+                            // Append the chat name container to the new button
+                            newButton.appendChild(chatNameContainer);
+
+                            const span = document.createElement('span');
+                            const settings = document.createElement('span');
+
+                            settings.textContent = 'settings';
+                            settings.classList.add('settings');
+                            span.textContent = '...';
+                            span.classList.add('dots');
+
+                            span.appendChild(settings);
+                            newButton.appendChild(span);
+
+                            const buttonContainer = document.getElementById('chatButtonContainer');
                             buttonContainer.appendChild(newButton);
+
+                            // Create menu for Delete and Rename
+                            const menu = document.createElement('div');
+                            menu.classList.add('menu');
+                            menu.innerHTML = `
+                                <div class="menu-item rename">Rename</div>
+                                <div class="menu-item delete">Delete</div>
+                            `;
+                            document.body.appendChild(menu);
+
+                            newButton.addEventListener('mouseenter', function() {
+                                span.style.display = 'flex';
+                            });
+
+                            newButton.addEventListener('mouseleave', function() {
+                                span.style.display = 'none';
+                                
+                            });
+
+                            span.addEventListener('mouseenter', function() {
+                                newButton.style.backgroundColor = '#424242';
+                                settings.style.display = 'block';
+                            });
+                            span.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                // Show menu at the position of the span
+                                const rect = span.getBoundingClientRect();
+                                menu.style.top = `${rect.bottom}px`;
+                                menu.style.left = `${rect.left}px`;
+                                menu.style.display = 'block';
+                            });
+                            
+                            span.addEventListener('mouseleave', function() {
+                                newButton.style.backgroundColor = '';
+                                settings.style.display = 'none';
+                            });
+                           
+                           
+                            // Hide menu when clicking outside
+                            document.addEventListener('click', function(event) {
+                                if (!span.contains(event.target) && !menu.contains(event.target)) {
+                                    menu.style.display = 'none';
+                                }
+                            });
+
+                            // Menu item event listeners
+
+                            menu.querySelector('.rename').addEventListener('click', function() {
+                                menu.style.display = 'none';
+                            
+                                // Create an input field for renaming
+                                const input = document.createElement('input');
+                                input.type = 'text';
+                                input.value = chat.chat_name;
+                                input.classList.add('rename-input');
+                            
+                                // Replace the chat name container with the input field
+                                newButton.replaceChild(input, chatNameContainer);
+                            
+                                // Focus on the input field and select the text
+                                input.focus();
+                                input.select();
+                            
+                                // Handle input field events
+                                input.addEventListener('blur', function() {
+                                    newButton.replaceChild(chatNameContainer, input);
+                                });
+                            
+                                input.addEventListener('keydown', function(event) {
+                                    if (event.key === 'Enter') {
+                                        const newName = input.value;
+                                        const chatlink = newButton.href; 
+                                        
+                                        
+                                        fetch('/RenameChat', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ chatlink: chatlink, newName: newName }),
+                                        })
+                                        .then((response) => response.json())
+                                        .then((data) => {
+                                            if (data.success) {
+                                                chatNameContainer.textContent = newName;
+                                                newButton.replaceChild(chatNameContainer, input);
+                                            } 
+                                        });
+                                    } else if (event.key === 'Escape') {
+                                        // Restore the original chat name container if input loses focus
+                                        newButton.replaceChild(chatNameContainer, input);
+                                    }
+                                });
+                            });
+                            menu.querySelector('.delete').addEventListener('click', function() {
+
+                                const chatlink = newButton.href
+                                fetch('/DeleteChat', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ chatlink: chatlink }),
+                                }).then((response) => response.json())
+                                .then((data) => {
+                                    if(data.success) {
+                                        window.reload()
+                                    }
+                                })
+                            });
+
+                            
                         }
                     }
-                } else {
+                }
+                else {
                     console.error('Failed to retrieve chat history');
                 }
             })
@@ -302,18 +443,160 @@ document.addEventListener('DOMContentLoaded', function () {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    const chats = data.chatHistory;
-                    if (chats.length > 0) {
+                    const chats = data.chatHistory; 
+                    console.log('Original chats:', chats);
+                    
+                    // Filter out chats that are not visible to the user
+                    const visibleChats = chats.filter(chat => chat.visibleToUser === 1);
+                    
+                    if (visibleChats.length > 0) {
+                        // Sort the visible chats by updated_at date in descending order
+                        visibleChats.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                
                         UserChat.style.display = 'flex';
-                        for (let i = 0; i < chats.length; i++) {
-                            const chat = chats[i];
+                        for (let i = 0; i < visibleChats.length; i++) {
+                            const chat = visibleChats[i];
                             const newButton = document.createElement('a');
-                            newButton.textContent = chat.chat_name;
                             newButton.href = `/workspace/chat/${chat.chat_id}`;
+                            newButton.classList.add('chat-button');
+
+                            // Create a container for the chat name
+                            const chatNameContainer = document.createElement('span');
+                            chatNameContainer.textContent = chat.chat_name;
+
+                            // Append the chat name container to the new button
+                            newButton.appendChild(chatNameContainer);
+
+                            const span = document.createElement('span');
+                            const settings = document.createElement('span');
+
+                            settings.textContent = 'settings';
+                            settings.classList.add('settings');
+                            span.textContent = '...';
+                            span.classList.add('dots');
+
+                            span.appendChild(settings);
+                            newButton.appendChild(span);
+
+                            const buttonContainer = document.getElementById('chatButtonContainer');
                             buttonContainer.appendChild(newButton);
+
+                            // Create menu for Delete and Rename
+                            const menu = document.createElement('div');
+                            menu.classList.add('menu');
+                            menu.innerHTML = `
+                                <div class="menu-item rename">Rename</div>
+                                <div class="menu-item delete">Delete</div>
+                            `;
+                            document.body.appendChild(menu);
+
+                            newButton.addEventListener('mouseenter', function() {
+                                span.style.display = 'flex';
+                            });
+
+                            newButton.addEventListener('mouseleave', function() {
+                                span.style.display = 'none';
+                                
+                            });
+
+                            span.addEventListener('mouseenter', function() {
+                                newButton.style.backgroundColor = '#424242';
+                                settings.style.display = 'block';
+                            });
+                            span.addEventListener('click', function(event) {
+                                event.preventDefault();
+                                // Show menu at the position of the span
+                                const rect = span.getBoundingClientRect();
+                                menu.style.top = `${rect.bottom}px`;
+                                menu.style.left = `${rect.left}px`;
+                                menu.style.display = 'block';
+                            });
+                            
+                            span.addEventListener('mouseleave', function() {
+                                newButton.style.backgroundColor = '';
+                                settings.style.display = 'none';
+                            });
+                           
+                           
+                            // Hide menu when clicking outside
+                            document.addEventListener('click', function(event) {
+                                if (!span.contains(event.target) && !menu.contains(event.target)) {
+                                    menu.style.display = 'none';
+                                }
+                            });
+
+                            // Menu item event listeners
+
+                            menu.querySelector('.rename').addEventListener('click', function() {
+                                menu.style.display = 'none';
+                            
+                                // Create an input field for renaming
+                                const input = document.createElement('input');
+                                input.type = 'text';
+                                input.value = chat.chat_name;
+                                input.classList.add('rename-input');
+                            
+                                // Replace the chat name container with the input field
+                                newButton.replaceChild(input, chatNameContainer);
+                            
+                                // Focus on the input field and select the text
+                                input.focus();
+                                input.select();
+                            
+                                // Handle input field events
+                                input.addEventListener('blur', function() {
+                                    newButton.replaceChild(chatNameContainer, input);
+                                });
+                            
+                                input.addEventListener('keydown', function(event) {
+                                    if (event.key === 'Enter') {
+                                        const newName = input.value;
+                                        const chatlink = newButton.href; 
+                                        
+                                        
+                                        fetch('/RenameChat', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ chatlink: chatlink, newName: newName }),
+                                        })
+                                        .then((response) => response.json())
+                                        .then((data) => {
+                                            if (data.success) {
+                                                chatNameContainer.textContent = newName;
+                                                newButton.replaceChild(chatNameContainer, input);
+                                            } else {
+                                            }
+                                        });
+                                    } else if (event.key === 'Escape') {
+                                        // Restore the original chat name container if input loses focus
+                                        newButton.replaceChild(chatNameContainer, input);
+                                    }
+                                });
+                            });
+                            menu.querySelector('.delete').addEventListener('click', function() {
+
+                                const chatlink = newButton.href
+                                fetch('/DeleteChat', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ chatlink: chatlink }),
+                                }).then((response) => response.json())
+                                .then((data) => {
+                                    if(data.success) {
+                                        window.reload()
+                                    }
+                                })
+                            });
+
+                            
                         }
                     }
-                } else {
+                }
+                else {
                     console.error('Failed to retrieve chat history');
                 }
             })
@@ -348,17 +631,15 @@ function updateUserPhotoLink() {
     })
     .then(response => response.json())
     .then(data => {
-        const circleElement = document.getElementById('Circle');
+        const circleElement = document.querySelector('.nav-list  #CircleButton #Circle');
         if (data.success) {
             if (data.photoLink) {
                 const photoUrl = `/uploads/${data.photoLink}`;
                 circleElement.style.backgroundImage = `url(${photoUrl})`;
             } 
         } 
-        circleElement.style.backgroundImage = `url('../UserIcon/UnkwonUser.png')`;
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Failed to update photo link');
     });
 }

@@ -42,8 +42,7 @@ menu_item.forEach((item) => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    //ChangeProfile Pic
-    updateUserPhotoLink()
+    
 
     //If user is Logged In then show the Profile Menu and remove the register / login
 
@@ -58,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const loggedIn = getCookie('loggedIn');
 
     if (token || loggedIn === 'true') {
+        //ChangeProfile Pic
+        updateUserPhotoLink()
         const LoginElement = document.getElementById('Login');
         const AccountStatus = document.getElementById('Circle');
         
@@ -290,14 +291,13 @@ function updateUserPhotoLink() {
     })
     .then(response => response.json())
     .then(data => {
-        const circleElement = document.getElementById('Circle');
+        const circleElement = document.querySelector('#header .nav-list ul a #Circle');
         if (data.success) {
             if (data.photoLink) {
                 const photoUrl = `/uploads/${data.photoLink}`;
                 circleElement.style.backgroundImage = `url(${photoUrl})`;
             } 
         } 
-        circleElement.style.backgroundImage = `url('../UserIcon/UnkwonUser.png')`;
     })
     .catch(error => {
         console.error('Error:', error);
