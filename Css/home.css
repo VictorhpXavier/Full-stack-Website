@@ -1,4 +1,6 @@
- h1, ul, li {
+h1,
+ul,
+li {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -8,9 +10,8 @@ body {
     padding: 0;
     list-style: none;
     background-color: #ededed;
-
 }
-  
+
 /* Flex container for the header */
 #header {
     display: flex;
@@ -129,6 +130,23 @@ body {
     background-size: cover;
 }
 
+
+.hamburger {
+    flex-direction: column;
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    transform: translate(-50%, -50%);
+}
+.hamburger span {
+    height: 3px;
+    width: 25px;
+    background: #262626;
+    margin: 4px 0;
+    border-radius: 3px;
+}
 /* Button styles */
 #header .Auth ul li a button {
     border-radius: 50%;
@@ -217,7 +235,6 @@ body {
     color: #fff;
     border: none;
     cursor: pointer;
-
 }
 #MainContent .SignUpbutton button:hover {
     transition: 0.4s;
@@ -251,7 +268,7 @@ body {
     right: 0;
     margin-top: 20px;
     margin-bottom: 90px;
-    
+
     color: #262626;
     font-weight: bold;
 }
@@ -264,7 +281,6 @@ body {
     margin-bottom: 20px;
 }
 
-
 /* features */
 #Features {
     margin-top: 18%;
@@ -272,7 +288,6 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-
 }
 
 #Features .title {
@@ -286,10 +301,11 @@ body {
     margin-top: 20px;
     display: flex;
     gap: 50px; /* Space between the boxes */
-
 }
 
-#Features .box1, .box2, .box3 {
+#Features .box1,
+.box2,
+.box3 {
     border-radius: 16px;
     box-shadow: rgba(51, 51, 51, 0.1);
     width: 362px;
@@ -325,16 +341,16 @@ body {
     height: 327px;
     background-color: #fff;
     border-radius: 16px;
-    
+
     padding: 20px;
     display: flex;
     justify-content: space-between;
 }
-#About .MainBox .content h1{
+#About .MainBox .content h1 {
     margin-top: 0;
     font-size: 38px;
     color: #3164f4;
-    
+
     font-weight: bold;
     font-style: italic;
 }
@@ -377,7 +393,6 @@ body {
 
 #About .MainBox .SecondaryBox span {
     font-weight: bold;
-    
 }
 #About .MainBox .SecondaryBox p {
     text-align: left;
@@ -396,11 +411,11 @@ body {
     display: flex;
     justify-content: space-between;
 }
-#About .MainBox2 .content h1{
+#About .MainBox2 .content h1 {
     margin-top: 0;
     font-size: 38px;
     color: #007aff;
-    
+
     font-weight: bold;
     font-style: italic;
 }
@@ -442,7 +457,6 @@ body {
 
 #About .MainBox2 .SecondaryBox2 span {
     font-weight: bold;
-    
 }
 #About .MainBox2 .SecondaryBox2 p {
     text-align: left;
@@ -455,16 +469,16 @@ body {
     height: 451px;
     background-color: #fff;
     border-radius: 16px;
-    margin: 18% auto 90px; 
+    margin: 18% auto 90px;
     display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 20px; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
 }
 
 .text-content {
-    flex: 1; 
-    margin-right: 20px; 
+    flex: 1;
+    margin-right: 20px;
 }
 
 .text-content h1 {
@@ -535,11 +549,10 @@ body {
     background-color: #007aff;
 }
 
-
 #signup-form .Password-container .ShowButton {
     position: absolute;
     margin-top: 20px;
-    right: 550px;
+    right: 450px;
     transform: translateY(-50%); /* Adjust for vertical centering */
     background: none;
     border: none;
@@ -556,7 +569,7 @@ body {
     display: none;
     visibility: visible;
     margin-top: 0;
-	font-size: 16px;
+    font-size: 16px;
     color: rgb(255, 0, 0);
     font-weight: bold;
 }
@@ -564,31 +577,31 @@ body {
     display: none;
     visibility: visible;
     margin-top: 0;
-	font-size: 16px;
+    font-size: 16px;
     color: rgb(255, 0, 0);
     font-weight: bold;
 }
 .Errors {
-	display: none;
+    display: none;
     flex-wrap: wrap;
 }
 .Errors .Warning {
-	border: none;
-	font-size: 14px;
-	font-weight: 700;
-	color: rgb(255, 0, 0);
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(255, 0, 0);
 }
-.Errors i{
-	margin-top: 5px;
-	color: red;
-	font-size: 13px;
+.Errors i {
+    margin-top: 5px;
+    color: red;
+    font-size: 13px;
 }
 .Errors p {
     width: 48%; /* Adjust this width as needed */
     margin-right: 2%; /* Adjust margin to space out items */
-	font-weight: 700 ;
-	font-size: 12px;
-	color: red;
+    font-weight: 700;
+    font-size: 12px;
+    color: red;
 }
 .Errors p:nth-child(even) {
     margin-right: 0; /* Remove margin for even items to keep them aligned */
@@ -599,7 +612,7 @@ footer {
     margin-top: 12%;
     background-color: #fff;
     padding: 20px 50px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex; /* Use flexbox layout for the footer */
     flex-direction: column; /* Stack items vertically */
     align-items: flex-start; /* Align items to the start (left) */
@@ -610,10 +623,10 @@ footer {
     display: flex;
     align-items: flex-start; /* Align items to the start (left) */
 }
-footer .footer-content  h1 {
+footer .footer-content h1 {
     color: black;
 }
-footer .footer-content  span {
+footer .footer-content span {
     color: #3164f4;
 }
 
@@ -653,4 +666,282 @@ footer .footer-content  span {
 .links-column a:hover {
     color: #007aff;
     font-weight: bold;
+}
+
+/* Small phones */
+@media (max-width: 321px) {
+    /* Styles for small phones */
+    #header .Logo {
+        margin-left: -40px;
+    }
+    #MainContent {
+        margin-top: 200px;
+    }
+    #MainContent h1 {
+        font-size: 32px;
+    }
+    #MainContent p {
+        font-size: 26px;
+    }
+    .ButtonContainer {
+        display: flex;
+        gap: 20px;
+    }
+    .MainRoutes,
+    .Auth {
+        display: none;
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+    }
+
+    .MainRoutes ul,
+    .Auth ul {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .MainRoutes.active,
+    .Auth.active {
+        display: flex;
+    }
+
+    #header {
+        padding: 15px 20px;
+    }
+    #header .logo {
+        margin-left: 10px;
+    }
+
+    #header .Auth {
+        margin-right: 0;
+    }
+    #MainContent .SignUpbutton button {
+        width: 125px;
+        height: 53px;
+        font-size: 16px;
+        background-color: #3164f4;
+        font-weight: bold;
+        border-radius: 12px;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    #MainContent .WatchDemo button {
+        color: #262626;
+        border: 1px solid black;
+        font-weight: bold;
+        font-size: 16px;
+        border-radius: 12px;
+        background: none;
+        width: 133px;
+        height: 53px;
+        cursor: pointer;
+    }
+    #DemoVideo {
+        display: none;
+    }
+    #Features {
+        margin-top: 50%;
+        flex-direction: column;
+        display: flex; /* Ensure the parent is using flexbox */
+    }
+    
+    #Features h1 {
+        font-size: 32px;
+    }
+    
+    #Features .box-container {
+        flex-direction: column; 
+        margin-top: 20px;
+        display: flex; 
+    }
+    
+    #Features .box1,
+    #Features .box2,
+    #Features .box3 {
+        border-radius: 16px;
+        box-shadow: rgba(51, 51, 51, 0.1) 0px 4px 8px; /* Add some shadow offset for better visibility */
+        width: 262px;
+        height: 227px;
+        background-color: #fff !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    #About  .Title h1{
+        font-size: 32px;
+    }
+    #About .MainBox2 {
+        flex-direction: column; /* Stack children vertically */
+        padding: 20px; /* Adjust padding if needed */
+        width: 100%; /* Full width of the container */
+        height: auto; /* Adjust height based on content */
+        position: relative; /* Reset absolute positioning */
+    }
+
+    #About .SecondaryBox2 {
+        position: relative; /* Reset absolute positioning */
+        width: 100%; /* Full width within the container */
+        height: auto; /* Adjust height based on content */
+        border-radius: 16px; /* Add rounded corners for stacking layout */
+        margin-top: 20px; /* Space between .content and .SecondaryBox2 */
+        top: auto; /* Reset top positioning */
+        right: auto; /* Reset right positioning */
+    }
+}
+
+
+/* Phones */
+@media (max-width: 481px) {
+    /* Styles for phones */
+    body {
+        overflow: hidden !important;
+
+    }
+    #header {
+        padding: 15px 20px;
+    }
+
+    #header .Logo {
+        margin-left: 10px;
+        align-self: flex-start;
+
+    }
+    #header .Auth {
+        display: none;
+    }
+    #header {
+        overflow: hidden !important;
+
+        padding: 15px 20px;
+        position: relative;
+    }
+
+    #header .Auth {
+       position: absolute;
+       bottom: 30%;
+       right: 4%;
+    }
+    #header .Auth .Login {
+        margin-bottom: 20px;
+    }
+    
+    .MainRoutes {
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        right: 3%;
+        display: none;
+        flex-direction: column;
+        text-align: center;
+        width: 100%;
+    }
+
+    .MainRoutes ul,
+    .Auth ul {
+        display: block;
+        margin: 10px 0;
+    }
+
+    #header .hamburger {
+        display: flex;
+    }
+    #header.active {
+        height: 100vh; /* Full height of the viewport */
+    }
+    .MainRoutes.active,
+    .Auth.active {
+        display: flex;
+    }
+
+    
+    /*header ends here */
+    #MainContent {
+        margin-top: 200px;
+    }
+    #MainContent h1 {
+        font-size: 32px;
+    }
+    #MainContent p {
+        font-size: 26px;
+    }
+    .ButtonContainer {
+        display: flex;
+        gap: 20px;
+    }
+
+    #MainContent .SignUpbutton button {
+        width: 125px;
+        height: 53px;
+        font-size: 16px;
+        background-color: #3164f4;
+        font-weight: bold;
+        border-radius: 12px;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    #MainContent .WatchDemo button {
+        color: #262626;
+        border: 1px solid black;
+        font-weight: bold;
+        font-size: 16px;
+        border-radius: 12px;
+        background: none;
+        width: 133px;
+        height: 53px;
+        cursor: pointer;
+    }
+    #DemoVideo {
+        display: none;
+    }
+    #Features {
+        margin-top: 50%;
+        flex-direction: column;
+        display: flex; /* Ensure the parent is using flexbox */
+    }
+    
+    #Features h1 {
+        font-size: 32px;
+    }
+    
+    #Features .box-container {
+        flex-direction: column; 
+        margin-top: 20px;
+        display: flex; 
+    }
+    
+}
+
+/* Large phones / Small tablets */
+@media (max-width: 768px) {
+    /* Styles for large phones / small tablets */
+}
+
+/* Portrait tablets */
+@media (max-width: 768px) and (orientation: portrait) {
+    /* Styles for portrait tablets */
+}
+
+/* Landscape tablets */
+@media (max-width: 1024px) and (orientation: landscape) {
+    /* Styles for landscape tablets */
+}
+
+/* Small desktops */
+@media (max-width: 1281px) {
+    /* Styles for small desktops */
+}
+
+/* Large desktops */
+@media (max-width: 1441px) {
+    /* Styles for large desktops */
 }

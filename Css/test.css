@@ -1,0 +1,61 @@
+
+body, html {
+    height: 100%;
+    margin: 0;
+
+    background-color: #262626; /* Optional: to provide a slight contrast */
+}
+
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.Delete-Chat {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    text-align: center; /* Center text within the div */
+}
+
+.Delete-Chat h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.Delete-Chat p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.Delete-Chat input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.Delete-Chat button {
+    width: 100%;
+    padding: 10px;
+    background-color: #e74c3c;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.Delete-Chat button:hover {
+    background-color: #c0392b;
+}

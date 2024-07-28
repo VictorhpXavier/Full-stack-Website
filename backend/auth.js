@@ -931,9 +931,9 @@ router.post('/GetUserInfo', (req, res) => {
     }
 
     //Get User chat's History
-    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ?';
+    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ? AND visibleToUser = ?';
 
-    con.query(ChatHistory, [userId], (err, results) => {
+    con.query(ChatHistory, [userId, '1'], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
@@ -960,9 +960,9 @@ router.post('/GetUserChatHistory', (req, res) => {
     } catch (error) {
         return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
     }
-    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ?';
+    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ? AND visibleToUser = ?';
 
-    con.query(ChatHistory, [userId], (err, results) => {
+    con.query(ChatHistory, [userId, '1'], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
@@ -1061,7 +1061,42 @@ router.post('/RenameChat', (req, res) => {
         res.status(200).json({ success: true });
     });
 });
+router.post('/RequestChatName', (req, res) => {
+    const chatlink = req.body.chatlink
+    const uuid = chatlink.split('/').pop();
 
+    const getChatName = 'SELECT chat_name FROM Chats WHERE chat_id = ?'
+    con.query(getChatName, [uuid], (err, results) => {
+        if(err) {
+            console.log(err)
+            return res.status(500).json({ success: false, message: 'Database search failed try again in another time' });
+        }
+        if (results.length > 0) {
+            const chatName = results[0].chat_name;
+
+            return res.status(200).json({ success: true, chatName });
+        } else {
+            return res.status(404).json({ success: false, message: 'Chat not found' });
+        }
+    })
+})
+router.post('/DeleteChat', (req, res) => {
+    const chatlink = req.body.chatlink;
+    const uuid = chatlink.split('/').pop();
+    console.log('uuid =', uuid);
+
+    const updateVisibility = 'UPDATE Chats SET visibleToUser = ? WHERE chat_id = ?';
+    const params = ['0', uuid]; 
+
+    con.query(updateVisibility, params, (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: 'Database update failed, try again another time' });
+        }
+        console.log('Update successful:', results);
+        return res.status(200).json({ success: true, message: 'Chat visibility updated' });
+    });
+})
 //Handle signout
 router.post('/signout', (req, res) => {
     console.log('Signout route hit');
