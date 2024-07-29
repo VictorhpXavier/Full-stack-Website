@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log(data.message);
                     // Redirect the user to the login page or home page
                     window.location.href = '/login';
                 })
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const botMessage = await getBotResponseFromServer(chat);
 
             addMessageToChat('bot', botMessage);
+            console.log(botMessage);
 
             const message = { message: chat, botMessage: botMessage };
 
@@ -223,6 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (
         /^\/workspace\/chat\/[0-9a-fA-F-]{36}$/.test(window.location.pathname)
     ) {
+        console.log('User is on a chat page with a valid UUID');
         fetch('/GetUserInfo', {
             method: 'POST',
             headers: {
@@ -233,6 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then((data) => {
                 if (data.success) {
                     const chats = data.chatHistory; 
+                    console.log('Original chats:', chats);
                     
                     // Filter out chats that are not visible to the user
                     const visibleChats = chats.filter(chat => chat.visibleToUser === 1);
@@ -354,8 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             if (data.success) {
                                                 chatNameContainer.textContent = newName;
                                                 newButton.replaceChild(chatNameContainer, input);
-                                            } else {
-                                            }
+                                            } 
                                         });
                                     } else if (event.key === 'Escape') {
                                         // Restore the original chat name container if input loses focus
@@ -364,76 +367,23 @@ document.addEventListener('DOMContentLoaded', function () {
                                 });
                             });
                             menu.querySelector('.delete').addEventListener('click', function() {
-                                const deleteChatMenu = document.querySelector('.Delete-Chat');
-                                const overlayEffect = document.querySelector('#overlay');
-                                const confirmationInput = document.querySelector('.Delete-Chat input');
-                                const chatlink = newButton.href;
-                                menu.style.display = 'none'
-                                deleteChatMenu.style.display = 'block';
-                                overlayEffect.style.display = 'block';
-                                
-                                fetch('/RequestChatName', {
+
+                                const chatlink = newButton.href
+                                fetch('/DeleteChat', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
                                     body: JSON.stringify({ chatlink: chatlink }),
-                                })
-                                .then((response) => response.json())
-                                .then((data) => { 
-                                    const chatName = data.chatName;
-                                    const deleteChatHeading = document.querySelector('#deleteChatHeading');
-                                    deleteChatHeading.textContent = `Delete chat "${chatName}"`;
-                                    const chatP = document.querySelector('#deleteChatP')
-                                    chatP.textContent = `Please write, to confirm "Delete chat ${chatName}"`;
-                                    const inputDelete = document.querySelector('#DeleteChat')
-                                    inputDelete.placeholder = `Delete chat ${chatName}`
-                                    const deleteButton = document.querySelector('.Delete-Chat button');
-                                    document.querySelector('.Delete-Chat .close-btn').addEventListener('click', function() {
-                                        const deleteChatMenu = document.querySelector('.Delete-Chat');
-                                        const overlayEffect = document.querySelector('#overlay');
-                                        
-                                        deleteChatMenu.style.display = 'none';
-                                        overlayEffect.style.display = 'none';
-                                    });
-                                    function updateDeleteButton() {
-                                        if (confirmationInput.value === `Delete chat ${chatName}`) {
-                                            deleteButton.style.opacity = '100%';
-                                            deleteButton.style.cursor = 'pointer';
-                                            deleteButton.addEventListener('click', deleteChat); // Add event listener to allow action
-                                        } else {
-                                            deleteButton.style.opacity = '35%';
-                                            deleteButton.style.cursor = 'not-allowed';
-                                            deleteButton.removeEventListener('click', deleteChat); // Remove event listener to prevent action
-                                        }
+                                }).then((response) => response.json())
+                                .then((data) => {
+                                    if(data.success) {
+                                        window.reload()
                                     }
-                                
-                                    function deleteChat() {
-                                        fetch('/DeleteChat', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                            },
-                                            body: JSON.stringify({ chatlink: chatlink }),
-                                        })
-                                        .then((response) => response.json())
-                                        .then((data) => { 
-                                            // Handle response data if needed
-                                            window.reload()
-                                        });
-                                    }
-                                
-                                    confirmationInput.addEventListener('input', (event) => {
-                                        updateDeleteButton();
-                                    });
-                                
-                                    updateDeleteButton();
                                 })
-                                .catch((error) => {
-                                    console.error('Error:', error);
-                                });
-                               
-                            });    
+                            });
+
+                            
                         }
                     }
                 }
@@ -482,7 +432,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // The user is not on a chat page or the UUID is not valid
     else {
-
         fetch('/GetUserChatHistory', {
             method: 'POST',
             headers: {
@@ -503,7 +452,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                         UserChat.style.display = 'flex';
                         for (let i = 0; i < visibleChats.length; i++) {
-
                             const chat = visibleChats[i];
                             const newButton = document.createElement('a');
                             newButton.href = `/workspace/chat/${chat.chat_id}`;
@@ -553,7 +501,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                 settings.style.display = 'block';
                             });
                             span.addEventListener('click', function(event) {
-
                                 event.preventDefault();
                                 // Show menu at the position of the span
                                 const rect = span.getBoundingClientRect();
@@ -575,6 +522,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             menu.querySelector('.rename').addEventListener('click', function() {
                                 menu.style.display = 'none';
+                            
                                 // Create an input field for renaming
                                 const input = document.createElement('input');
                                 input.type = 'text';
@@ -622,12 +570,21 @@ document.addEventListener('DOMContentLoaded', function () {
                             });
                             menu.querySelector('.delete').addEventListener('click', function() {
                                 const deleteChatMenu = document.querySelector('.Delete-Chat');
-                                const overlayEffect = document.querySelector('#overlay');
-                                const confirmationInput = document.querySelector('.Delete-Chat input');
+                                const overlayEffect = document.querySelector('.wrapper #overlay');
+                                const confirmationInput = document.querySelector('.wrapper .Delete-Chat input');
                                 const chatlink = newButton.href;
-                                menu.style.display = 'none'
-                                deleteChatMenu.style.display = 'block';
+                                
+                                console.log('deleteChatMenu:', deleteChatMenu);
+                                console.log('overlayEffect:', overlayEffect);
+                                console.log('confirmationInput:', confirmationInput);
+                            
+                                alert('why????');
+                                deleteChatMenu.style.display = 'block'; // Add inline style to confirm no CSS conflict
+                                deleteChatMenu.style.visibility = 'visible'; // Add this line to ensure visibility
                                 overlayEffect.style.display = 'block';
+                                overlayEffect.style.visibility = 'visible'; // Ensure overlay is visible
+                                menu.style.display = 'none';
+                                
                                 
                                 fetch('/RequestChatName', {
                                     method: 'POST',
@@ -646,13 +603,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     const inputDelete = document.querySelector('#DeleteChat')
                                     inputDelete.placeholder = `Delete chat ${chatName}`
                                     const deleteButton = document.querySelector('.Delete-Chat button');
-                                    document.querySelector('.Delete-Chat .close-btn').addEventListener('click', function() {
-                                        const deleteChatMenu = document.querySelector('.Delete-Chat');
-                                        const overlayEffect = document.querySelector('#overlay');
-                                        
-                                        deleteChatMenu.style.display = 'none';
-                                        overlayEffect.style.display = 'none';
-                                    });
+                                
                                     function updateDeleteButton() {
                                         if (confirmationInput.value === `Delete chat ${chatName}`) {
                                             deleteButton.style.opacity = '100%';
@@ -676,7 +627,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                         .then((response) => response.json())
                                         .then((data) => { 
                                             // Handle response data if needed
-                                            window.reload()
                                         });
                                     }
                                 
@@ -690,7 +640,16 @@ document.addEventListener('DOMContentLoaded', function () {
                                     console.error('Error:', error);
                                 });
                                
-                            });    
+                            });
+                            const deleteChatMenu = document.querySelector('.Delete-Chat');
+                            const overlayEffect = document.querySelector('#overlay');
+                            document.addEventListener('click', function(event) {
+                                if (!span.contains(event.target) && !menu.contains(event.target) && !deleteChatMenu.contains(event.target)) {
+                                    menu.style.display = 'none';
+                                    deleteChatMenu.style.display = 'none'
+                                    overlayEffect.style.display ='none'
+                                }
+                            });
                         }
                     }
                 }

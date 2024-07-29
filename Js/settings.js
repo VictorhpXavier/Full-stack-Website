@@ -40,7 +40,73 @@ menu_item.forEach((item) => {
         });
     });
 });
+const deleteAccountButton = document.querySelector ('.DangerZone .DeleteAccount')
+deleteAccountButton.addEventListener('click', function() {
+    const deleteChatMenu = document.querySelector('.Delete-Chat');
+    const overlayEffect = document.querySelector('#overlay');
+    const confirmationInput = document.querySelector('#Settings .Delete-Chat input');
+    const deleteAccount = document.querySelector('#Settings .Delete-Chat button')
+    function deleteChat() {
+        fetch('/DeleteAccount', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => { 
+            if (data.success) {
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                fetch('/signout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    // Redirect the user to the login page 
+                    window.location.href = '/home';
+                })
+                .catch(error => console.error('Error:', error));
+            }    
+               
+    })
+    }
+    
+    
+ 
+    deleteChatMenu.style.display = 'block';
+    overlayEffect.style.display = 'block';
+    function updateDeleteButton() {
+        if (confirmationInput.value === 'Delete Account') {
+            deleteAccount.style.opacity = '100%';
+            deleteAccount.style.cursor = 'pointer';
+            deleteAccount.addEventListener('click', deleteChat); // Add event listener to allow action
+        } else {
+            deleteAccount.style.opacity = '35%';
+            deleteAccount.style.cursor = 'not-allowed';
+            deleteAccount.removeEventListener('click', deleteChat); // Remove event listener to prevent action
+        }
+    }
+    confirmationInput.addEventListener('input', (event) => {
+        updateDeleteButton();
+    });
 
+    updateDeleteButton();
+    document.querySelector('.Delete-Chat .close-btn').addEventListener('click', function() {
+        const deleteChatMenu = document.querySelector('.Delete-Chat');
+        const overlayEffect = document.querySelector('#overlay');
+        
+        deleteChatMenu.style.display = 'none';
+        overlayEffect.style.display = 'none';
+    });
+    deleteAccount.addEventListener('click', function() {
+        deleteChat()
+    })
+})
 document.addEventListener('DOMContentLoaded', function() {
      //If user is Logged In then show the Profile Menu and remove the register / login
     

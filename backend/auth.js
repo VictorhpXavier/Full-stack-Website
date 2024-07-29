@@ -1097,6 +1097,71 @@ router.post('/DeleteChat', (req, res) => {
         return res.status(200).json({ success: true, message: 'Chat visibility updated' });
     });
 })
+//Delete Account
+router.post('/DeleteAccount', (req, res) => {
+    console.log('found')
+    const email = req.email;
+
+// First, get the user ID based on the email
+const getId = 'SELECT id FROM Users WHERE email = ?';
+con.query(getId, [email], (err, results) => {
+    if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Database Error' });
+    }
+
+    if (results.length === 0) {
+        return res.status(404).json({ error: 'User Not Found' });
+    }
+
+    const id = results[0].id;
+
+    // check if the user ID exists in the Chats table
+    const checkChat = 'SELECT 1 FROM Chats WHERE user_id = ? LIMIT 1';
+    con.query(checkChat, [id], (err, chatResults) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Database Error' });
+        }
+
+        if (chatResults.length === 0) {
+            const deleteUser = 'DELETE FROM Users WHERE id = ?'
+                con.query(deleteUser, [id], (err, results) => {
+                    if(err) {
+                        console.log(err)
+                    }
+                    res.clearCookie('loggedIn', { path: '/' });
+                    res.clearCookie('token', { path: '/' });
+                    res.json({ success: true, message: 'Account deleted' });
+                })
+        }
+        console.log('ChatDeleted')
+        const deleteMessages = 'DELETE FROM Messages WHERE user_id = ?';
+        con.query(deleteMessages, [id], (err, results) => {
+            if(err) {
+                console.log(err)
+            }
+            const deleteChat = 'DELETE FROM Chats WHERE user_id = ?'
+            con.query(deleteChat, [id], (err, results) => {
+                if(err) {
+                    console.log(err)
+                }
+                const deleteUser = 'DELETE FROM Users WHERE id = ?'
+                con.query(deleteUser, [id], (err, results) => {
+                    if(err) {
+                        console.log(err)
+                    }
+                    res.clearCookie('loggedIn', { path: '/' });
+                    res.clearCookie('token', { path: '/' });
+                    res.json({ success: true, message: 'Account deleted' });
+                })
+            })
+        })
+
+        
+    });
+    })
+});
 //Handle signout
 router.post('/signout', (req, res) => {
     console.log('Signout route hit');

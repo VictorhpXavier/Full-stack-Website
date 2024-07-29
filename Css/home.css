@@ -1282,19 +1282,23 @@ footer .footer-content span {
 /* Portrait tablets */
 @media (max-width: 768px) and (orientation: portrait) {
     /* Styles for portrait tablets */
+    
 }
 
 /* Landscape tablets */
 @media (max-width: 1024px) and (orientation: landscape) {
     /* Styles for landscape tablets */
+    
 }
 
 /* Small desktops */
 @media (max-width: 1281px) {
     /* Styles for small desktops */
+    
 }
 
 /* Large desktops */
 @media (max-width: 1441px) {
     /* Styles for large desktops */
+   
 }

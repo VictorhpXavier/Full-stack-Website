@@ -111,8 +111,8 @@ security.use(async (req, res, next) => {
                             const { city, region, country } = locationData;
                             const newLocation = `${city || 'Unknown'}, ${region || 'Unknown'}, ${country || 'Unknown'}`;
                             
-                            console.log('Location data:', locationData);
-                            console.log('Formatted location:', newLocation);
+                       //     console.log('Location data:', locationData);
+                         //   console.log('Formatted location:', newLocation);
 
                             const setUserLocationQuery = 'UPDATE Security SET user_Location = ? WHERE user_id = ? AND email = ?';
                             con.query(setUserLocationQuery, [newLocation, userId, req.email], (err) => {
