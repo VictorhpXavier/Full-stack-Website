@@ -552,7 +552,7 @@ body {
 #signup-form .Password-container .ShowButton {
     position: absolute;
     margin-top: 20px;
-    right: 450px;
+    right: 550px;
     transform: translateY(-50%); /* Adjust for vertical centering */
     background: none;
     border: none;
@@ -560,7 +560,12 @@ body {
     cursor: pointer;
     color: #128fdc;
 }
-
+#CTA2 {
+    display: none;
+}
+.text-content2 {
+    display: none;
+}
 #signup-form .Password-container .ShowButton:hover {
     text-decoration: underline;
 }
@@ -667,7 +672,9 @@ footer .footer-content span {
     color: #007aff;
     font-weight: bold;
 }
-
+#AboutSmallScreen {
+    display:  none;
+}
 /* Small phones */
 @media (max-width: 321px) {
     /* Styles for small phones */
@@ -731,7 +738,13 @@ footer .footer-content span {
         border: none;
         cursor: pointer;
     }
-
+    .hidden {
+        display: none;
+    }
+    .active {
+        display: block;
+    }
+    
     #MainContent .WatchDemo button {
         color: #262626;
         border: 1px solid black;
@@ -797,13 +810,23 @@ footer .footer-content span {
     }
 }
 
-
 /* Phones */
 @media (max-width: 481px) {
-    /* Styles for phones */
     body {
-        overflow: hidden !important;
-
+        overflow-x: hidden !important;
+    }
+    /* Styles for phones */
+    #hamburger {
+        position: absolute;
+        top: 35px;
+        right: 50px;
+    }
+    #header .Auth, #header .MainRoutes {
+        display: none;
+    }
+    
+    #header .Auth.visible, #header .MainRoutes.visible {
+        display: flex;
     }
     #header {
         padding: 15px 20px;
@@ -818,8 +841,6 @@ footer .footer-content span {
         display: none;
     }
     #header {
-        overflow: hidden !important;
-
         padding: 15px 20px;
         position: relative;
     }
@@ -830,9 +851,12 @@ footer .footer-content span {
        right: 4%;
     }
     #header .Auth .Login {
-        margin-bottom: 20px;
+        top: 24px;
+        right: 170px;
+        position: absolute;
     }
-    
+
+
     .MainRoutes {
         justify-content: center;
         align-items: center;
@@ -863,14 +887,28 @@ footer .footer-content span {
 
     
     /*header ends here */
+    #Features .box1,
+.box2,
+.box3 {
+    border-radius: 16px;
+    box-shadow: rgba(51, 51, 51, 0.1);
+    width: 332px;
+    height: 207px;
+    background-color: #fff !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
     #MainContent {
-        margin-top: 200px;
+        margin-top: 140px;
     }
     #MainContent h1 {
-        font-size: 32px;
+        font-size: 30px;
     }
     #MainContent p {
-        font-size: 26px;
+        font-size: 20px;
     }
     .ButtonContainer {
         display: flex;
@@ -910,7 +948,7 @@ footer .footer-content span {
     }
     
     #Features h1 {
-        font-size: 32px;
+        font-size: 30px;
     }
     
     #Features .box-container {
@@ -918,6 +956,321 @@ footer .footer-content span {
         margin-top: 20px;
         display: flex; 
     }
+    #About {
+        display: none;
+
+    }
+    #AboutSmallScreen {
+        margin-top: 18%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 90px;
+        margin-top: 20px;
+    }
+    #AboutSmallScreen .Title {
+        margin-top: 70px;
+        margin-bottom: 35px;
+        font-size: 28px !important;
+        color: #262626;
+        font-weight: bold;
+    }
+    .OurHistory {
+        position: relative;
+        width: 360px;
+        height: 220px;
+        background-color: #fff;
+        border-radius: 16px;
+        text-align: center;
+        padding: 20px;
+        justify-content: space-between;
+    }
+    #AboutSmallScreen .OurHistory h1 {
+        margin-top: 10px;
+
+        font-size: 22px;
+    }
+    #AboutSmallScreen .OurHistory p {
+        margin-top: 30px;
+        font-size: 15px;
+
+    }
+    #AboutSmallScreen .Milestones h1 {
+        margin-top: 10px;
+
+        font-size: 22px;
+    }
+    .Milestones {
+        margin-top: 40px;
+        text-align: center;
+
+        position: relative;
+        width: 360px;
+        height: 220px;
+        background-color: #f2f2f2;
+        border-radius: 16px;
+        
+        padding: 20px;
+        justify-content: space-between;
+    }
+    #AboutSmallScreen .Milestones p {
+        margin-top: 30px;
+        font-size:  15px;
+    }
+    .Work {
+        margin-top: 40px;
+        text-align: center;
+
+        position: relative;
+        width: 360px;
+        height: 220px;
+        background-color: #fff;
+        border-radius: 16px;
+        
+        padding: 20px;
+        justify-content: space-between;
+    }
+    #AboutSmallScreen .Work h1 {
+        margin-top: 10px;
+
+        font-size: 22px;
+    }
+    #AboutSmallScreen  .Work p {
+        margin-top: 30px;
+        font-size: 15px;
+    }
+    #AboutSmallScreen .VhxWork h1 {
+        margin-top: 10px;
+        font-size: 22px;
+    }
+    .VhxWork {
+        margin-top: 40px;
+        text-align: center;
+
+        position: relative;
+        width: 360px;
+        height: 260px;
+        background-color: #f2f2f2;
+        border-radius: 16px;
+        
+        padding: 20px;
+        justify-content: space-between;
+    }
+    #AboutSmallScreen .VhxWork p {
+        margin-top: 30px;
+        text-wrap:wrap;
+        font-size: 15px;
+    }
+    #AboutSmallScreen, .VhxWork h1, .Work h1, .OurHistory h1, .Milestones h1  {
+        margin-top: 0;
+        font-size: 22px;
+        color: #3164f4;
+    
+        font-weight: bold;
+        font-style: italic;
+    }
+    #AboutSmallScreen  span {
+        color: #3164f4;
+    }
+    #AboutSmallScreen  p {
+        font-size: 21px;
+        color: #030303;
+    }
+    
+    #AboutSmallScreen  {
+        text-align: left;
+    }
+    footer {
+        margin-top: 12%;
+        background-color: #fff;
+        padding: 20px 50px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex; /* Use flexbox layout for the footer */
+        align-items: flex-start; /* Align items to the start (left) */
+    }
+    
+    .footer-content {
+        color: red;
+        width: 100%; /* Ensure the content takes full width */
+        display: flex;
+        align-items: flex-start; /* Align items to the start (left) */
+    }
+    footer .footer-content h1 {
+        color: black;
+    }
+    footer .footer-content span {
+        color: #3164f4;
+    }
+    
+    .footer-logo {
+        margin-bottom: 20px; /* Space between logo and links */
+    }
+    
+    .footer-logo h1 {
+        font-size: 12px;
+        color: #3164f4;
+    }
+    
+    .footer-logo p {
+        font-size: 10px;
+        color: #666;
+    }
+    .footer-links {
+        display: flex;
+        justify-content: center; /* Center the columns horizontally */
+        gap: 16px; /* Adjust the gap as needed */
+        flex-wrap: wrap; /* Allow wrapping if needed */
+        width: 100%; /* Ensure the links take full width for centering */
+    }
+    .footer-links a {
+        font-size: 7px !important;
+        display: flex;
+        width: 100%; /* Ensure the links take full width for centering */
+    }
+    .links-column {
+        display: flex;
+        gap: 3px;
+    }
+    #CTA {
+        width: 100%;
+        background-color: #fff;
+        border-radius: 16px;
+        margin: 18% auto 90px;
+        padding: 20px;
+        /* Ensure text-content and form-content are stacked vertically */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center contents horizontally */
+    }
+    .text-content {
+        display: none;
+    }
+    .text-content2 {
+        margin-bottom: 20px; /* Space between text content and form */
+        text-align: center; /* Center align the text content */
+    }
+    
+    .text-content2 h1 {
+        margin-top: 20px;
+        font-size: 22px;
+        color: #030303;
+        font-weight: bold;
+        display: inline;
+    }
+    
+    .text-content2 span {
+        color: #3164f4;
+    }
+    
+    .text-content2 p {
+        margin-top: 10px !important;
+        color: #262626;
+        font-size: 16px;
+        max-width: 900px;
+        margin: 0 auto; /* Center paragraph text */
+    }
+    
+    .form-content {
+        width: 100%;
+        max-width: 400px; /* Adjust the max-width for the form */
+        /* Add margin-top to create space between text-content and form */
+        margin-top: 20px;
+    }
+    
+    #signup-form {
+        margin: 0; /* Remove margin-top to align properly */
+        gap: 15px; /* Space between form elements */
+        display: flex;
+        flex-direction: column; /* Stack form elements vertically */
+    }
+    .text-content2 {
+        display: block;
+    }
+    
+    
+    
+    #signup-form input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+    
+    #signup-form h1 {
+        margin-top: 0; /* Remove top margin to fit well within form */
+        margin-bottom: 30px;
+        font-size: 31px;
+        text-align: center;
+    }
+    
+    #signup-form button {
+        background-color: #3164f4;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    
+    #signup-form button:hover {
+        background-color: #007aff;
+    }
+    
+    #signup-form .Password-container {
+        position: relative; /* Ensure the show button is positioned correctly */
+    }
+    
+    #signup-form .Password-container .ShowButton {
+        position: absolute;
+        right: 10px; /* Adjust position of the show button */
+        top: 3%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        color: #128fdc;
+    }
+    /* Style After login */
+    footer.active {
+        width: 100%;
+        margin-top: 12%;
+        background-color: #fff;
+        padding: 20px 50px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex; /* Use flexbox layout for the footer */
+        align-items: flex-start; /* Align items to the start (left) */
+    }
+    #AboutSmallScreen.active {
+        margin-right: -25px;
+    
+        margin-top: 18%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 90px;
+        margin-top: 20px;
+    }
+    #Features.active {
+        margin-right: -25px;
+        margin-top: 50%;
+        flex-direction: column;
+        display: flex; /* Ensure the parent is using flexbox */
+    }
+    #MainContent.active {
+        margin-right: -17px;
+        margin-top: 140px;
+    }
+    #header .hamburger.active {
+        margin-right: -12px;
+        display: flex;
+    }
+    
+    
     
 }
 

@@ -36,10 +36,7 @@ hamburgerButton.addEventListener('click', () => {
     }
 });
 */
-window.addEventListener('resize', function () {
-    'use strict';
-    window.location.reload();
-});
+
 
 document.addEventListener('DOMContentLoaded', function () {
     
@@ -569,3 +566,20 @@ function updateUserPhotoLink() {
         console.error('Error:', error);
     });
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.getElementById('hamburger');
+    const header = document.querySelector('#header');
+    const authButtons = document.querySelector('#header .Auth');
+    const mainRoutes = document.querySelector('#header .MainRoutes');
+
+    if (hamburger) {
+        hamburger.addEventListener('click', function () {
+            authButtons.classList.toggle('visible');
+            mainRoutes.classList.toggle('visible');
+            header.classList.toggle('active');
+        });
+    }
+
+});

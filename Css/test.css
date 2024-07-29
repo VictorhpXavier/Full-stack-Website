@@ -1,61 +1,21 @@
-
-body, html {
-    height: 100%;
-    margin: 0;
-
-    background-color: #262626; /* Optional: to provide a slight contrast */
-}
-
-
-.wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.Delete-Chat {
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+footer {
+    margin-top: 12%;
+    background-color: #fff;
+    padding: 20px 50px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    text-align: center; /* Center text within the div */
+    display: flex; /* Use flexbox layout for the footer */
+    align-items: flex-start; /* Align items to the start (left) */
 }
 
-.Delete-Chat h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
+#CTA .text-content2 {
+    display: block;
 }
-
-.Delete-Chat p {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #666;
-}
-
-.Delete-Chat input[type="text"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.Delete-Chat button {
-    width: 100%;
-    padding: 10px;
-    background-color: #e74c3c;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.Delete-Chat button:hover {
-    background-color: #c0392b;
+#AboutSmallScreen {
+    margin-top: 18%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 90px;
+    margin-top: 20px;
 }

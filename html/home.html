@@ -41,7 +41,7 @@
     </div>
     <div class="Auth" id="menu">
         <ul>
-            <li><a href="/login" class="Login">Log in</a></li>
+            <li><a href="/login" class="Login">Login</a></li>
         </ul>
         <ul>
             <li class="SignUpul"><a href="/signup" class="SignUp">Sign up</a></li>
@@ -127,11 +127,38 @@
         </div>
     </div>
 </section>
-
+<section id="AboutSmallScreen">
+    <div class="Title"><h1>About Us</h1></div>
+    <div class="OurHistory">
+        <h1>Our History</h1>
+        <p>At <strong>V<span>H</span>X</strong> our mission has always been to <strong>empower your learning journey</strong>. <br>With our <strong> cutting-edge AI content generator</strong>, we are dedicated to providing <br>the most advanced and personalized educational experience.</p>
+    </div>
+    <div class="Milestones">
+        <h1>Milestones</h1>
+        <p><span>2024:</span> Launched Our first version.</p>
+        <p><span>2025:</span> Reached 10,000 active users.</p>
+        <p><span>2025:</span> Expanded to include new learning modules.</p>
+    </div>
+    <div class="Work">
+        <h1>How We work?</h1>
+        <p>At <strong>V<span>H</span>X</strong> we believe in <strong>innovation</strong>, <strong>transparency</strong>, and <strong>user-centric</strong> design.</p>
+        <p>Our <strong>commitment</strong> to these values <strong>drives</strong> everything we do.</p>
+    </div>
+    <div class="VhxWork">
+        <h1>How <strong>V<span>H</span>X</strong> Works?</h1>
+        <p><strong>Research and Development:</strong> We continuously research and integrate the latest <strong>AI technologies</strong> to enhance our platform</p>
+        <p><strong>User feedback:</strong> User feedback is crucial. We listen and adapt to ensure our tool meets your needs</p>
+        <p><strong>Quality Assurance:</strong> Every feature is rigorously tested to ensure reliability and performance</p>
+    </div>
+</section>
 <section id="CTA">
     <div class="text-content">
         <h1>Get started with <br><strong>V<span>H</span>X</strong> today</h1>
         <p>Join thousands of learners who are transforming <br>their educational experience with <strong>V<span>H</span>X</strong>. Sign up now <br>to unlock the power of AI-driven content.</p>
+    </div>
+    <div class="text-content2">
+        <h1>Get started with <strong>V<span>H</span>X</strong> today</h1>
+        <p>Join thousands of learners who are transforming <br>their educational experience with <strong>V<span>H</span>X</strong>.<br> Sign up now to unlock the power of AI-driven content.</p>
     </div>
     <div class="form-content">
         <form id="signup-form" method="post" onsubmit="handleRegistration(event)">
@@ -154,6 +181,7 @@
         </form>
     </div>
 </section>
+
 
 <footer>
     <div class="footer-content">
@@ -208,18 +236,7 @@
             }
         });
     });
-    document.addEventListener('DOMContentLoaded', function () {
-        const hamburger = document.getElementById('hamburger');
-        const menu = document.querySelectorAll('#menu');
-        const header = document.querySelector('#header');
-        
-        hamburger.addEventListener('click', function () {
-            menu.forEach(function (m) {
-                m.classList.toggle('active');
-            });
-            header.classList.toggle('active');
-        });
-    });
+   
     
     </script>
 </body>
