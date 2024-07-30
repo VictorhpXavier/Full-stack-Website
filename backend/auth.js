@@ -415,90 +415,57 @@ router.post('/forgotpassword', (req, res) => {
 //Create token for darkmode
 //Maybe I should put the darkMode preference on DB instead of cookies?
 // Endpoint to get dark mode preference
-router.get('/darkmode', (req, res) => {
-    const darkMode = req.cookies.darkMode === 'true';
-    res.json({ darkMode });
-});
-
-// Endpoint to set dark mode preference
-router.post('/darkmode', (req, res) => {
-    const { darkMode } = req.body;
-    res.cookie('darkMode', darkMode, { maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 year
-    res.sendStatus(200);
-});
-
-// Endpoint to clear dark mode preference
-router.post('/cleardarkmode', (req, res) => {
-    res.clearCookie('darkMode');
-    res.sendStatus(200);
-});
 
 
-//Handle User profile pic
-//* This creates the upload file
-//Funciona
-/*
-const testUploadDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(testUploadDir)) {
-    fs.mkdirSync(testUploadDir, { recursive: true });
-    console.log(`Created directory: ${testUploadDir}`);
-}
+router.post('/setDarkMode', (req, res) => {
+    const email = req.email; // Ensure the email is sent in the request body
+    const checkDarkMode = 'SELECT DarkMode FROM Users WHERE email = ?';
 
-const testFilePath = path.join(testUploadDir, 'test.txt');
-fs.writeFile(testFilePath, 'This is a test file.', (err) => {
-    if (err) {
-        console.error('Unable to write file. Check permissions:', err);
-    } else {
-        console.log('Test file written successfully.');
-        fs.unlinkSync(testFilePath);
-    }
-});
-
-
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadDir = path.join(__dirname, '../uploads');
-        console.log(`Destination directory: ${uploadDir}`);
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-            console.log(`Created directory: ${uploadDir}`);
+    con.query(checkDarkMode, [email], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Database error' });
         }
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        const filename = Date.now() + path.extname(file.originalname);
-        console.log(`Saving file as: ${filename}`);
-        cb(null, filename);
-    }
+
+        if (results.length > 0) {
+            const currentMode = results[0].DarkMode;
+            const newMode = (currentMode === 'YES') ? 'NO' : 'YES'; // Toggle mode
+
+            const setDarkMode = 'UPDATE Users SET DarkMode = ? WHERE email = ?';
+            con.query(setDarkMode, [newMode, email], (err, results) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ success: false, message: 'Database error' });
+                }
+                return res.json({ success: true, message: `Dark mode set to ${newMode}` });
+            });
+        } else {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+    });
+});
+router.get('/CheckDarkMode', (req, res) => {
+    const email = req.email; 
+
+    const checkDarkMode = 'SELECT DarkMode FROM Users WHERE email = ?';
+    con.query(checkDarkMode, [email], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+
+        if (results.length > 0) {
+            const darkMode = results[0].DarkMode;
+            return res.json({
+                success: true,
+                message: darkMode === 'YES' ? 'Dark mode is ON' : 'Dark mode is OFF'
+            });
+        } else {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+    });
 });
 
-router.post('/upload-profile-image', upload.single('profileImage'), (req, res) => {
-    const file = req.file;
-    const userId = req.body.id;
-
-    console.log('Received file upload request:', file, userId);
-
-    if (file && userId) {
-        const filePath = `uploads/${file.filename}`;
-        console.log(`File uploaded: ${filePath}`);
-
-        pool.query('UPDATE Users SET PhotoLink = ? WHERE id = ?', [filePath, userId], (err, result) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).json({ success: false, message: 'Database error' });
-            }
-            if (result.affectedRows > 0) {
-                res.json({ success: true, message: 'File uploaded successfully', filePath: filePath });
-            } else {
-                res.status(400).json({ success: false, message: 'User not found' });
-            }
-        });
-    } else {
-        res.status(400).json({ success: false, message: 'File upload failed or userId missing' });
-    }
-});
-*/
 //workspace code
 
 /*router.post('/checkFirstTime', (req, res) => {
@@ -1097,6 +1064,7 @@ router.post('/DeleteChat', (req, res) => {
         return res.status(200).json({ success: true, message: 'Chat visibility updated' });
     });
 })
+
 //Delete Account
 router.post('/DeleteAccount', (req, res) => {
     console.log('found')

@@ -317,6 +317,13 @@ body {
     justify-content: center;
     padding: 20px;
 }
+#Features .box1.active,
+#Features .box2.active,
+#Features .box3.active {
+    background-color: #262626 !important;
+    color: #e0e0e0;
+
+}
 
 /* About */
 #About {
@@ -341,7 +348,6 @@ body {
     height: 327px;
     background-color: #fff;
     border-radius: 16px;
-
     padding: 20px;
     display: flex;
     justify-content: space-between;

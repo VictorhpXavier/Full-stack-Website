@@ -269,151 +269,145 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch((error) => console.error('Error:', error));
         });
     }
-    //Dark mode Logic
-    const DarkModeButton = document.querySelector('#DarkMode');
-    const brandSpans = document.querySelectorAll('.brand h1 span');
-    const headerLinks = document.querySelectorAll('#header .nav-list ul a');
-    const mainthemeH1 = document.querySelectorAll('#MainTheme h1');
-    const servicesH3 = document.querySelectorAll('#Services h3');
-    const servicesP = document.querySelectorAll('#Services p');
-    const features = document.querySelectorAll('#Services .feature');
-    const footer = document.querySelector('#footer');
-    const footerbutton = document.querySelectorAll('#footer button');
-
+    //Dark mode logic
+    const header = document.getElementById('header');
+    const logoSpan = document.querySelector('#header .Logo h1');
+    const mainRoutes = document.querySelectorAll('#header .MainRoutes ul a');
+    const authLinks = document.querySelectorAll('#header .Auth ul a');
+    const mainContentH1 = document.querySelector('#MainContent h1');
+    const mainContentP = document.querySelector('#MainContent p');
+    const watchDemo = document.querySelector('#MainContent .WatchDemo button');
+    const demoVideoH1 = document.querySelector('#DemoVideo h1');
+    const demoVideoBg = document.querySelector('#DemoVideo .Background');
+    const featuresH1 = document.querySelector('#Features .title h1')
+    const boxH1 = document.querySelectorAll('#Features .box-container h1')
+    const box1 = document.querySelector('#Features .box1');
+    const box2 = document.querySelector('#Features .box2');
+    const box3 = document.querySelector('#Features .box3');
+    const aboutTile = document.querySelector('#About .Title')
+    const mainBox = document.querySelector('#About .MainBox')
+    const mainBoxP = document.querySelector('#About .MainBox .content p')
+    const mainBoxSpan = document.querySelector('#About .MainBox .content span')
+    const SecondaryBox = document.querySelector('#About .SecondaryBox')
+    const SecondaryBoxP = document.querySelectorAll('#About .MainBox .SecondaryBox p')
+    const SecondaryBoxSpan = document.querySelector('#About .SecondaryBox .content span')
+    const MainBox2 = document.querySelector('#About .MainBox2')
+    const MainBox2P = document.querySelectorAll('#About .MainBox2 .content p')
+    const SecondaryBox2 = document.querySelector('#About .SecondaryBox2')
+    const SecondaryBox2P = document.querySelectorAll('#About .MainBox2 .SecondaryBox2 p')
+    const footer = document.querySelector('footer');
+    const footerH1 = document.querySelector('footer .footer-content h1');
+    const footerLogoP = document.querySelector('.footer-logo p');
+    const FooterA = document.querySelectorAll('footer a');
     function applyDarkMode(isDarkMode) {
         if (isDarkMode) {
-            if (
-                document.body.style.backgroundColor === 'rgb(208, 236, 253)' ||
-                document.body.style.backgroundColor === ''
-            ) {
-                document.body.style.backgroundColor = '#121212';
-                brandSpans.forEach((span) => {
-                    span.style.color = '#9acdec';
-                });
-                document.querySelector('#header').style.backgroundColor =
-                    '#121212';
-                headerLinks.forEach((link) => {
-                    link.style.color = '#489be0';
-                });
-                mainthemeH1.forEach((h1) => {
-                    h1.style.color = '#8f9195';
-                });
-                servicesH3.forEach((h3) => {
-                    h3.style.color = '#489be0';
-                });
-                servicesP.forEach((p) => {
-                    p.style.color = '#97bfec';
-                });
-                features.forEach((feature) => {
-                    feature.style.backgroundColor = '#282828';
-                });
+            document.body.style.backgroundColor = '#121212';
+            header.style.backgroundColor = '#121212';
+            if (logoSpan) logoSpan.style.color = '#6080f4';
+            mainRoutes.forEach(link => link.style.color = '#6080f4');
+            authLinks.forEach(link => link.style.color = '#6080f4');
+            if (mainContentH1) mainContentH1.style.color = '#66aaff';
+            if (mainContentP) mainContentP.style.color = '#e0e0e0';
+            if (watchDemo) watchDemo.style.color = '#e0e0e0';
+            if (demoVideoH1) demoVideoH1.style.color = '#e0e0e0';
+            if (demoVideoBg) demoVideoBg.style.backgroundColor = '#6080f4';
+            if(featuresH1) featuresH1.style.color = '#e0e0e0'
 
-                footerbutton.forEach((button) => {
-                    button.style.color = 'white';
-                });
-                document.querySelector('#footer button').style.color = 'white';
-                document.querySelector('#footer .Li-Language').style.color =
-                    'white';
-                footer.style.color = 'white';
-                footer.style.backgroundColor = '#575757';
-                mainthemeP.style.color = '#717171';
-            } else {
-                clearDarkModePreference();
-                document.body.style.backgroundColor = '';
-                brandSpans.forEach((span) => {
-                    span.style.color = '';
-                });
-                document.querySelector('#header').style.backgroundColor = '';
-                headerLinks.forEach((link) => {
-                    link.style.color = '';
-                });
-                mainthemeH1.forEach((h1) => {
-                    h1.style.color = '';
-                });
-                servicesH3.forEach((h3) => {
-                    h3.style.color = '';
-                });
-                servicesP.forEach((p) => {
-                    p.style.color = '';
-                });
-                features.forEach((feature) => {
-                    feature.style.backgroundColor = '';
-                });
-                document.querySelector('#footer button').style.color = '';
-                document.querySelector('#footer .Li-Language').style.color = '';
-                footer.style.color = '';
-                footer.style.backgroundColor = '';
-                document.querySelector('#Services-Class h1').style.color = '';
-                mainthemeP.style.color = '';
-            }
+            if (box1) box1.classList.add('active');
+            if (box2) box2.classList.add('active');
+            if (box3) box3.classList.add('active');
+            boxH1.forEach(h1 => h1.style.color = '#6080f4')
+            if(aboutTile) aboutTile.style.color = '#e0e0e0'
+            if(mainBox) mainBox.style.backgroundColor = '#262626'
+            if(mainBoxP) mainBoxP.style.color = '#e0e0e0'
+            if(mainBoxSpan) mainBoxSpan.style.color = '#6080f4'
+            if(SecondaryBox) SecondaryBox.style.backgroundColor = '#030303'
+            if(SecondaryBoxSpan) SecondaryBoxSpan.style.color = '#6080f4'
+            SecondaryBoxP.forEach(p => p.style.color = '#e0e0e0')
+            if(MainBox2) MainBox2.style.backgroundColor = '#030303'
+            MainBox2P.forEach(p => p.style.color ='#e0e0e0')
+            SecondaryBox2P.forEach(p => p.style.color = '#e0e0e0')
+            if(SecondaryBox2) SecondaryBox2.style.backgroundColor = '#262626'
+            document.querySelector('footer').style.backgroundColor = '#262626'
+            document.querySelector('footer .footer-content h1').style.color = '#6080f4'
+            document.querySelector('.footer-logo p ').style.color = '#e0e0e0'
+            FooterA.forEach(A => A.style.color = '#e0e0e0')
+        } else {
+            document.body.style.backgroundColor = '';
+            header.style.backgroundColor = '';
+            if (logoSpan) logoSpan.style.color = '';
+            mainRoutes.forEach(link => link.style.color = '');
+            authLinks.forEach(link => link.style.color = '');
+            if (mainContentH1) mainContentH1.style.color = '';
+            if (mainContentP) mainContentP.style.color = '';
+            if (watchDemo) watchDemo.style.color = '';
+            if (demoVideoH1) demoVideoH1.style.color = '';
+            if (demoVideoBg) demoVideoBg.style.backgroundColor = '';
+            if (featuresH1) featuresH1.style.color = '';
+            
+            if (box1) box1.classList.remove('active');
+            if (box2) box2.classList.remove('active');
+            if (box3) box3.classList.remove('active');
+            boxH1.forEach(h1 => h1.style.color = '');
+            if (aboutTile) aboutTile.style.color = '';
+            if (mainBox) mainBox.style.backgroundColor = '';
+            if (mainBoxP) mainBoxP.style.color = '';
+            if (mainBoxSpan) mainBoxSpan.style.color = '';
+            if (SecondaryBox) SecondaryBox.style.backgroundColor = '';
+            if (SecondaryBoxSpan) SecondaryBoxSpan.style.color = '';
+            SecondaryBoxP.forEach(p => p.style.color = '');
+            if (MainBox2) MainBox2.style.backgroundColor = '';
+            MainBox2P.forEach(p => p.style.color = '');
+            SecondaryBox2P.forEach(p => p.style.color = '');
+            if (SecondaryBox2) SecondaryBox2.style.backgroundColor = '';
+            if (footer) footer.style.backgroundColor = '';
+            if (footerH1) footerH1.style.color = '';
+            if (footerLogoP) footerLogoP.style.color = '';
+            FooterA.forEach(a => a.style.color = '');
         }
     }
-    // Fetch the dark mode preference from the backend
-    fetch('/darkmode', {
+    //Dark mode Logic
+    fetch('/CheckDarkMode', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.success && data.message === 'Dark mode is ON') {
+            applyDarkMode(true);
+            document.body.classList.add('dark-mode');
+        } else {
+            applyDarkMode(false);
+            document.body.classList.remove('dark-mode');
+        }
+    })
+    .catch((error) => console.error('Error fetching dark mode status:', error));
+
+
+    const darkModeButton = document.querySelector('#header .DropDownMenu .DropDownContent #DarkMode');
+    darkModeButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        fetch('/setDarkMode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
         .then((response) => response.json())
         .then((data) => {
-            console.log('Dark mode preference from server:', data.darkMode);
-            if (data.darkMode) {
-                applyDarkMode(true);
+            if (data.success) {
+                const isDarkMode = !document.body.classList.contains('dark-mode');
+                applyDarkMode(isDarkMode);
+                document.body.classList.toggle('dark-mode', isDarkMode);
+            } else {
+                console.error('Failed to toggle dark mode:', data.message);
             }
+        })
+        .catch((error) => console.error('Error setting dark mode:', error));
+    })
 
-            if (DarkModeButton) {
-                DarkModeButton.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const isDarkMode =
-                        !document.body.classList.contains('dark-mode');
-                    console.log('Toggling dark mode to:', isDarkMode);
-                    applyDarkMode(isDarkMode);
-                    setDarkModePreference(isDarkMode);
-                });
-            }
-        })
-        .catch((error) =>
-            console.error('Error fetching dark mode preference:', error)
-        );
-    function setDarkModePreference(isDarkMode) {
-        fetch('/darkmode', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ darkMode: isDarkMode }),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    console.log('Dark mode preference saved successfully.');
-                } else {
-                    console.error('Failed to save dark mode preference.');
-                }
-            })
-            .catch((error) =>
-                console.error('Error saving dark mode preference:', error)
-            );
-    }
-    function clearDarkModePreference() {
-        fetch('/cleardarkmode', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    console.log('Dark mode preference cleared successfully.');
-                } else {
-                    console.error('Failed to clear dark mode preference.');
-                }
-            })
-            .catch((error) =>
-                console.error('Error clearing dark mode preference:', error)
-            );
-    }
-   
 });
 
 
