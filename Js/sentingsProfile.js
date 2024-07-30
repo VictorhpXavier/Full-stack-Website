@@ -1,88 +1,44 @@
-const hamburger = document.querySelector('.header .nav-bar .nav-list .hamburger');
-const mobile_menu = document.querySelector('.header .nav-bar .nav-list ul');
-const menu_item = document.querySelectorAll('.header .nav-bar .nav-list ul li a');
-const header = document.querySelector('.header.container');
-const hamburgerButton = document.querySelector('#header .nav-list .hamburger');
-const brandSpans = document.querySelectorAll('.brand h1 span');
-
-hamburgerButton.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    mobile_menu.classList.toggle('active');
-    if (mobile_menu.classList.contains(
-        
-        'active')) {
-        mobile_menu.querySelectorAll('a').forEach(item => {
-            item.style.color = 'white';
-        });
-        brandSpans.forEach(span => {
-            span.style.color = 'white';
-        });
-//para o meu do future é necessario adicionar uma funçao para se o tamanho da pagina
-//google for maior do que x as cores voltarem ao normal
-    } else {
-        mobile_menu.querySelectorAll('a').forEach(item => {
-            item.style.color = '';
-        });
-        brandSpans.forEach(span => {
-            span.style.color = '';
-        });
-
-    }
-});
-
-menu_item.forEach((item) => {
-    item.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobile_menu.classList.remove('active');
-        
-        mobile_menu.querySelectorAll('a').forEach(link => {
-            link.style.color = '';
-        });
-    });
-});
-
 document.addEventListener('DOMContentLoaded', function() {
     
 
-    //If user is Logged In then show the Profile Menu and remove the register / login
-
-    function getCookie(name) {
+     //If user is Logged In then show the Profile Menu and remove the register / login
+     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-
     
+    // Handle Profile pic
     const token = getCookie('token');
     const loggedIn = getCookie('loggedIn');
-
     if (token || loggedIn === 'true') {
-        //ChangeProfile Pic
-        updateUserPhotoLink()
-        const LoginElement = document.getElementById('Login');
-        const AccountStatus = document.getElementById('Circle');
-        
-
+        const LoginElement = document.querySelector('#header .Auth .Login');
+        const AccountStatus = document.querySelector('#header .Auth ul li a #Circle');
+        document.querySelector('.SignUpul').style.display = 'none';
         console.log('User is logged in. Modifying the DOM accordingly.');
 
-        LoginElement.innerHTML = "WorkSpace";
-        LoginElement.href = '/workspace';
-        LoginElement.dataset.after = 'Work\nspace';
-        document.getElementById('Register').innerHTML = '';
+        LoginElement.style.marginTop = '100px'
+        LoginElement.innerHTML = 'WorkSpace';
+        LoginElement.href = '/Workspace';
         AccountStatus.style.display = 'inline-block';
-
-    } else {
-        console.log('User is not logged in.');
+        updateUserPhotoLink()
     }
+    
+    // Toggle dropdown menu visibility
+    const CircleButton = document.querySelector('#header .Auth #CircleButton');
+    const DropDownMenu = document.querySelector('#header .DropDownMenu');
+    
+
     //Handle Profile Menu
 
-    const CircleButton = document.querySelector('#CircleButton'); 
-    const DropDownMenu = document.querySelector('.DropDownMenu');
-    const SignOutButton = document.querySelector('.DropDownMenu .DropDownContent #SignOut');
+    const SignOutButton = document.querySelector('.DropDownMenu .DropDownContent #SignOut' );
 
     if (CircleButton) {
-        CircleButton.addEventListener('click', function() {
-            if (DropDownMenu.style.display === 'none' || DropDownMenu.style.display === '') {
+        CircleButton.addEventListener('click', function () {
+            if (
+                DropDownMenu.style.display === 'none' ||
+                DropDownMenu.style.display === ''
+            ) {
                 DropDownMenu.style.display = 'inline-block';
             } else {
                 DropDownMenu.style.display = 'none';
@@ -94,26 +50,29 @@ document.addEventListener('DOMContentLoaded', function() {
             DropDownMenu.style.display = 'none';
         }
     });
+
     if (SignOutButton) {
-        SignOutButton.addEventListener('click', function() {
+        SignOutButton.addEventListener('click', function () {
             // Clear cookies
-            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie =
+                'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie =
+                'loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
             // Optionally make a request to the server to clear any server-side session
             fetch('/signout', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    'Content-Type': 'application/json',
+                },
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message);
-                // Redirect the user to the login page or home page
-                window.location.href = '/login';
-            })
-            .catch(error => console.error('Error:', error));
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data.message);
+                    // Redirect the user to the login page or home page
+                    window.location.href = '/login';
+                })
+                .catch((error) => console.error('Error:', error));
         });
     }
     //Handle Style customization
@@ -291,7 +250,7 @@ function updateUserPhotoLink() {
     })
     .then(response => response.json())
     .then(data => {
-        const circleElement = document.querySelector('#header .nav-list ul a #Circle');
+        const circleElement = document.querySelector('#header .Auth ul li a #Circle');
         if (data.success) {
             if (data.photoLink) {
                 const photoUrl = `/uploads/${data.photoLink}`;
@@ -303,3 +262,20 @@ function updateUserPhotoLink() {
         console.error('Error:', error);
     });
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const hamburger = document.getElementById('hamburger');
+    const header = document.querySelector('#header');
+    const authButtons = document.querySelector('#header .Auth');
+    const mainRoutes = document.querySelector('#header .MainRoutes');
+
+    if (hamburger) {
+        hamburger.addEventListener('click', function () {
+            authButtons.classList.toggle('visible');
+            mainRoutes.classList.toggle('visible');
+            header.classList.toggle('active');
+        });
+    }
+
+});
