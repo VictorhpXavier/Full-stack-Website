@@ -9,6 +9,7 @@ const multer = require('multer');
 const { spawn } = require('child_process');
 const con = require('../Database/Dbconnection.js')
 const fs = require('fs');
+const { exec } = require('child_process');
 const router = express.Router();
 
 const secretKey = process.env.SECRET_KEY;
@@ -18,9 +19,7 @@ router.use(cookieParser());
 router.use(express.static(path.join(__dirname, 'public')));
 const upload = multer({ dest: 'uploads/' });
 
-
 const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 
 /* Get User info */
 router.get('/get-user-id', (req, res) => {
@@ -51,6 +50,20 @@ router.get('/get-email', (req, res) => {
         return res.status(400).json({ error: 'Invalid Token' });
     }
 });
+
+function GetPhotoId() {
+    //Send Photo Data to the Python Script
+    router.get('/UserPhotosId', (req, res) => {
+        const getId = 'SELECT PhotoLink FROM Users WHERE PhotoLink <> ?'
+        con.query(getId, ['NULL'], (err, results) => {
+            if (err) {
+                console.log(err)
+            }
+            res.json(results);
+        })    
+    })
+}
+
 //Handle Signup Logic
 router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
@@ -756,19 +769,20 @@ router.post('/CheckUserLanguage', (req, res) => {
     });
 });
 
+
 /* Change USer profile photo */
 
 router.post('/userPhoto', upload.single('file'), (req, res) => {
     console.log('File received:', req.file);
-
+    GetPhotoId()
     if (!req.file) {
         console.log('No file uploaded');
         return res.status(400).json({ error: 'No file uploaded' });
     }
 
     const email = req.email;
-    const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, 'uploads', req.file.originalname);
+    //const tempPath = req.file.path;
+    //const targetPath = path.join(__dirname, 'uploads', req.file.originalname);
 
     const photoName = req.file.filename;
     const InsertPhoto = 'UPDATE Users SET PhotoLink = ? WHERE email = ?';
@@ -783,6 +797,13 @@ router.post('/userPhoto', upload.single('file'), (req, res) => {
         console.log('File uploaded to2sasfsaf:', fileUrl);
         res.json({ success: true, imageUrl: fileUrl });
     });
+    exec('python3 python/deletephotos.py', (err, stdout, stderr) => {
+        if (err) {
+            console.error(`Error executing script: ${err}`);
+            return;
+        }
+        console.log(`Script output: ${stdout}`);
+    })
 });
 
 
