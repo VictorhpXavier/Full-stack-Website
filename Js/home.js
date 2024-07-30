@@ -303,9 +303,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isDarkMode) {
             document.body.style.backgroundColor = '#121212';
             header.style.backgroundColor = '#121212';
-            if (logoSpan) logoSpan.style.color = '#6080f4';
-            mainRoutes.forEach(link => link.style.color = '#6080f4');
-            authLinks.forEach(link => link.style.color = '#6080f4');
+            if (logoSpan) logoSpan.style.color = '#128fdc';
+            mainRoutes.forEach(link => link.style.color = '#128fdc');
+            authLinks.forEach(link => link.style.color = '#128fdc');
             if (mainContentH1) mainContentH1.style.color = '#66aaff';
             if (mainContentP) mainContentP.style.color = '#e0e0e0';
             if (watchDemo) watchDemo.style.color = '#e0e0e0';

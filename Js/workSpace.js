@@ -75,6 +75,71 @@ document.addEventListener('DOMContentLoaded', function() {
                 .catch((error) => console.error('Error:', error));
         });
     }
+     //Dark mode logic
+     const header = document.getElementById('header');
+     const logoSpan = document.querySelector('#header .Logo h1');
+     const mainRoutes = document.querySelectorAll('#header .MainRoutes ul a');
+     const authLinks = document.querySelectorAll('#header .Auth ul a');
+    
+     function applyDarkMode(isDarkMode) {
+         if (isDarkMode) {
+             document.body.style.backgroundColor = '#121212';
+             header.style.backgroundColor = '#121212';
+             if (logoSpan) logoSpan.style.color = '#128fdc';
+             mainRoutes.forEach(link => link.style.color = '#128fdc');
+             authLinks.forEach(link => link.style.color = '#128fdc');
+            
+         } else {
+             document.body.style.backgroundColor = '';
+             header.style.backgroundColor = '';
+             if (logoSpan) logoSpan.style.color = '';
+             mainRoutes.forEach(link => link.style.color = '');
+             authLinks.forEach(link => link.style.color = '');
+            
+         }
+     }
+     //Dark mode Logic
+     fetch('/CheckDarkMode', {
+         method: 'GET',
+         headers: {
+             'Content-Type': 'application/json',
+         },
+     })
+     .then((response) => response.json())
+     .then((data) => {
+         if (data.success && data.message === 'Dark mode is ON') {
+             applyDarkMode(true);
+             document.body.classList.add('dark-mode');
+         } else {
+             applyDarkMode(false);
+             document.body.classList.remove('dark-mode');
+         }
+     })
+     .catch((error) => console.error('Error fetching dark mode status:', error));
+ 
+ 
+     const darkModeButton = document.querySelector('#header .DropDownMenu .DropDownContent #DarkMode');
+     darkModeButton.addEventListener('click', (event) => {
+         event.preventDefault();
+         fetch('/setDarkMode', {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json',
+             },
+         })
+         .then((response) => response.json())
+         .then((data) => {
+             if (data.success) {
+                 const isDarkMode = !document.body.classList.contains('dark-mode');
+                 applyDarkMode(isDarkMode);
+                 document.body.classList.toggle('dark-mode', isDarkMode);
+             } else {
+                 console.error('Failed to toggle dark mode:', data.message);
+             }
+         })
+         .catch((error) => console.error('Error setting dark mode:', error));
+     })
+
     /* Get Started Not using right now 
     const GetStarted = document.querySelector('#GetStarted')
     const subjectInput = document.querySelector('.UserInput .Subject');

@@ -389,132 +389,92 @@ document.addEventListener('DOMContentLoaded', function() {
     }
      //Darkmode settings account
 
-     const DarkModeButton = document.querySelector('#DarkMode');
-     const brandSpans = document.querySelectorAll('.brand h1 span');
-     const headerLinks = document.querySelectorAll('#header .nav-list ul a');
-     const settingsLi = document.querySelectorAll('#Settings ul li a');
-     const settingsH2 = document.querySelectorAll('#Settings h2');
-     const settingsH3 = document.querySelectorAll('#Settings h3');
-     const settingsP = document.querySelectorAll('#Settings p');
- 
-     function applyDarkModeStyles() {
-         document.body.classList.add('dark-mode');
-         document.body.style.backgroundColor = '#121212';
-         document.querySelector('#Settings h1').style.color = '#489be0';
-         document.querySelector('#Settings .JoinGoogle').style.color = 'red';
-         brandSpans.forEach(span => {
-             span.style.color = '#9acdec';
-         });
-         document.querySelector('#header').style.backgroundColor = '#121212';
-         headerLinks.forEach(link => {
-             link.style.color = '#489be0';
-         });
-         settingsLi.forEach(li => {
-             li.style.color = '#9acdec';
-         });
-         settingsH2.forEach(h2 => {
-             h2.style.color = '#489be0';
-         });
-         settingsH3.forEach(h3 => {
-             h3.style.color = '#9acdec';
-         });
-         settingsP.forEach(p => {
-             p.style.color = 'red';
-         });
-     }
- 
-     function clearDarkModeStyles() {
-         document.body.classList.remove('dark-mode');
-         document.body.style.backgroundColor = '';
-         document.querySelector('#Settings h1').style.color = '';
-         document.querySelector('#Settings .JoinGoogle').style.color = '';
-         brandSpans.forEach(span => {
-             span.style.color = '';
-         });
-         document.querySelector('#header').style.backgroundColor = '';
-         headerLinks.forEach(link => {
-             link.style.color = '';
-         });
-         settingsLi.forEach(li => {
-             li.style.color = '';
-         });
-         settingsH2.forEach(h2 => {
-             h2.style.color = '';
-         });
-         settingsH3.forEach(h3 => {
-             h3.style.color = '';
-         });
-         settingsP.forEach(p => {
-             p.style.color = '';
-         });
-     }
- 
-     function applyDarkMode(isDarkMode) {
-         if (isDarkMode) {
-             applyDarkModeStyles();
-         } else {
-             clearDarkModeStyles();
-         }
-     }
- 
-     fetch('/darkmode', {
-         method: 'GET',
-         headers: {
-             'Content-Type': 'application/json'
-         }
-     }).then(response => response.json())
-     .then(data => {
-         console.log('Dark mode preference from server:', data.darkMode);
-         if (data.darkMode) {
-             applyDarkMode(true);
-         }
- 
-         if (DarkModeButton) {
-             DarkModeButton.addEventListener('click', function(event) {
-                 event.preventDefault();
-                 const isDarkMode = !document.body.classList.contains('dark-mode');
-                 console.log('Toggling dark mode to:', isDarkMode);
-                 applyDarkMode(isDarkMode);
-                 setDarkModePreference(isDarkMode);
-             });
-         }
-     })
-     .catch(error => console.error('Error fetching dark mode preference:', error));
- 
-     function setDarkModePreference(isDarkMode) {
-         fetch('/darkmode', {
-             method: 'POST',
-             headers: {
-                 'Content-Type': 'application/json'
-             },
-             body: JSON.stringify({ darkMode: isDarkMode })
-         })
-         .then(response => {
-             if (response.ok) {
-                 console.log('Dark mode preference saved successfully.');
-             } else {
-                 console.error('Failed to save dark mode preference.');
-             }
-         })
-         .catch(error => console.error('Error saving dark mode preference:', error));
-     }
- 
-     function clearDarkModePreference() {
-         fetch('/cleardarkmode', {
-             method: 'POST',
-             headers: {
-                 'Content-Type': 'application/json'
-             }
-         })
-         .then(response => {
-             if (response.ok) {
-                 console.log('Dark mode preference cleared successfully.');
-             } else {
-                 console.error('Failed to clear dark mode preference.');
-             }
-         })
-         .catch(error => console.error('Error clearing dark mode preference:', error));
-     }
+    //Dark mode logic
+    const header = document.getElementById('header');
+    const logoSpan = document.querySelector('#header .Logo h1');
+    const mainRoutes = document.querySelectorAll('#header .MainRoutes ul a');
+    const authLinks = document.querySelectorAll('#header .Auth ul a');
+    const h1 = document.querySelector('#Settings h1')
+    const settingUl = document.querySelectorAll('#Settings ul li a ')
+    const h2 = document.querySelector('h2')
+    const h3 = document.querySelectorAll('#Settings h3')
+    const deleteAccount = document.querySelector('#Settings .DangerZone h3')
+    const p = document.querySelectorAll('#Settings p')
+    const googleSpan = document.querySelector('#Settings .JoinGoogle span')
+    const singInGoogle = document.querySelector('#Settings .JoinGoogle img')
+    function applyDarkMode(isDarkMode) {
+        if (isDarkMode) {
+            document.body.style.backgroundColor = '#121212';
+            header.style.backgroundColor = '#121212';
+            if (logoSpan) logoSpan.style.color = '#128fdc';
+            mainRoutes.forEach(link => link.style.color = '#128fdc');
+            authLinks.forEach(link => link.style.color = '#128fdc');
+            h1.style.color = '#128fdc'
+            settingUl.forEach(a => a.style.color ='#e0e0e0')
+            h2.style.color = '#128fdc'
+            h3.forEach(h3 => h3.style.color ='#128fdc')
+            deleteAccount.style.color ='red'
+            p.forEach(p => p.style.color ='#e0e0e0')
+            googleSpan.style.color ='#e0e0e0'
+            singInGoogle.src = '../UserIcon/web_dark_rd_SI.svg'
+        } else {
+            document.body.style.backgroundColor = '';
+            header.style.backgroundColor = '';
+            if (logoSpan) logoSpan.style.color = '';
+            mainRoutes.forEach(link => link.style.color = '');
+            authLinks.forEach(link => link.style.color = '');
+            h1.style.color = ''
+            settingUl.forEach(a => a.style.color ='')
+            h2.style.color = ''
+            h3.forEach(h3 => h3.style.color ='')
+            deleteAccount.style.color =''
+            p.forEach(p => p.style.color ='')
+            googleSpan.style.color =''
+            singInGoogle.src = '../UserIcon/web_neutral_rd_SI.svg'
+         
+        }
+    }
+    //Dark mode Logic
+    fetch('/CheckDarkMode', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.success && data.message === 'Dark mode is ON') {
+            applyDarkMode(true);
+            document.body.classList.add('dark-mode');
+        } else {
+            applyDarkMode(false);
+            document.body.classList.remove('dark-mode');
+        }
+    })
+    .catch((error) => console.error('Error fetching dark mode status:', error));
+
+
+    const darkModeButton = document.querySelector('#header .DropDownMenu .DropDownContent #DarkMode');
+    darkModeButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        fetch('/setDarkMode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                const isDarkMode = !document.body.classList.contains('dark-mode');
+                applyDarkMode(isDarkMode);
+                document.body.classList.toggle('dark-mode', isDarkMode);
+            } else {
+                console.error('Failed to toggle dark mode:', data.message);
+            }
+        })
+        .catch((error) => console.error('Error setting dark mode:', error));
+    })
 });
 function updateUserPhotoLink() {
     fetch('/updatePhotoLink', {
