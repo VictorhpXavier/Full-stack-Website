@@ -1,11 +1,10 @@
 @import 'https://fonts.googleapis.com/css?family=Montserrat:300, 400, 700&display=swap';
 
-
 body {
     margin: 0;
     padding: 0;
     list-style: none;
-	overflow: hidden;
+    overflow: hidden;
     background-color: #ededed;
 }
 h1,
@@ -16,28 +15,27 @@ li {
     list-style: none;
 }
 html {
-	font-size: 11px;
-	font-family: 'Montserrat', sans-serif;
-	scroll-behavior: smooth;
-
+    font-size: 11px;
+    font-family: 'Montserrat', sans-serif;
+    scroll-behavior: smooth;
 }
 a {
-	text-decoration: none;
+    text-decoration: none;
 }
 .container {
-	min-height: 100vh;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #header {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
+    justify-content: space-between;
     padding: 15px 50px;
     background-color: #ededed;
-    position: fixed; 
+    position: fixed;
     top: 0; /* Position it at the top of the viewport */
     left: 0; /* Align it to the left edge of the viewport */
     width: 100%; /* Ensure the header takes the full width */
@@ -75,7 +73,6 @@ a {
     flex: 1;
     text-align: right;
     margin-right: 80px;
-
 }
 
 #header ul {
@@ -148,7 +145,6 @@ a {
     background-size: cover;
 }
 
-
 .hamburger {
     flex-direction: column;
     display: none;
@@ -220,244 +216,245 @@ a {
 }
 /*GetStarted Section*/
 
-
 #GetStarted {
-	display: none;
-	width: 600px;
-	height: auto;
-	background-color: #FFFF;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	border-radius: 4%;
-	transform: translate(-50%, -50%);
-	place-items: center;
-	padding: 20px;
-	box-sizing: border-box;
+    display: none;
+    width: 600px;
+    height: auto;
+    background-color: #ffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 4%;
+    transform: translate(-50%, -50%);
+    place-items: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 #GetStarted .StartBox h1 {
-	color: #128fdc;
-	text-align: center;
-	font-size: 25px;
-	font-weight: bold;
-	margin-bottom: 20px;
+    color: #128fdc;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 #GetStarted .grid-container {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 20px;
-	width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
 }
 
 .grid-item {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .Pooh img {
-	width: 15%;
-	position: absolute;
-	top: 14%;
-	left: 9;
+    width: 15%;
+    position: absolute;
+    top: 14%;
+    left: 9;
 }
 
 .UserInput .usericon {
-	width: 10%;
-	position: absolute;
-	top: 52%;
-	right: 1%;
+    width: 10%;
+    position: absolute;
+    top: 52%;
+    right: 1%;
 }
 
-.Pooh p, .UserInput input {
-	width: 90%;
-	border: 1px solid rgb(51, 51, 51);
-	outline: none;
-	border-radius: 8px;
-	font-size: 16px;
-	color: black;
-	padding: 20px;
-	font-weight: 500;
-	transition: all 0.30s ease-in-out;
-	flex-grow: 1;
-	margin-bottom: 5px;
+.Pooh p,
+.UserInput input {
+    width: 90%;
+    border: 1px solid rgb(51, 51, 51);
+    outline: none;
+    border-radius: 8px;
+    font-size: 16px;
+    color: black;
+    padding: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    flex-grow: 1;
+    margin-bottom: 5px;
 }
 .Pooh p {
-	margin-bottom: 25px;
+    margin-bottom: 25px;
 }
-#GetStarted .StartBox .Pooh p{
-	margin-left: 90px;
-	width: 80%;
+#GetStarted .StartBox .Pooh p {
+    margin-left: 90px;
+    width: 80%;
 }
 .UserInput .SubInfo .SubInfoText {
-	display: none;
-	width: 90%;
-	border: 1px solid rgb(51, 51, 51);
-	outline: none;
-	border-radius: 8px;
-	font-size: 16px;
-	color: black;
-	padding: 10px;
-	font-weight: 500;
-	transition: all 0.30s ease-in-out;
-	flex-grow: 1;
-	margin-bottom: 5px;
-	resize: none;
+    display: none;
+    width: 90%;
+    border: 1px solid rgb(51, 51, 51);
+    outline: none;
+    border-radius: 8px;
+    font-size: 16px;
+    color: black;
+    padding: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    flex-grow: 1;
+    margin-bottom: 5px;
+    resize: none;
 }
 .UserInput .SubInfo .a213 {
-	display: none;
-	position: absolute;
-	right: 1%;
-	top: 70%;
-	width: 10%;
-	right: 1%;
+    display: none;
+    position: absolute;
+    right: 1%;
+    top: 70%;
+    width: 10%;
+    right: 1%;
 }
 .GiveMoreInfo {
-	display: block;
-	margin-top: 10px;
-	margin-left: 80px;
-	max-width: 85%;
-	width: 90%;
-	border: 1px solid rgb(51, 51, 51);
-	outline: none;
-	border-radius: 8px;
-	font-size: 16px;
-	color: black;
-	padding: 20px;
-	font-weight: 500;
-	transition: all 0.30s ease-in-out;
-	flex-grow: 1;
-	margin-bottom: 30px;
+    display: block;
+    margin-top: 10px;
+    margin-left: 80px;
+    max-width: 85%;
+    width: 90%;
+    border: 1px solid rgb(51, 51, 51);
+    outline: none;
+    border-radius: 8px;
+    font-size: 16px;
+    color: black;
+    padding: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    flex-grow: 1;
+    margin-bottom: 30px;
 }
 .UserInput .pooh {
-	width: 15%;
-	position: absolute;
-	top: 58%;
-	left: 2%;
+    width: 15%;
+    position: absolute;
+    top: 58%;
+    left: 2%;
 }
 
 .UserInput .dropdown {
-	display: none;
-	position: absolute;
-	top: 73%;
-	left: 0;
-	width: 100%;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	background-color: #fff;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	z-index: 1000;
-	max-height: 200px;
-	overflow-y: auto;
+    display: none;
+    position: absolute;
+    top: 73%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
 }
 .UserInput .ErrorMessage {
-	color: red;
-	font-weight: bold;
-	display: none;
-	font-size: 14px;
+    color: red;
+    font-weight: bold;
+    display: none;
+    font-size: 14px;
 }
 
 .UserInput .dropdown .option {
-	padding: 10px;
-	cursor: pointer;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .UserInput .dropdown .option:hover {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 .UserInput .dropdownPt {
-	display: none;
-	position: absolute;
-	top: 73%;
-	left: 0;
-	width: 100%;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	background-color: #fff;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	z-index: 1000;
-	max-height: 200px;
-	overflow-y: auto;
+    display: none;
+    position: absolute;
+    top: 73%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .UserInput .dropdownPt .option {
-	padding: 10px;
-	cursor: pointer;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .UserInput .dropdownPt .option:hover {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 #GetStarted .Pooh input:focus,
 #GetStarted .UserInput input:focus,
 .UserInput .SubInfo .SubInfoText:focus {
-	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-	border: 1px solid rgba(81, 203, 238, 1);
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
 }
 
 #GetStarted .GetStartedButton {
-	background-color: #0276FF;
-	border-radius: 8px;
-	border-style: none;
-	box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
-	box-sizing: border-box;
-	color: #fff;
-	cursor: pointer;
-	display: flex;
-	flex-direction: row;
-	flex-shrink: 0;
-	font-family: "RM Neue", sans-serif;
-	font-size: 100%;
-	line-height: 1.15;
-	margin: 20px auto 0 auto;
-	padding: 12px 27px;
-	text-align: center;
-	text-transform: none;
-	transition: color .13s ease-in-out, background .13s ease-in-out, opacity .13s ease-in-out, box-shadow .13s ease-in-out;
-	user-select: none;
-	-webkit-user-select: none;
-	touch-action: manipulation;
+    background-color: #0276ff;
+    border-radius: 8px;
+    border-style: none;
+    box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    font-family: 'RM Neue', sans-serif;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 20px auto 0 auto;
+    padding: 12px 27px;
+    text-align: center;
+    text-transform: none;
+    transition: color 0.13s ease-in-out, background 0.13s ease-in-out,
+        opacity 0.13s ease-in-out, box-shadow 0.13s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
 #GetStarted .GetStartedButton:active {
-	background-color: #006AE8;
+    background-color: #006ae8;
 }
 
 #GetStarted .GetStartedButton:hover {
-	background-color: #1C84FF;
+    background-color: #1c84ff;
 }
 
 #GetStarted .CloseButton {
-	position: absolute;
-	background: none;
-	border: none;
-	font-size: 18px;
-	top: 2%;
-	right: 2%;
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: 18px;
+    top: 2%;
+    right: 2%;
 }
 
 #GetStarted .CloseButton:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 .a {
-	display: none;
+    display: none;
 }
 /*Maincontent section*/
 
 #AddSubject .AddSubject {
-	position: absolute;
-	right: 7%;
-	bottom: 10%;
-	display: none;
+    position: absolute;
+    right: 7%;
+    bottom: 10%;
+    display: none;
 }
 #AddSubject .AddSubject:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .CloseButton {
-	display: none;
+    display: none;
 }
 /* Style the tooltip text */
 .AddSubject .AddSubjectTest {
@@ -492,7 +489,7 @@ a {
     align-items: flex-start; /* Aligns cards to the top */
     gap: 20px; /* Adds space between the cards */
     padding: 20px; /* Adds some padding around the content */
-	margin-top: 10%;
+    margin-top: 10%;
     min-height: 100vh; /* Ensures the section takes at least the full viewport height */
     box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
@@ -511,7 +508,7 @@ a {
 }
 
 #MainContent .card-header {
-    background-color: #607D8B;
+    background-color: #607d8b;
     color: #fff;
     padding: 16px;
     border-top-left-radius: 8px;
@@ -564,28 +561,28 @@ a {
 }
 
 #MainContent .icons .icon-chart::before {
-    content: "\f201"; /* Font Awesome chart icon */
+    content: '\f201'; /* Font Awesome chart icon */
 }
 
 #MainContent .icons .icon-folder::before {
-    content: "\f07b"; /* Font Awesome folder icon */
+    content: '\f07b'; /* Font Awesome folder icon */
 }
 
 @keyframes hamburger_puls {
-	0% {
-		opacity: 1;
-		transform: scale(1);
-	}
-	100% {
-		opacity: 0;
-		transform: scale(1.4);
-	}
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.4);
+    }
 }
 
 @keyframes text_reveal {
     from {
         opacity: 0;
-        transform: translateX(-50px); 
+        transform: translateX(-50px);
     }
     to {
         opacity: 1;
@@ -604,146 +601,238 @@ a {
     }
 }
 
-
-/* End Keyframes */
-@media (max-width: 768px) {
-	#GetStarted {
-		width: 90%;
-		padding: 10px;
+@media (max-width: 481px) {
+	#header {
+		flex-direction: row; /* Stack the logo and navigation sections vertically */
+        align-items: flex-start; /* Align items to the start (left) */
+		margin-top: 20px;
 	}
-	#GetStarted .grid-container {
-		grid-template-columns: 1fr;
+    #header .Logo h1 {
+        font-size: 20px;
+        display: flex;
+        margin-left: -30px;
+    }
+	#header .MainRoutes a{
+		font-size: 18px;
 	}
-	.Pooh img {
-		width: 15%;
-		left: 0;
-		top: 17%;
-	}
-	.UserInput .usericon {
-		top: 51%;
-		right: 1%;
-		width: 10%;
-	}
-	.UserInput .SubInfo .a213 {
-		top: 72%;
+	#header .Auth a{
+		margin-right: 60px;
+		align-items: center;
+		justify-self: center;
+		font-size: 18px;
 		
 	}
-	.Pooh p, .UserInput input {
-		width: 89%;
-		padding: 15px;
-		margin-right: 2px;
+	#header .Auth #CircleButton {
+		position: absolute;
+		margin-top: -30px !important;
+		right: 120px;
+		margin-right: 0px !important;
+	}
 
-	}
-	#GetStarted .StartBox .Pooh p {
-		margin-left: 60px;
-		width: calc(100% - 60px);
-	}
-	.GiveMoreInfo {
-		margin-left: 50px;
-		width: calc(100% - 50px);
-		padding: 15px;
-	}
-	.UserInput .pooh { 
-		left: 0;
-	}
-	.GiveMoreInfo {
-		margin-left: 60px;
-	    width: 90%;
-	}
+    #MainContent {
+        display: flex;
+        flex-direction: column; /* Stacks the cards vertically */
+        justify-content: center; /* Centers the cards horizontally within the container */
+        align-items: center; /* Centers the cards vertically within the container */
+        gap: 20px; /* Adds space between the cards */
+        padding: 20px; /* Adds some padding around the content */
+        margin-top: 10%;
+        min-height: 100vh; /* Ensures the section takes at least the full viewport height */
+        box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    }
+
+    #MainContent .card {
+        width: 300px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background-color: #fff;
+        box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+    }
+
+    #MainContent .card:hover {
+        cursor: pointer;
+        box-shadow: rgba(149, 157, 165, 0.2) 2px 8px 24px;
+    }
+
+    #MainContent .card-header {
+        background-color: #607d8b;
+        color: #fff;
+        padding: 16px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        position: relative;
+    }
+
+    #MainContent .card-header h1 {
+        margin: 0;
+        font-size: 1.5em;
+    }
+
+    #MainContent .card-header p {
+        margin: 0;
+        font-size: 1em;
+    }
+
+    #MainContent .card-header img {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 50px;
+        height: auto;
+    }
+
+    #MainContent .card-body {
+        padding: 16px;
+        height: 130px;
+    }
+
+    #MainContent .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-top: 1px solid #e0e0e0;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+}
+/* End Keyframes */
+@media (max-width: 768px) {
+    #GetStarted {
+        width: 90%;
+        padding: 10px;
+    }
+    #GetStarted .grid-container {
+        grid-template-columns: 1fr;
+    }
+    .Pooh img {
+        width: 15%;
+        left: 0;
+        top: 17%;
+    }
+    .UserInput .usericon {
+        top: 51%;
+        right: 1%;
+        width: 10%;
+    }
+    .UserInput .SubInfo .a213 {
+        top: 72%;
+    }
+    .Pooh p,
+    .UserInput input {
+        width: 89%;
+        padding: 15px;
+        margin-right: 2px;
+    }
+    #GetStarted .StartBox .Pooh p {
+        margin-left: 60px;
+        width: calc(100% - 60px);
+    }
+    .GiveMoreInfo {
+        margin-left: 50px;
+        width: calc(100% - 50px);
+        padding: 15px;
+    }
+    .UserInput .pooh {
+        left: 0;
+    }
+    .GiveMoreInfo {
+        margin-left: 60px;
+        width: 90%;
+    }
 }
 
 /* Media Query For Tablet */
 @media only screen and (min-width: 768px) {
-	.cta {
-		font-size: 2.5rem;
-		padding: 20px 60px;
-	}
-	h1.section-title {
-		font-size: 6rem;
-	}
+    .cta {
+        font-size: 2.5rem;
+        padding: 20px 60px;
+    }
+    h1.section-title {
+        font-size: 6rem;
+    }
 
-	/* Hero */
-	#hero h1 {
-		font-size: 7rem;
-	}
-	/* End Hero */
+    /* Hero */
+    #hero h1 {
+        font-size: 7rem;
+    }
+    /* End Hero */
 
-	/* Project */
-	#projects .project-item {
-		flex-direction: row;
-	}
-	#projects .project-item:nth-child(even) {
-		flex-direction: row-reverse;
-	}
-	#projects .project-item {
-		height: 400px;
-		margin: 0;
-		width: 100%;
-		border-radius: 0;
-	}
-	#projects .all-projects .project-info {
-		height: 100%;
-	}
-	#projects .all-projects .project-img {
-		height: 100%;
-	}
-	/* End Project */
+    /* Project */
+    #projects .project-item {
+        flex-direction: row;
+    }
+    #projects .project-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+    #projects .project-item {
+        height: 400px;
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+    }
+    #projects .all-projects .project-info {
+        height: 100%;
+    }
+    #projects .all-projects .project-img {
+        height: 100%;
+    }
+    /* End Project */
 
-	/* About */
-	#about .about {
-		flex-direction: row;
-	}
-	#about .col-left {
-		width: 600px;
-		height: 400px;
-		padding-left: 60px;
-	}
-	#about .about .col-left .about-img::after {
-		left: -45px;
-		top: 34px;
-		height: 98%;
-		width: 98%;
-		border: 10px solid rgb(179, 0, 255);
-	}
-	#about .col-right {
-		text-align: left;
-		padding: 30px;
-	}
-	#about .col-right h1 {
-		text-align: left;
-	}
-	/* End About */
-
+    /* About */
+    #about .about {
+        flex-direction: row;
+    }
+    #about .col-left {
+        width: 600px;
+        height: 400px;
+        padding-left: 60px;
+    }
+    #about .about .col-left .about-img::after {
+        left: -45px;
+        top: 34px;
+        height: 98%;
+        width: 98%;
+        border: 10px solid rgb(179, 0, 255);
+    }
+    #about .col-right {
+        text-align: left;
+        padding: 30px;
+    }
+    #about .col-right h1 {
+        text-align: left;
+    }
+    /* End About */
 }
 /* End Media Query For Tablet */
 
 /* Media Query For Desktop */
 @media only screen and (min-width: 1200px) {
-	/* header */
-	#header .hamburger {
-		display: none;
-	}
-	#header .nav-list ul {
-		position: initial;
-		display: block;
-		height: auto;
-		width: fit-content;
-		background-color: transparent;
-	}
-	#header .nav-list ul li {
-		display: inline-block;
-	}
-	#header .nav-list ul li a {
-		font-size: 1.8rem;
-	}
-	#header .nav-list ul a:after {
-		display: none;
-	}
-	/* End header */
+    /* header */
+    #header .hamburger {
+        display: none;
+    }
+    #header .nav-list ul {
+        position: initial;
+        display: block;
+        height: auto;
+        width: fit-content;
+        background-color: transparent;
+    }
+    #header .nav-list ul li {
+        display: inline-block;
+    }
+    #header .nav-list ul li a {
+        font-size: 1.8rem;
+    }
+    #header .nav-list ul a:after {
+        display: none;
+    }
+    /* End header */
 
-	#services .service-bottom .service-item {
-		flex-basis: 22%;
-		margin: 1.5%;
-	}
+    #services .service-bottom .service-item {
+        flex-basis: 22%;
+        margin: 1.5%;
+    }
 }
 /* End  Media Query For Desktop */

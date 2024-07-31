@@ -456,7 +456,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     const userMessages = data.userMessages;
                     const botMessages = data.botMessages;
-
+                
+                    const combinedMessages = [];
+                
+                    userMessages.forEach((message, index) => {
+                        combinedMessages.push({ sender: 'user', message: message, index: index });
+                    });
+                
+                    botMessages.forEach((message, index) => {
+                        combinedMessages.push({ sender: 'bot', message: message, index: index });
+                    });
+                
+                    combinedMessages.sort((a, b) => a.index - b.index);
+                
                     // Function to add a message to the chat window
                     function addMessageToChat(sender, message) {
                         const messageElement = document.createElement('div');
@@ -465,15 +477,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         chatWindow.appendChild(messageElement);
                         chatWindow.scrollTop = chatWindow.scrollHeight;
                     }
-
-                    // Loop through user messages and add them to the chat window
-                    userMessages.forEach((message) => {
-                        addMessageToChat('user', message);
-                    });
-
-                    // Loop through bot messages and add them to the chat window
-                    botMessages.forEach((message) => {
-                        addMessageToChat('bot', message);
+                
+                    combinedMessages.forEach((msg) => {
+                        addMessageToChat(msg.sender, msg.message);
                     });
                 } else {
                     console.error('Failed to retrieve messages');

@@ -295,6 +295,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const MainBox2P = document.querySelectorAll('#About .MainBox2 .content p')
     const SecondaryBox2 = document.querySelector('#About .SecondaryBox2')
     const SecondaryBox2P = document.querySelectorAll('#About .MainBox2 .SecondaryBox2 p')
+    const aboutTileS = document.querySelector('#AboutSmallScreen .Title')
+    const mainBoxS = document.querySelector('#AboutSmallScreen ')
+    const mainBoxPS = document.querySelector('#AboutSmallScreen  .content p')
+    const mainBoxSpanS = document.querySelector('#AboutSmallScreen  .content span')
+    const SecondaryBoxS = document.querySelector('#AboutSmallScreen ')
+    const SecondaryBoxPS = document.querySelectorAll('#AboutSmallScreen   p')
+    const SecondaryBoxSpanS = document.querySelector('#AboutSmallScreen  .content span')
+    const MainBox2S = document.querySelector('#AboutSmallScreen')
+    const MainBox2PS = document.querySelectorAll('#AboutSmallScreen  .content p')
+    const SecondaryBox2S = document.querySelector('#AboutSmallScreen ')
+    const SecondaryBox2PS = document.querySelectorAll('#AboutSmallScreen   p')
     const footer = document.querySelector('footer');
     const footerH1 = document.querySelector('footer .footer-content h1');
     const footerLogoP = document.querySelector('.footer-logo p');
@@ -318,14 +329,27 @@ document.addEventListener('DOMContentLoaded', function () {
             if (box3) box3.classList.add('active');
             boxH1.forEach(h1 => h1.style.color = '#6080f4')
             if(aboutTile) aboutTile.style.color = '#e0e0e0'
+            if(aboutTileS) aboutTileS.style.color = '#e0e0e0'
             if(mainBox) mainBox.style.backgroundColor = '#262626'
             if(mainBoxP) mainBoxP.style.color = '#e0e0e0'
             if(mainBoxSpan) mainBoxSpan.style.color = '#6080f4'
             if(SecondaryBox) SecondaryBox.style.backgroundColor = '#030303'
-            if(SecondaryBoxSpan) SecondaryBoxSpan.style.color = '#6080f4'
+            if(SecondaryBoxSpan) SecondaryBoxSpan.style.color = '#6080f4'    
             SecondaryBoxP.forEach(p => p.style.color = '#e0e0e0')
             if(MainBox2) MainBox2.style.backgroundColor = '#030303'
+
             MainBox2P.forEach(p => p.style.color ='#e0e0e0')
+            if(mainBoxS) mainBoxS.style.backgroundColor = '#262626'
+            if(mainBoxPS) mainBoxPS.style.color = '#e0e0e0'
+            if(mainBoxSpanS) mainBoxSpanS.style.color = '#6080f4'
+            if(SecondaryBoxS) SecondaryBoxS.style.backgroundColor = '#030303'
+            if(SecondaryBoxSpanS) SecondaryBoxSpan.style.color = '#6080f4'
+            SecondaryBoxPS.forEach(ps => ps.style.color = '#e0e0e0')
+            if(MainBox2S) MainBox2S.style.backgroundColor = '#030303'
+            MainBox2PS.forEach(ps => ps.style.color ='#e0e0e0')
+            SecondaryBox2PS.forEach(pS => pS.style.color = '#e0e0e0')
+            if(SecondaryBox2S) SecondaryBox2S.style.backgroundColor = '#262626'
+
             SecondaryBox2P.forEach(p => p.style.color = '#e0e0e0')
             if(SecondaryBox2) SecondaryBox2.style.backgroundColor = '#262626'
             document.querySelector('footer').style.backgroundColor = '#262626'
@@ -364,6 +388,18 @@ document.addEventListener('DOMContentLoaded', function () {
             if (footerH1) footerH1.style.color = '';
             if (footerLogoP) footerLogoP.style.color = '';
             FooterA.forEach(a => a.style.color = '');
+            MainBox2P.forEach(p => p.style.color ='')
+            if(mainBoxS) mainBoxS.style.backgroundColor = ''
+            if(mainBoxPS) mainBoxPS.style.color = ''
+            if(mainBoxSpanS) mainBoxSpanS.style.color = ''
+            if(SecondaryBoxS) SecondaryBoxS.style.backgroundColor = ''
+            if(SecondaryBoxSpanS) SecondaryBoxSpan.style.color = ''
+            SecondaryBoxPS.forEach(ps => ps.style.color = '')
+            if(MainBox2S) MainBox2S.style.backgroundColor = ''
+            MainBox2PS.forEach(ps => ps.style.color ='')
+            SecondaryBox2PS.forEach(pS => pS.style.color = '')
+            if(SecondaryBox2S) SecondaryBox2S.style.backgroundColor = ''
+
         }
     }
     //Dark mode Logic

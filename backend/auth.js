@@ -965,8 +965,8 @@ router.post('/GetUserChatHistory', (req, res) => {
 router.post('/GetUserMessages', (req, res) => {
     const chatId = req.body.chatId;
 
-    const GetUserMessages = 'SELECT message_content FROM Messages WHERE chat_id = ?';
-    const GetBotMessages = 'SELECT bot_message FROM Messages WHERE chat_id = ?';
+    const GetUserMessages = 'SELECT message_content, timestamp FROM Messages WHERE chat_id = ?';
+    const GetBotMessages = 'SELECT bot_message, timestamp FROM Messages WHERE chat_id = ?';
 
     Promise.all([
         new Promise((resolve, reject) => {
