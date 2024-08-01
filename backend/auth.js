@@ -977,7 +977,6 @@ router.post('/GetUserMessages', (req, res) => {
                     return;
                 }
                 const userMessages = results.map(result => result.message_content);
-                console.log('User Messages:', userMessages);
                 resolve(userMessages);
             });
         }),
@@ -989,7 +988,6 @@ router.post('/GetUserMessages', (req, res) => {
                     return;
                 }
                 const botMessages = results.map(result => result.bot_message);
-                console.log('Bot Messages:', botMessages);
                 resolve(botMessages);
             });
         })
