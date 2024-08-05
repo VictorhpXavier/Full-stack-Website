@@ -13,7 +13,7 @@ app.use(DeviceLogger)
 
 app.use(authRoutes);
 
-const port = 3000;
+const port = 3002;
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 

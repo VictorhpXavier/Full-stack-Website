@@ -50,7 +50,19 @@ router.get('/get-email', (req, res) => {
         return res.status(400).json({ error: 'Invalid Token' });
     }
 });
-
+const getUserIdByEmail = (email, callback) => {
+    const getId = 'SELECT id FROM Users WHERE email = ?';
+    con.query(getId, [email], (err, results) => {
+        if (err) {
+            return callback(err, null);
+        }
+        if (results.length === 0) {
+            return callback(new Error('No user found with this email'), null);
+        }
+        const userId = results[0].id;
+        callback(null, userId);
+    });
+};
 function GetPhotoId() {
     //Send Photo Data to the Python Script
     router.get('/UserPhotosId', (req, res) => {
@@ -842,20 +854,14 @@ router.post('/AddChat', (req, res) => {
     const botMessage = req.body.botMessage
     const uuid = uuidv4();
 
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
-
-    const addChatQuery = 'INSERT INTO Chats (chat_id, user_id, chat_name) VALUES (?, ?, ?)';
-    con.query(addChatQuery, [uuid, userId, chatMessage], (err, results) => {
+    const email = req.email; 
+    getUserIdByEmail(email, (err, userId)  => {
+        if (err) {
+            console.log(err);
+            return res.json({ success: false, message: err.message });
+        }
+        const addChatQuery = 'INSERT INTO Chats (chat_id, user_id, chat_name) VALUES (?, ?, ?)';
+        con.query(addChatQuery, [uuid, userId, chatMessage], (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).json({ success: false, message: 'Failed to add chat' });
@@ -871,94 +877,83 @@ router.post('/AddChat', (req, res) => {
             res.status(200).json({ success: true, message: 'Chat and message added successfully', uuid: uuid });
         });
     });
+    })
+
+    
 });
 
 
 // Add Messages Route
 router.post('/AddMessages', (req, res) => {
-    const token = req.cookies.token;
     const { message, chatId } = req.body;
     const botMessage = req.body.botMessage
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
 
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
-
-    const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content, bot_message) VALUES (?, ?, ?, ?)';
-    con.query(addMessageToChat, [userId, chatId, message, botMessage], (err, results) => {
+    const email = req.email; 
+    getUserIdByEmail(email, (err, userId)  => {
         if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false, message: 'Failed to add message' });
+            console.log(err);
+            return res.json({ success: false, message: err.message });
         }
-
-        res.status(200).json({ success: true, message: 'Message added successfully' });
-    });
+        const addMessageToChat = 'INSERT INTO Messages (user_id, chat_id, message_content, bot_message) VALUES (?, ?, ?, ?)';
+        con.query(addMessageToChat, [userId, chatId, message, botMessage], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ success: false, message: 'Failed to add message' });
+            }
+    
+            res.status(200).json({ success: true, message: 'Message added successfully' });
+        });
+    })
+   
 });
 
 
 router.post('/GetUserInfo', (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    //Get User ID
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
-
-    //Get User chat's History
-    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ? AND visibleToUser = ?';
-
-    con.query(ChatHistory, [userId, '1'], (err, results) => {
+    const email = req.email; 
+    getUserIdByEmail(email, (err, userId)  => {
         if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
+            console.log(err);
+            return res.json({ success: false, message: err.message });
         }
+        //Get User chat's History
+        const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ? AND visibleToUser = ?';
 
+        con.query(ChatHistory, [userId, '1'], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
+            }
+        
+        
+            res.status(200).json({ success: true, chatHistory: results });
+        });
+    })
 
-        res.status(200).json({ success: true, chatHistory: results });
-    });
+   
 })
 
 //Get User Chats
 
 //this is working do not touch get UserChats
 router.post('/GetUserChatHistory', (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
-    const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ? AND visibleToUser = ?';
-
-    con.query(ChatHistory, [userId, '1'], (err, results) => {
+    const email = req.email; 
+    getUserIdByEmail(email, (err, userId)  => {
         if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
-        }
+            console.log(err);
+            return res.json({ success: false, message: err.message });
+        } 
+        const ChatHistory = 'SELECT chat_name, chat_id, updated_at, visibleToUser FROM Chats WHERE user_id = ? AND visibleToUser = ?';
 
-
-        res.status(200).json({ success: true, chatHistory: results });
-    });
+        con.query(ChatHistory, [userId, '1'], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ success: false, message: 'Failed to retrieve chat history' });
+            }
+    
+            res.status(200).json({ success: true, chatHistory: results });
+        });
+    })
+   
 })
 
 
@@ -1023,20 +1018,8 @@ router.post('/getBotResponse', (req, res) => {
 });
 
 router.post('/RenameChat', (req, res) => {
-    const token = req.cookies.token;
     const { chatlink, newName } = req.body;
     const chatlinkId = chatlink.match(/\/([^\/]+)$/)[1];
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    let userId;
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        userId = decoded.userId;
-    } catch (err) {
-        return res.status(401).json({ success: false, message: 'Failed to authenticate token' });
-    }
 
     const renameChat = 'UPDATE Chats SET chat_name = ? WHERE chat_id = ?';
     con.query(renameChat, [newName, chatlinkId], (err, results) => {
@@ -1069,7 +1052,6 @@ router.post('/RequestChatName', (req, res) => {
 router.post('/DeleteChat', (req, res) => {
     const chatlink = req.body.chatlink;
     const uuid = chatlink.split('/').pop();
-    console.log('uuid =', uuid);
 
     const updateVisibility = 'UPDATE Chats SET visibleToUser = ? WHERE chat_id = ?';
     const params = ['0', uuid]; 
@@ -1079,7 +1061,6 @@ router.post('/DeleteChat', (req, res) => {
             console.log(err);
             return res.status(500).json({ success: false, message: 'Database update failed, try again another time' });
         }
-        console.log('Update successful:', results);
         return res.status(200).json({ success: true, message: 'Chat visibility updated' });
     });
 })
@@ -1149,6 +1130,7 @@ con.query(getId, [email], (err, results) => {
     });
     })
 });
+
 //Handle signout
 router.post('/signout', (req, res) => {
     console.log('Signout route hit');

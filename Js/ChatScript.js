@@ -418,8 +418,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                         })
                                         .then((response) => response.json())
                                         .then((data) => { 
-                                            // Handle response data if needed
-                                            window.reload()
+                                            if(data.success) {
+                                                window.location.href = '/workspace/chat'
+                                              }
                                         });
                                     }
                                 
@@ -626,6 +627,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     }
                                 });
                             });
+
                             menu.querySelector('.delete').addEventListener('click', function() {
                                 const deleteChatMenu = document.querySelector('.Delete-Chat');
                                 const overlayEffect = document.querySelector('#overlay');
@@ -655,7 +657,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                     document.querySelector('.Delete-Chat .close-btn').addEventListener('click', function() {
                                         const deleteChatMenu = document.querySelector('.Delete-Chat');
                                         const overlayEffect = document.querySelector('#overlay');
-                                        
                                         deleteChatMenu.style.display = 'none';
                                         overlayEffect.style.display = 'none';
                                     });
@@ -681,8 +682,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                         })
                                         .then((response) => response.json())
                                         .then((data) => { 
-                                            // Handle response data if needed
-                                            window.reload()
+                                          if(data.success) {
+                                            window.location.href = '/workspace/chat'
+                                          }
                                         });
                                     }
                                 
