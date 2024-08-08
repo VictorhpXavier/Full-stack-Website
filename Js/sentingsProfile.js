@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
    const authLinks = document.querySelectorAll('#header .Auth ul a');
    const h1 = document.querySelector('#Settings h1')
    const settingUl = document.querySelectorAll('#Settings ul li a ')
-   const h2 = document.querySelector('h2')
+   const h2 = document.querySelector('.h2Title')
    const h3 = document.querySelectorAll('#Settings h3')
    const span = document.querySelector('#Settings span')
    function applyDarkMode(isDarkMode) {

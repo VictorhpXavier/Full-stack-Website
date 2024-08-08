@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../Css/home.css" />
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,13 +31,13 @@
     </div>
     <div class="MainRoutes" id="menu">
         <ul>
-            <li><a href="#">Home</a></li>
+            <li ><a href="#" >Home</a></li>
         </ul>
         <ul>
-            <li><a href="#Features">Features</a></li>
+            <li><a href="#Features" data-scroll-amount="100">Features</a></li>
         </ul>
         <ul>
-            <li><a href="#About">About us</a></li>
+            <li><a href="#About" data-scroll-amount="65">About us</a></li>
         </ul>
     </div>
     <div class="Auth" id="menu">
@@ -50,14 +51,24 @@
             <li><a><button id="CircleButton"><span id="Circle"></span></button></a></li>
         </ul>
 </div>
-    <div class="DropDownMenu">
-        <div class="DropDownContent">
-            <a href="#" id="DarkMode"><i class="fas fa-moon"></i> Dark mode</a>
-            <a href="/settings"><i class="fas fa-cog"></i> Settings</a>
-            <a href="#"><i class="fa fa-bell" style="color: white;"></i> Notifications</a>
-            <a href="#" id="SignOut"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+<div class="DropDownMenu">
+    <div class="ProfileHeader">
+        <div class="ProfileImg">
+            <img src="../UserIcon/UnkwonUser.png" alt="user photo">
+            <div class="UserInfo">
+                <h1>test</h1>
+                <h2>test@gmail.com</h2>
+            </div>
         </div>
     </div>
+    <div class="bar"></div>
+    <div class="DropDownContent">
+        <a href="#" id="DarkMode"><i class="fas fa-moon"></i> Dark mode</a>
+        <a href="/settings"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#"><i class="fa fa-bell" style="color: white;"></i> Notifications</a>
+        <a href="#" id="SignOut"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+    </div>
+</div>
 </section>
 
 <section id="MainContent">
@@ -192,16 +203,9 @@
         <div class="footer-links">
             <div class="links-column">
                 <a href="#">Home</a>
-                <a href="#Features">Features</a>
-                <a href="#About">About us</a>
-                <a href="#">Contact</a>
-                <a href="#">Common questions</a>
-            </div>
-            <div class="links-column">
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">Twitter</a>
-                <a href="#">LinkedIn</a>
+                <a href="#Features" data-scroll-amount="100">Features</a>
+                <a href="#About" data-scroll-amount="65">About us</a>
+                <a href="/questions">Common questions</a>
             </div>
             <div class="links-column">
                 <a href="#">Privacy Policy</a>
@@ -210,32 +214,33 @@
         </div>
     </div>
 </footer>
-
     <script src="../Js/home.js"></script>
     <script src="../Js/common.js"></script>
     <script src="../backend/server.mjs"></script>
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-            const targetId = this.getAttribute('href').substring(1);
-            if (targetId === "") {
-                window.scrollTo({
-                    top: 10,
-                    behavior: 'smooth'
-                });
-            } else {
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    window.scroll({
-                        top: targetElement.offsetTop,
+                const targetId = this.getAttribute('href').substring(1);
+                const scrollAmount = this.dataset.scrollAmount;
+
+                if (targetId === "") {
+                    window.scrollTo({
+                        top: 10,
                         behavior: 'smooth'
                     });
+                } else {
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scroll({
+                            top: targetElement.offsetTop - scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
-            }
+            });
         });
-    });
    
     
     </script>

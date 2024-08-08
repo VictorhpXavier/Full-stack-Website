@@ -164,17 +164,27 @@ body {
     background-color: #006097;
     color: white;
     padding: 26px;
-    width: 15%;
-    margin-top: 320px;
-    margin-right: 0;
+    width: 12%;
+    margin-top: 400px;
+    margin-right: 100px;
     right: 1%;
     font-size: 16px;
     border: none;
+    border-radius: 16px;
     position: absolute;
     display: none;
     z-index: 100;
 }
+#header .DropDownMenu .bar {
+    width: 100%;
+    position: absolute;
+    right: 0;
+    left: 0;
 
+    margin-left: 0;
+    height: 1px;
+    background-color: #9b9b9b;
+}
 #header .DropDownMenu .DropDownContent {
     color: white;
     padding: 12px 16px;
@@ -188,12 +198,40 @@ body {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    border-bottom: 1px solid black;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg  {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg img{
+    width: 45px;
+    height: 45px;
+    margin-bottom: 40px;
+    margin-right: -10px;
+    border-radius: 50%;
+    vertical-align: middle;
+    background-image: url('../UserIcon/UnkwonUser.png');
+    background-size: cover;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg  .UserInfo {
+    margin-top: -35px;
+    margin-left: 30px;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg h1 {
+    color: #fff;
+    font-size: 28px;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg h2 {
+    margin-top: 0px !important;
+    color: #dbcbcb;
+    font-size: 16px;
 }
 
 #header .DropDownMenu .DropDownContent a:hover {
-    font-size: 17px;
-    font-weight: bold;
+    border-radius: 5px;
+    background-color: #128fdc;
+    transform: translateX(-8%);
+    width: 107%;
 }
 
 #header .DropDownMenu .DropDownContent {

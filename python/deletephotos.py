@@ -2,7 +2,7 @@ import os
 import requests
 
 def get_photo_ids_from_db():
-    response = requests.get('http://localhost:3000/UserPhotosId')
+    response = requests.get('http://localhost:3002/UserPhotosId')
     if response.status_code == 200:
         return set(photo['PhotoLink'] for photo in response.json())
     else:

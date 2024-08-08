@@ -18,9 +18,19 @@
                 <li><a><button id="CircleButton"><span id="Circle"></span></button></a></li>
             </ul>
             <div class="DropDownMenu">
+                <div class="ProfileHeader">
+                    <div class="ProfileImg">
+                        <img src="../UserIcon/UnkwonUser.png" alt="user photo">
+                        <div class="UserInfo">
+                            <h1>test</h1>
+                            <h2>test@gmail.com</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar"></div>
                 <div class="DropDownContent">
                     <a id="Home" href="/home"><i class="fa-solid fa-house"></i> Home</a>
-                    <a id="WorkSpace" href="/workspace"><i class="fas fa-cog"></i> WorkSpace</a>
+                    <a id="WorkSpace" href="/settings"><i class="fas fa-cog"></i> Settings</a>
                     <a id="DarkMode"><i  class="fas fa-moon"></i> Dark mode</a>
                     <a id="SignOut" ><i  class="fas fa-sign-out-alt"></i> Sign out</a>
 
@@ -61,8 +71,8 @@
             </div>
             <div class="content">
                 <div id="chatWindow" class="chat-window"></div>
-                <div class="footer">
-                    <button class="SendImage"><i class="fas fa-image"></i></button>
+                <div class="footer">                    
+                    <button class="SendImage"><i class="fas fa-image"><input type="file" id="fileInput" accept=".png, .jpg, .jpeg" /></i></button>
                     <textarea id="chatInput" placeholder="Message Something"></textarea>
                     <button class="SendChat" id="sendButton"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>

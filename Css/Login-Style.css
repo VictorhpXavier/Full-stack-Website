@@ -31,151 +31,78 @@ a {
 	align-items: center;
 	justify-content: center;
 }
-.brand h1 {
-	font-size: 3.5rem;
-	text-transform: uppercase;
-	color: #128fdc;
-	font-family: "Dancing Script", cursive;
-	font-weight: 900;
-}
-.brand h1 span {
-	color: black;
+h1,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 /* Header section 
 
 */
 #header {
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100vw;
-	height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background-color: #ededed;
+    position: fixed;
+    top: 0; /* Position it at the top of the viewport */
+    left: 0; /* Align it to the left edge of the viewport */
+    width: 100%; /* Ensure the header takes the full width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
+    z-index: 1000; /* Ensure it stays above other content */
 }
-#header .header {
-	min-height: 8vh;
-	transition: 0.3s ease background-color;
+
+#header span {
+    color: #3164f4;
+    font-style: italic;
+    font-weight: bold;
 }
-#header .nav-bar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 100%;
-	height: 100%;
-	padding: 0 10px;
-	margin-right: 1%;
-	margin-left: 1%;
+
+#header h1 {
+    font-size: 32px;
+    font-style: italic;
+    font-weight: bold;
+    color: #262626;
 }
-#header .nav-list ul {
-	list-style: none;
-	position: absolute;
-	background-color: rgb(31, 30, 30);
-	width: 100vw;
-	height: 100vh;
-	left: 100%;
-	top: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	z-index: -1;
-	overflow-x: hidden;
-	transition: 0.5s ease left;
+
+#header .Logo a {
+    text-decoration: none;
 }
-#header .nav-list ul.active {
-	left: 0%;
+
+.Logo {
+    flex: 1;
 }
-#header .nav-list ul a {
-	font-size: 2.5rem;
-	font-weight: 900 bolder;
-	letter-spacing: 0.2rem;
-	text-decoration: none;
-	color: black;
-	text-transform: uppercase;
-	padding: 20px;
-	display: block;
-}
-#header .nav-list ul a::after {
-	content: attr(data-after);
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%) scale(0);
-	color: rgba(240, 248, 255, 0.021);
-	font-size: 13rem;
-	letter-spacing: 50px;
-	z-index: -1;
-	transition: 0.3s ease letter-spacing;
-}
-#header .nav-list ul li:hover a::after {
-	transform: translate(-50%, -50%) scale(1);
-	letter-spacing: initial;
-}
-#header .nav-list ul li:hover a {
-	color: black;
-}
-#header .nav-list ul li:hover a {
-	color: #128fdc !important;
+
+.MainRoutes {
+	margin-right: 450px;
+    flex: 2;
+    text-align: center;
 }
 
 
-#header .hamburger {
-	height: 60px;
-	width: 60px;
-	display: inline-block;
-	border: 3px solid black;
-	border-radius: 50%;
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 100;
-	cursor: pointer;
-	transform: scale(0.8);
-	margin-right: 20px;
+
+#header ul {
+    display: inline-block;
 
 }
-#header .hamburger:after {
-	position: absolute;
-	content: '';
-	height: 100%;
-	width: 100%;
-	border-radius: 50%;
-	border: 3px solid black;
 
-}
-#header .hamburger .bar {
-	height: 2px;
-	width: 30px;
-	position: relative;
-	background-color: #128fdc;
-	z-index: -1;
-}
-#header .hamburger .bar::after,
-#header .hamburger .bar::before {
-	content: '';
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	left: 0;
-	background-color: #128fdc;
-	transition: 0.3s ease;
-	transition-property: top, bottom;
+#header .MainRoutes a {
+    text-decoration: none;
+    padding: 0 15px;
+    color: #262626;
+    font-weight: bold;
+    font-size: 20px;
 }
 
-#header .hamburger .bar::after {
-	top: 8px;
+#header .MainRoutes a:hover {
+    border-bottom: 2px solid #007aff;
+    border-width: 2px;
 }
-#header .hamburger .bar::before {
-	bottom: 8px;
-}
-#header .hamburger.active .bar::before {
-	bottom: 0;
-}
-#header .hamburger.active .bar::after {
-	top: 0;
-}
+
 
 
 /* Header Section ends here*/

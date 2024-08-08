@@ -15,6 +15,7 @@ body, html {
 }
 
 /*Header */
+
 .User {
     position: fixed;
 	z-index: 1;
@@ -30,7 +31,7 @@ body, html {
     visibility: visible;
     width: 45px;
     height: 45px;
-    z-index: 9998999;
+    z-index: 2;
     right: 0;
     border-radius: 50%;
     vertical-align: middle;
@@ -43,17 +44,18 @@ body, html {
     border: 3px solid #006097;
 }
 .nav-list .DropDownMenu {
-    display: none;
     background-color: #006097;
     color: white;
     padding: 26px;
-    width: 15%;
-    margin-right: 0;
-    right: 0%;
-    margin-top: 2%;
+    width: 12%;
+    margin-top: 40px;
+    right: 1%;
     font-size: 16px;
     border: none;
+    border-radius: 16px;
     position: absolute;
+    display: none;
+    z-index: 3;
 }
 .nav-list .DropDownContent {
     color: white;
@@ -68,11 +70,12 @@ body, html {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    border-bottom: 1px solid black;
 }
 .nav-list .DropDownContent a:hover {
-	font-size: 17px;
-	font-weight: bold;
+    border-radius: 5px;
+    background-color: #128fdc;
+    transform: translateX(-8%);
+    width: 107%;
 }
 
 .nav-list .DropDownContent {
@@ -80,7 +83,43 @@ body, html {
 	text-decoration: none;
 	display: block;
 }
-  
+
+.DropDownMenu .bar {
+    width: 100%;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin-left: 0;
+    height: 1px;
+    background-color: #9b9b9b;
+}
+.DropDownMenu .ProfileHeader .ProfileImg  {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+}
+.DropDownMenu .ProfileHeader .ProfileImg img{
+    width: 45px;
+    height: 45px;
+    margin-bottom: 40px;
+    margin-right: -10px;
+    border-radius: 50%;
+    vertical-align: middle;
+    background-image: url('../UserIcon/UnkwonUser.png');
+    background-size: cover;
+}
+.DropDownMenu .ProfileHeader .ProfileImg  .UserInfo {
+    margin-top: -40px;
+    margin-left: 30px;
+}
+.DropDownMenu .ProfileHeader .ProfileImg h1 {
+    color: #fff;
+    font-size: 23px;
+}
+.DropDownMenu .ProfileHeader .ProfileImg h2 {
+    margin-top: -20px !important;
+    color: #dbcbcb;
+    font-size: 16px;
+}
 /* Bot Section */
 
 #NewChat {
@@ -520,7 +559,9 @@ body, html {
     background-color: #424242;
     opacity: 35%;
 }
-
+.footer .SendImage input {
+    display: none;
+}
 .footer button:hover {
     background-color: #616161;
 }

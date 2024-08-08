@@ -1,21 +1,259 @@
-footer {
-    margin-top: 12%;
-    background-color: #fff;
-    padding: 20px 50px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex; /* Use flexbox layout for the footer */
-    align-items: flex-start; /* Align items to the start (left) */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    background-color: #ededed;
+}
+h1,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+html {
+    font-size: 11px;
+    font-family: 'Montserrat', sans-serif;
+    scroll-behavior: inherit;
+}
+a {
+    text-decoration: none;
+}
+.container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background-color: #ededed;
+    position: fixed;
+    top: 0; /* Position it at the top of the viewport */
+    left: 0; /* Align it to the left edge of the viewport */
+    width: 100%; /* Ensure the header takes the full width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better visibility */
+    z-index: 1; /* Ensure it stays above other content */
 }
 
-#CTA .text-content2 {
+#header span {
+    color: #3164f4;
+    font-style: italic;
+    font-weight: bold;
+}
+
+#header h1 {
+    font-size: 32px;
+    font-style: italic;
+    font-weight: bold;
+    color: #262626;
+}
+
+#header .Logo a {
+    text-decoration: none;
+}
+
+.Logo {
+    flex: 1;
+}
+
+.MainRoutes {
+    flex: 2;
+    text-align: center;
+}
+
+.Auth {
+    flex: 1;
+    text-align: right;
+    margin-right: 80px;
+}
+
+#header ul {
+    display: inline-block;
+}
+
+#header .MainRoutes a {
+    text-decoration: none;
+    padding: 0 15px;
+    color: #262626;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#header .MainRoutes a:hover {
+    border-bottom: 2px solid #007aff;
+    border-width: 2px;
+}
+
+#header .Auth a {
+    text-decoration: none;
+    padding: 0 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#header .Auth .Login {
+    color: #262626;
+}
+
+#header .Auth .Login:hover {
+    transition: 0.4s;
+    color: #007aff;
+}
+
+#header .Auth .SignUp {
+    color: #fff;
+}
+
+#header .Auth .SignUpul {
+    display: inline-block;
+    border: none;
+    border-radius: 12px;
+    height: 53px;
+    width: 120px;
+    background-color: #3164f4;
+    vertical-align: middle;
+    line-height: 53px;
+}
+
+#header .Auth .SignUpul:hover {
+    transition: 0.4s;
+    background-color: #007aff;
+}
+
+#header .Auth .SignUpul a {
+    display: block;
+    height: 100%;
+    line-height: 53px;
+    text-align: center;
+}
+
+.hamburger {
+    flex-direction: column;
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    transform: translate(-50%, -50%);
+}
+.hamburger span {
+    height: 3px;
+    width: 25px;
+    background: #262626;
+    margin: 4px 0;
+    border-radius: 3px;
+}
+/* Button styles */
+#header .Auth ul li a button {
+    border-radius: 50%;
+    background: none;
+    border: none;
+}
+
+#header .Auth ul li a button:hover {
+    cursor: pointer;
+}
+
+/* Dropdown menu styles */
+#header .Auth ul li a #Circle {
+    display: flex;
+    visibility: visible;
+    width: 45px;
+    height: 45px;
+    margin-bottom: 40px;
+    margin-right: -10px;
+    border-radius: 50%;
+    vertical-align: middle;
+    background-image: url('../UserIcon/UnkwonUser.png');
+    background-size: cover;
+}
+
+#header .DropDownMenu {
+    background-color: #006097;
+    color: white;
+    padding: 26px;
+    width: 15%;
+    margin-top: 320px;
+    margin-right: 0;
+    right: 1%;
+    font-size: 16px;
+    border: none;
+    border-radius: 16px;
+    position: absolute;
+    display: block;
+    z-index: 100;
+}
+
+#header .DropDownMenu .DropDownContent {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    background-color: #006097;
+}
+
+#header .DropDownMenu .DropDownContent a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
     display: block;
 }
-#AboutSmallScreen {
-    margin-top: 18%;
+#header .DropDownMenu .ProfileHeader .ProfileImg  {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 90px;
-    margin-top: 20px;
+    align-items: center; /* Vertically center the content */
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg img{
+    width: 45px;
+    height: 45px;
+    margin-bottom: 40px;
+    margin-right: -10px;
+    border-radius: 50%;
+    vertical-align: middle;
+    background-image: url('../UserIcon/UnkwonUser.png');
+    background-size: cover;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg  .UserInfo {
+    margin-top: -35px;
+    margin-left: 30px;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg h1 {
+    color: #fff;
+    font-size: 28px;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg h2 {
+    color: #dbcbcb;
+    font-size: 16px;
+}
+#header .DropDownMenu .bar {
+    width: 100%;
+    position: absolute;
+    right: 0;
+    left: 0;
+
+    margin-left: 0;
+    height: 1px;
+    background-color: #9b9b9b;
+}
+#header .DropDownMenu .DropDownContent a:hover {
+    border-radius: 5px;
+    background-color: #128fdc;
+    transform: translateX(-8%);
+    width: 120%;
+}
+
+#header .DropDownMenu .DropDownContent {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }

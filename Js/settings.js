@@ -24,7 +24,6 @@ deleteAccountButton.addEventListener('click', function() {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.message);
                     // Redirect the user to the login page 
                     window.location.href = '/home';
                 })
@@ -80,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const LoginElement = document.querySelector('#header .Auth .Login');
         const AccountStatus = document.querySelector('#header .Auth ul li a #Circle');
         document.querySelector('.SignUpul').style.display = 'none';
-        console.log('User is logged in. Modifying the DOM accordingly.');
 
         LoginElement.style.marginTop = '100px'
         LoginElement.innerHTML = 'WorkSpace';
@@ -133,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data.message);
                     // Redirect the user to the login page or home page
                     window.location.href = '/login';
                 })
@@ -212,7 +209,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (confirmPasswordChangeButton) {
         confirmPasswordChangeButton.addEventListener('click', function(event) {
             event.preventDefault();
-            console.log('Confirm password change button clicked'); // Debugging line
             const emailValue = document.querySelector('#ChangePassword .Email').value.trim();
             const passwordValue = document.querySelector('#ChangePassword .Password').value.trim();
             const newPasswordValue = document.querySelector('#ChangePassword .NewPassword').value.trim();
@@ -220,12 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const passwordError = document.querySelector('#ChangePassword .PasswordErrorMessage');
             const newPasswordError = document.querySelector('#ChangePassword .NewPasswordErrorMessage');
 
-
-            console.log('Email:', emailValue); // Debugging line
-            console.log('Password:', passwordValue); // Debugging line
-            console.log('New Password:', newPasswordValue); // Debugging line
             const data = { email: emailValue, password: passwordValue, newpassword: newPasswordValue };
- 
 
             // Clear previous error messages
             emailError.style.display = 'none';
@@ -277,11 +268,8 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Response from server:', data);
-
                 if (data.errors) {
                     data.errors.forEach(error => {
-                        console.log('Handling error:', error); 
 
                         if (error.error === 'INVALID_EMAIL' || error.error === 'NO_EMAIL' || error.error === 'NOT_USERS_EMAIL') {
                             emailError.style.display = 'block';
@@ -396,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const authLinks = document.querySelectorAll('#header .Auth ul a');
     const h1 = document.querySelector('#Settings h1')
     const settingUl = document.querySelectorAll('#Settings ul li a ')
-    const h2 = document.querySelector('h2')
+    const h2 = document.querySelector('.SettingsTitle')
     const h3 = document.querySelectorAll('#Settings h3')
     const deleteAccount = document.querySelector('#Settings .DangerZone h3')
     const p = document.querySelectorAll('#Settings p')
@@ -410,8 +398,8 @@ document.addEventListener('DOMContentLoaded', function() {
             mainRoutes.forEach(link => link.style.color = '#128fdc');
             authLinks.forEach(link => link.style.color = '#128fdc');
             h1.style.color = '#128fdc'
-            settingUl.forEach(a => a.style.color ='#e0e0e0')
             h2.style.color = '#128fdc'
+            settingUl.forEach(a => a.style.color ='#e0e0e0')
             h3.forEach(h3 => h3.style.color ='#128fdc')
             deleteAccount.style.color ='red'
             p.forEach(p => p.style.color ='#e0e0e0')

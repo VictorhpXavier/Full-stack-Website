@@ -230,10 +230,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (CircleButton) {
         CircleButton.addEventListener('click', function () {
-            if (
-                DropDownMenu.style.display === 'none' ||
-                DropDownMenu.style.display === ''
-            ) {
+            if (DropDownMenu.style.display === 'none' || DropDownMenu.style.display === ''
+) {
                 DropDownMenu.style.display = 'inline-block';
             } else {
                 DropDownMenu.style.display = 'none';

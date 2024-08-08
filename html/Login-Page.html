@@ -10,26 +10,28 @@
     <title>Login VhX</title>
 </head>
 <body>
-    <section id="header">
-        <div class="header container">
-          <div class="nav-bar">
-            <div class="brand">
-              <a href="#home">
-                <a href="/home"> <h1><span>V</span>H<span>X</span></h1></a>
-              </a>
-            </div>
-            <div class="nav-list">
-              <div id="dadHamburger" class="hamburger">
-                <div class="bar"></div>
-              </div>
-              <ul id="myList">
-                <li><a href="/home" data-after="Home">Home</a></li>
-                <li><a href="/signup" data-after="Sign Up">Sign Up</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+  <section id="header">
+    <div class="Logo">
+        <a href="/home">
+            <h1>V<span>H</span>X</h1>
+        </a>
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="MainRoutes" id="menu">
+        <ul>
+            <li ><a href="/home" >Home</a></li>
+        </ul>
+        <ul>
+            <li><a href="/signup" data-scroll-amount="100">Sign up</a></li>
+        </ul>
+
+    </div>
+   
+</section>
     <div class="Login">
         <form method="post" onsubmit="ifUserAlreadyLogged(event)">
             <h1>Login</h1>
