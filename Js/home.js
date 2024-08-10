@@ -631,6 +631,36 @@ function updateUserPhotoLink() {
     .catch(error => {
         console.error('Error:', error);
     });
+    const userNameElement = document.querySelector('#header .DropDownMenu .ProfileHeader .ProfileImg .UserInfo h1');
+    const userEmailElement = document.querySelector('#header .DropDownMenu .ProfileHeader .ProfileImg .UserInfo h2');
+    fetch('/UserInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // Ensure cookies are sent with the request
+    })
+    .then(response => response.json())
+    .then(data => { 
+        let userName = data.UserName;
+        let userEmail = data.email;
+        
+        // Truncate userName if it's longer than 11 characters
+        if (userName.length > 11) {
+            userName = userName.slice(0, 11) + "..."; 
+        }
+        userNameElement.innerHTML = userName; 
+    
+        // Handle the email truncation
+        if (userEmail.length > 21) {
+            let generatedName = userEmail.split("@")[0];
+            if (generatedName.length > 11) {
+                generatedName = generatedName.slice(0, 11) + "..."; 
+            }
+            userEmail = generatedName + "@" + userEmail.split("@")[1]; // Reconstruct the email
+        }
+        userEmailElement.innerHTML = userEmail; 
+    })
 }
 
 

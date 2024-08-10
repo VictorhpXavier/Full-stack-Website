@@ -1146,7 +1146,10 @@ router.post('/UserInfo', (req, res) => {
         }
 
         const UserName = results[0].user_name;
-        let generatedName = email.split("@")[0];
+        let generatedName = email.split("@")[0]; 
+
+        
+
         if (UserName === null || UserName === '' || UserName === 'NULL' || UserName === 'undefined') {
             const setName = 'UPDATE Users SET user_name = ? WHERE email = ?';
             con.query(setName, [generatedName, email], (err) => {
@@ -1157,7 +1160,7 @@ router.post('/UserInfo', (req, res) => {
                 return res.status(200).json({ success: true, UserName: generatedName });
             });
         } else {
-            return res.status(200).json({ success: true, UserName });
+            return res.status(200).json({ success: true, UserName, email });
         }
     });
 });
