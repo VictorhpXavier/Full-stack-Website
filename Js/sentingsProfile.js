@@ -109,8 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
            authLinks.forEach(link => link.style.color = '#128fdc');
            h1.style.color = '#128fdc'
            settingUl.forEach(a => a.style.color ='#e0e0e0')
-           h2.style.color = '#128fdc'
            h3.forEach(h3 => h3.style.color ='#128fdc')
+                      document.querySelector('.h2Title').style.color = '#128fdc'
+           h2.style.color = '#128fdc'
            span.style.color = '#e0e0e0'
        } else {
            document.body.style.backgroundColor = '';
@@ -120,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
            authLinks.forEach(link => link.style.color = '');
            h1.style.color = ''
            settingUl.forEach(a => a.style.color ='')
-           h2.style.color = ''
            h3.forEach(h3 => h3.style.color ='')
            span.style.color = ''
         
@@ -169,9 +169,70 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch((error) => console.error('Error setting dark mode:', error));
     })
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUserName = document.querySelector('#Settings .UserName p');
+    const changeNameButton = document.querySelector('.ProfileSettings .UserName button')
+    const userInputField = document.querySelector('.ProfileSettings .UserName input');
+    fetch('/UserInfo', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            currentUserName.innerHTML = `Your current name: <strong style="color: black;">${data.UserName}</strong>`;
+        } else {
+            console.error('Failed to fetch user info:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    function updateButtonState() {
+        const userInput = userInputField.value;
+        if (userInput.length >= 1) {
+            changeNameButton.style.opacity = '1'; 
+            changeNameButton.style.cursor = 'pointer';
+        } else {
+            changeNameButton.style.opacity = '0.35';
+            changeNameButton.style.cursor = 'not-allowed';
+        }
+    }
 
+    // Initial check on load
+    updateButtonState();
 
-document.getElementById('fileInput').addEventListener('change', function(event) {
+    // Check input value on each keyup event
+    userInputField.addEventListener('input', updateButtonState);
+
+    // Button click event
+    changeNameButton.addEventListener('click', function() {
+        const userInput = userInputField.value;
+        const data = {name: userInput}
+        if (userInput.length >= 1) {
+            fetch('/ChangeUserName', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    userInputField.value = '';
+
+                    currentUserName.innerHTML = `Your current name: <strong style="color: black;">${userInput}</strong>`;
+                }
+             })
+        }
+    });
+    
+});
+
+document.querySelector('.DropImageButton #fileInput').addEventListener('change', function(event) {
     const fileInput = event.target;
     const file = fileInput.files[0];
 
@@ -199,6 +260,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
 });
 
 function updateUserPhotoLink() {
+    const pfpDropDown  = document.querySelector('#header .DropDownMenu .ProfileHeader .ProfileImg .img')
     fetch('/updatePhotoLink', {
         method: 'POST',
         headers: {
@@ -213,6 +275,41 @@ function updateUserPhotoLink() {
             if (data.photoLink) {
                 const photoUrl = `/uploads/${data.photoLink}`;
                 circleElement.style.backgroundImage = `url(${photoUrl})`;
+                pfpDropDown.style.backgroundImage = `url(${photoUrl})`;
+                pfpDropDown.addEventListener('mouseover', () => {
+                    pfpDropDown.style.backgroundImage = 'url(../UserIcon/upload.png)'
+                })
+                pfpDropDown.addEventListener('mouseout', () => {
+                    pfpDropDown.style.backgroundImage = `url(${photoUrl})`;
+                })
+                document.querySelector('.img #fileInput').addEventListener('change', function(event) {
+                    const fileInput = event.target;
+                    const file = fileInput.files[0];
+                
+                    if (!file) {
+                        return;
+                    }
+                
+                    const formData = new FormData();
+                    formData.append('file', file);
+                
+                    fetch('/userPhoto', {  
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const imageUrl = data.imageUrl;
+                            updateUserPhotoLink(imageUrl);
+                        } 
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                });
+                    
+                    
             } 
         } 
     })
@@ -237,3 +334,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+

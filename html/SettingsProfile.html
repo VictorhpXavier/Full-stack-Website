@@ -55,7 +55,9 @@
             <div class="DropDownMenu">
                 <div class="ProfileHeader">
                     <div class="ProfileImg">
-                        <img src="../UserIcon/UnkwonUser.png" alt="user photo">
+                        <div class="img">
+                            <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" />
+                        </div>
                         <div class="UserInfo">
                             <h1>test</h1>
                             <h2>test@gmail.com</h2>
@@ -82,16 +84,30 @@
                         <a href="/settings/profile" class="Profile">Profile</a>
                     </li>
                 </ul>
-                <div class="h2Title">
+                <div class="SettingsTitle">
                     <h2>Customize profile</h2>
 
                 </div>
-                <h3>Change Profile Image</h3>
-                <span>Images should be .png / .jpeg / .jpg / .gif</span>
-                <div class="DropImageButton">
-                    <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" />
+                <div class="ProfileContainer">
+                    <div class="ProfileSettings">
+                        <h3>Change Profile Image</h3>
+                        <span>Images should be .png / .jpeg / .jpg / .gif</span>
+                        <div class="DropImageButton">
+                            <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" />
+                        </div>
+                    </div>
+                    
+                    <div class="ProfileSettings">
+                        <div class="UserName">
+                            <h3>Change Name</h3>
+                            <div class="UserSett">
+                                <p>Current Name</p>
+                                <input type="text" placeholder="Enter new name">
+                                <button>Change</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </section>
 
         <!--

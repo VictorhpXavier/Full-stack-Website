@@ -118,8 +118,9 @@ router.post('/signup', async (req, res) => {
                     console.error('Error hashing password:', err);
                     return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to hash password' });
                 }
-                const insertQuery = 'INSERT INTO Users (email, password_hash) VALUES (?, ?)';
-                con.query(insertQuery, [email, hash], (err) => {
+                const insertQuery = 'INSERT INTO Users (email, password_hash, user_name) VALUES (?, ?, ?)';
+                const userName = email.split("@")[0];
+                con.query(insertQuery, [email, hash, userName], (err) => {
                     if (err) {
                         console.error('Error executing MySQL query:', err);
                         return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Failed to create user' });
@@ -1067,7 +1068,6 @@ router.post('/DeleteChat', (req, res) => {
 
 //Delete Account
 router.post('/DeleteAccount', (req, res) => {
-    console.log('found')
     const email = req.email;
 
 // First, get the user ID based on the email
@@ -1131,6 +1131,48 @@ con.query(getId, [email], (err, results) => {
     })
 });
 
+router.post('/UserInfo', (req, res) => {
+    const email = req.email;
+    const getName = 'SELECT user_name FROM Users WHERE email = ?';
+    
+    con.query(getName, [email], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "Database query failed" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        const UserName = results[0].user_name;
+        let generatedName = email.split("@")[0];
+        if (UserName === null || UserName === '' || UserName === 'NULL' || UserName === 'undefined') {
+            const setName = 'UPDATE Users SET user_name = ? WHERE email = ?';
+            con.query(setName, [generatedName, email], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({ success: false, message: "Failed to update username" });
+                }
+                return res.status(200).json({ success: true, UserName: generatedName });
+            });
+        } else {
+            return res.status(200).json({ success: true, UserName });
+        }
+    });
+});
+router.post('/ChangeUserName', (req, res) => {
+    const email = req.email
+    const { name } = req.body;
+    const changeName = 'UPDATE Users SET user_name = ? WHERE email = ?'
+    con.query(changeName, [name, email], (err, results) => {
+        if(err) {
+            console.log(err)
+        }
+        return res.status(200).json({ success: true, message: 'Name changed' });
+
+    })
+})
 //Handle signout
 router.post('/signout', (req, res) => {
     console.log('Signout route hit');

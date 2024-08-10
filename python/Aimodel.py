@@ -112,6 +112,8 @@ def to_tf_dataset(dataset, shuffle=True, batch_size=8):
 train_dataset = to_tf_dataset(tokenized_datasets['train'])
 val_dataset = to_tf_dataset(tokenized_datasets['validation'], shuffle=False)
 
+# Verify GPU availability
+print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 # Ensure TensorFlow uses GPU
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
@@ -121,8 +123,7 @@ if gpus:
     except RuntimeError as e:
         print(e)
 
-# Verify GPU availability
-print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
+
 
 # Initialize the model
 model = TFBertForQuestionAnswering.from_pretrained('bert-base-uncased')

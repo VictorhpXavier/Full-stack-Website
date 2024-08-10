@@ -7,6 +7,7 @@ CREATE TABLE Users (
   created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PhotoLink varchar(255) DEFAULT NULL,
   language varchar(255) DEFAULT 'english',
+  user_name varchar(255)
   PRIMARY KEY (id),
   UNIQUE KEY email (email)
 )

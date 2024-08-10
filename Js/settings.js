@@ -398,13 +398,13 @@ document.addEventListener('DOMContentLoaded', function() {
             mainRoutes.forEach(link => link.style.color = '#128fdc');
             authLinks.forEach(link => link.style.color = '#128fdc');
             h1.style.color = '#128fdc'
-            h2.style.color = '#128fdc'
             settingUl.forEach(a => a.style.color ='#e0e0e0')
             h3.forEach(h3 => h3.style.color ='#128fdc')
             deleteAccount.style.color ='red'
             p.forEach(p => p.style.color ='#e0e0e0')
             googleSpan.style.color ='#e0e0e0'
             singInGoogle.src = '../UserIcon/web_dark_rd_SI.svg'
+
         } else {
             document.body.style.backgroundColor = '';
             header.style.backgroundColor = '';
@@ -413,7 +413,6 @@ document.addEventListener('DOMContentLoaded', function() {
             authLinks.forEach(link => link.style.color = '');
             h1.style.color = ''
             settingUl.forEach(a => a.style.color ='')
-            h2.style.color = ''
             h3.forEach(h3 => h3.style.color ='')
             deleteAccount.style.color =''
             p.forEach(p => p.style.color ='')
@@ -465,6 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 });
 function updateUserPhotoLink() {
+    const pfpDropDown  = document.querySelector('#header .DropDownMenu .ProfileHeader .ProfileImg .img')
     fetch('/updatePhotoLink', {
         method: 'POST',
         headers: {
@@ -479,6 +479,41 @@ function updateUserPhotoLink() {
             if (data.photoLink) {
                 const photoUrl = `/uploads/${data.photoLink}`;
                 circleElement.style.backgroundImage = `url(${photoUrl})`;
+                pfpDropDown.style.backgroundImage = `url(${photoUrl})`;
+                pfpDropDown.addEventListener('mouseover', () => {
+                    pfpDropDown.style.backgroundImage = 'url(../UserIcon/upload.png)'
+                })
+                pfpDropDown.addEventListener('mouseout', () => {
+                    pfpDropDown.style.backgroundImage = `url(${photoUrl})`;
+                })
+                document.getElementById('fileInput').addEventListener('change', function(event) {
+                    const fileInput = event.target;
+                    const file = fileInput.files[0];
+                
+                    if (!file) {
+                        return;
+                    }
+                
+                    const formData = new FormData();
+                    formData.append('file', file);
+                
+                    fetch('/userPhoto', {  
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const imageUrl = data.imageUrl;
+                            updateUserPhotoLink(imageUrl);
+                        } 
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                });
+                    
+                    
             } 
         } 
     })
@@ -503,3 +538,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+

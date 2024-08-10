@@ -224,7 +224,14 @@ a {
     display: flex;
     align-items: center; /* Vertically center the content */
 }
-#header .DropDownMenu .ProfileHeader .ProfileImg img{
+
+.SettingsTitle h2 {
+    color: #007aff;
+    font-weight: 900 bold;
+    margin-bottom: 40px;
+    font-size: 22px;
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg .img{
     width: 45px;
     height: 45px;
     margin-bottom: 40px;
@@ -232,7 +239,24 @@ a {
     border-radius: 50%;
     vertical-align: middle;
     background-image: url('../UserIcon/UnkwonUser.png');
+    border: 1px solid #128fdc;
     background-size: cover;
+    position: relative; /* Ensure the img div is positioned relative */
+
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg .img:hover {
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: url('../UserIcon/upload.png');
+}
+.img #fileInput {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
 }
 #header .DropDownMenu .ProfileHeader .ProfileImg  .UserInfo {
     margin-top: -35px;
@@ -288,7 +312,7 @@ a {
 
 #Settings h1 {
     position: absolute;
-    color: #006097;
+    color: #007bff;
     font-weight: 900;
     top: 10%;
     left: 10%;
@@ -323,14 +347,7 @@ a {
     color: red;
 }
 
-#Settings h2 {
-    margin-bottom: 2%;
-    font-size: 20px;
-}
 
-#Settings h3 {
-    font-size: 16px;
-}
 
 #Settings .JoinGoogle {
     position: relative;
@@ -381,6 +398,103 @@ a {
     cursor: pointer;
     background-color: #f53a3a;
 
+}
+/* Change user profile settings */
+.ProfileContainer {
+    width: 50%;
+    max-width: 800px;
+    justify-content: space-between;
+
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.ProfileSettings {
+    width: 48%;
+    text-align: center;
+}
+
+.ProfileSettings h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+.ProfileSettings span {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.DropImageButton input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #007bff;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+.DropImageButton input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.DropImageButton input[type="file"]::before {
+    content: 'Choose Image';
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.DropImageButton input[type="file"]:hover::before {
+    background-color: #0056b3;
+}
+
+.UserName {
+    text-align: left;
+}
+
+.UserName h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.UserSett p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.UserSett input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.UserSett button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.UserSett button:hover {
+    background-color: #0056b3;
 }
 /* Delete Menu*/
 #Settings .wrapper {
@@ -512,7 +626,9 @@ a {
     border: none;
     background: none;
 }
-
+.SettingsContainer h3 {
+    font-size: 16px;
+}
 #Settings .SettingsContainer .JoinGoogle button:hover {
     cursor: pointer;
 }
@@ -790,19 +906,8 @@ a {
     margin-bottom: 2%;
     border-bottom: 2px solid black;
 }
-#Settings .SettingsContainerProfile button{
-    margin-top: 2%;
-    color: #128fdc;
-    width: 100%;
-    height: 150px;
-    font-size: 20px;
-    border-radius: 20px;
-    border: 2px solid #0e80c7;
-}
-#Settings .SettingsContainerProfile button:hover{
-    cursor: pointer;
-    transition: 1s;
-    background-color: #dbdbdb;
+#Settings .UserName h3 {
+    margin-top: 20px;
 }
 /* Footer section*/
 /*#footer {

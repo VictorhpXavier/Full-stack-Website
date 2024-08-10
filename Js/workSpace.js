@@ -532,6 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 */
 function updateUserPhotoLink() {
+    const pfpDropDown  = document.querySelector('#header .DropDownMenu .ProfileHeader .ProfileImg .img')
     fetch('/updatePhotoLink', {
         method: 'POST',
         headers: {
@@ -546,6 +547,41 @@ function updateUserPhotoLink() {
             if (data.photoLink) {
                 const photoUrl = `/uploads/${data.photoLink}`;
                 circleElement.style.backgroundImage = `url(${photoUrl})`;
+                pfpDropDown.style.backgroundImage = `url(${photoUrl})`;
+                pfpDropDown.addEventListener('mouseover', () => {
+                    pfpDropDown.style.backgroundImage = 'url(../UserIcon/upload.png)'
+                })
+                pfpDropDown.addEventListener('mouseout', () => {
+                    pfpDropDown.style.backgroundImage = `url(${photoUrl})`;
+                })
+                document.getElementById('fileInput').addEventListener('change', function(event) {
+                    const fileInput = event.target;
+                    const file = fileInput.files[0];
+                
+                    if (!file) {
+                        return;
+                    }
+                
+                    const formData = new FormData();
+                    formData.append('file', file);
+                
+                    fetch('/userPhoto', {  
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const imageUrl = data.imageUrl;
+                            updateUserPhotoLink(imageUrl);
+                        } 
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                });
+                    
+                    
             } 
         } 
     })

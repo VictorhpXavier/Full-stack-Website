@@ -230,7 +230,7 @@ a {
     display: flex;
     align-items: center; /* Vertically center the content */
 }
-#header .DropDownMenu .ProfileHeader .ProfileImg img{
+#header .DropDownMenu .ProfileHeader .ProfileImg .img{
     width: 45px;
     height: 45px;
     margin-bottom: 40px;
@@ -238,7 +238,24 @@ a {
     border-radius: 50%;
     vertical-align: middle;
     background-image: url('../UserIcon/UnkwonUser.png');
+    border: 1px solid #128fdc;
     background-size: cover;
+    position: relative; /* Ensure the img div is positioned relative */
+
+}
+#header .DropDownMenu .ProfileHeader .ProfileImg .img:hover {
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: url('../UserIcon/upload.png');
+}
+#fileInput {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
 }
 #header .DropDownMenu .ProfileHeader .ProfileImg  .UserInfo {
     margin-top: -25px;
