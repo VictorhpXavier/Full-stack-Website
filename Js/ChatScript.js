@@ -188,7 +188,33 @@ document.addEventListener('DOMContentLoaded', function () {
     function addMessageToChat(sender, message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('chat-message', sender);
-        messageElement.innerHTML = `<div class="message">${message}</div>`;
+    
+        // Create the inner content of the message
+        const messageContent = document.createElement('div');
+        messageContent.classList.add('message-content');
+    
+        // Add the message text
+        const textElement = document.createElement('span');
+        textElement.classList.add('message-text');
+        textElement.textContent = message;
+    
+        messageContent.appendChild(textElement);
+    
+        // If the sender is the bot, add the speaker icon at the bottom
+        if (sender === 'bot') {
+            const iconContainer = document.createElement('div');
+            iconContainer.classList.add('icon-container');
+    
+            const iconElement = document.createElement('i');
+            iconElement.classList.add('fas', 'fa-volume-up', 'speaker-icon');
+            
+            iconContainer.appendChild(iconElement);
+            messageContent.appendChild(iconContainer);
+        }
+    
+        messageElement.appendChild(messageContent);
+    
+        // Append the message to the chat window
         chatWindow.appendChild(messageElement);
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
@@ -291,26 +317,31 @@ document.addEventListener('DOMContentLoaded', function () {
                                 newButton.style.backgroundColor = '#424242';
                                 settings.style.display = 'block';
                             });
-                            span.addEventListener('click', function(event) {
-                                event.preventDefault();
-                                // Show menu at the position of the span
-                                const rect = span.getBoundingClientRect();
-                                menu.style.top = `${rect.bottom}px`;
-                                menu.style.left = `${rect.left}px`;
-                                menu.style.display = 'block';
-                            });
                             
                             span.addEventListener('mouseleave', function() {
                                 newButton.style.backgroundColor = '';
                                 settings.style.display = 'none';
                             });
-                           
-                           
-                            // Hide menu when clicking outside
-                            document.addEventListener('click', function(event) {
-                                if (!span.contains(event.target) && !menu.contains(event.target)) {
+                            
+                            span.addEventListener('click', function (event) {
+                                event.preventDefault();
+                                
+                                if (menu.style.display === 'none' ||  menu.style.display === '') {
+                                    const rect = span.getBoundingClientRect();
+                                    menu.style.top = `${rect.bottom}px`;
+                                    menu.style.left = `${rect.left}px`;
+                                    menu.style.display = 'block';
+                                } else {
                                     menu.style.display = 'none';
                                 }
+                            });
+                            
+                            
+                            window.addEventListener('click', (event) => {
+                                if (span && !span.contains(event.target)) {
+                                    menu.style.display = 'none';
+                                    newButton.style.backgroundColor = '';
+                                    settings.style.display = 'none';                                }
                             });
 
                             // Menu item event listeners
@@ -474,7 +505,83 @@ document.addEventListener('DOMContentLoaded', function () {
                     function addMessageToChat(sender, message) {
                         const messageElement = document.createElement('div');
                         messageElement.classList.add('chat-message', sender);
-                        messageElement.innerHTML = `<div class="message">${message}</div>`;
+                    
+                        // Create the inner content of the message
+                        const messageContent = document.createElement('div');
+                        messageContent.classList.add('message-content');
+                    
+                        // Add the message text
+                        const textElement = document.createElement('span');
+                        textElement.classList.add('message-text');
+                        textElement.textContent = message;
+                    
+                        messageContent.appendChild(textElement);
+                    
+                        // If the sender is the bot, add the speaker icon at the bottom
+                        if (sender === 'bot') {
+                            const iconContainer = document.createElement('div');
+                            iconContainer.classList.add('icon-container');
+                            //Show copy text text
+
+                            const copyElement = document.createElement('i')
+                            copyElement.classList.add('fa', 'fa-clone', 'copy')
+                            copyElement.setAttribute('aria-label', 'Copy text');
+                            const copyElementText = document.createElement('div');
+                            copyElementText.classList.add('copyElementText');
+                            copyElementText.textContent = 'Copy text';
+                            const notification = document.createElement('div')
+                            notification.classList.add('notification')
+                            notification.textContent = 'Text has been copied'
+
+                            copyElement.addEventListener('mouseenter', function() {
+                                copyElementText.style.visibility = 'visible';
+                                copyElementText.style.opacity = '1';
+                            });
+                            
+                            copyElement.addEventListener('mouseleave', function() {
+                                copyElementText.style.visibility = 'hidden';
+                                copyElementText.style.opacity = '0';
+                            });
+                            copyElement.addEventListener('click', function() {
+                                notification.classList.add('show');
+                                copyElementText.style.visibility = 'hidden';
+                                copyElementText.style.opacity = '0';
+                            
+                                setTimeout(function() {
+                                    notification.classList.remove('show');
+                                }, 2000); 
+                                
+
+                            })
+                            //Show speaker text
+                            const speakerElement = document.createElement('i');
+                            speakerElement.classList.add('fas', 'fa-volume-up', 'speaker-icon');
+                            speakerElement.setAttribute('aria-label', 'Copy text');
+                            const listenElement = document.createElement('div');
+                            listenElement.classList.add('listenElement');
+                            listenElement.textContent = 'Listen to Text';
+                            speakerElement.addEventListener('mouseenter', function() {
+                                listenElement.style.visibility = 'visible';
+                                listenElement.style.opacity = '1';
+                            });
+                            
+                            speakerElement.addEventListener('mouseleave', function() {
+                                listenElement.style.visibility = 'hidden';
+                                listenElement.style.opacity = '0';
+                            });
+
+                            iconContainer.appendChild(copyElement)
+                            messageContent.appendChild(copyElementText);
+                            iconContainer.appendChild(speakerElement);
+                            messageContent.appendChild(iconContainer);
+                            messageContent.appendChild(listenElement);
+                            messageContent.appendChild(notification)
+
+                        }
+                    
+                        messageElement.appendChild(messageContent);
+                    
+                        // Append the message to the chat window
                         chatWindow.appendChild(messageElement);
                         chatWindow.scrollTop = chatWindow.scrollHeight;
                     }
@@ -559,24 +666,33 @@ document.addEventListener('DOMContentLoaded', function () {
                                 newButton.style.backgroundColor = '#424242';
                                 settings.style.display = 'block';
                             });
-                            span.addEventListener('click', function(event) {
-
-                                event.preventDefault();
-                                // Show menu at the position of the span
-                                const rect = span.getBoundingClientRect();
-                                menu.style.top = `${rect.bottom}px`;
-                                menu.style.left = `${rect.left}px`;
-                                menu.style.display = 'block';
-                            });
                             
                             span.addEventListener('mouseleave', function() {
                                 newButton.style.backgroundColor = '';
                                 settings.style.display = 'none';
                             });
-                           
-                           
-                            // Hide menu when clicking outside
                             
+                            span.addEventListener('click', function (event) {
+                                event.preventDefault();
+                                
+                                if (menu.style.display === 'none' ||  menu.style.display === '') {
+                                    const rect = span.getBoundingClientRect();
+                                    menu.style.top = `${rect.bottom}px`;
+                                    menu.style.left = `${rect.left}px`;
+                                    menu.style.display = 'block';
+                                } else {
+                                    menu.style.display = 'none';
+                                }
+                            });
+                            
+                            
+                            window.addEventListener('click', (event) => {
+                                if (span && !span.contains(event.target)) {
+                                    menu.style.display = 'none';
+                                    newButton.style.backgroundColor = '';
+                                    settings.style.display = 'none';                                }
+                            });
+                           
 
                             // Menu item event listeners
 

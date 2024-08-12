@@ -1,6 +1,7 @@
 import sys
 import requests
 import re
+
 from sympy import symbols, Eq, solve
 
 def get_wikipedia_summary(topic, lang='en'):
@@ -20,13 +21,11 @@ def solve_arithmetic(expression):
         return f"Error: {e}"
 
 def solve_equation(equation_str):
-    try:
         x = symbols('x')
         equation = Eq(eval(equation_str.split('=')[0]), eval(equation_str.split('=')[1]))
         solutions = solve(equation, x)
         return f"The solutions are {solutions}"
-    except Exception as e:
-        return f"Error: {e}"
+    
 
 def handle_query(query):
     if re.match(r'^[0-9+\-*/(). ]+$', query):

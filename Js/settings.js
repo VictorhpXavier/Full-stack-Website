@@ -65,6 +65,8 @@ deleteAccountButton.addEventListener('click', function() {
     })
 })
 document.addEventListener('DOMContentLoaded', function() {
+
+
      //If user is Logged In then show the Profile Menu and remove the register / login
     function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -383,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainRoutes = document.querySelectorAll('#header .MainRoutes ul a');
     const authLinks = document.querySelectorAll('#header .Auth ul a');
     const h1 = document.querySelector('#Settings h1')
-    const settingUl = document.querySelectorAll('#Settings ul li a ')
+    const settingUl = document.querySelectorAll('#Settings .SettingsContainer .SettingUl .Profile')
     const h2 = document.querySelector('.SettingsTitle')
     const h3 = document.querySelectorAll('#Settings h3')
     const deleteAccount = document.querySelector('#Settings .DangerZone h3')
@@ -462,6 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch((error) => console.error('Error setting dark mode:', error));
     })
+   
 });
 function updateUserPhotoLink() {
     const pfpDropDown  = document.querySelector('#header .DropDownMenu .ProfileHeader .ProfileImg .img')
