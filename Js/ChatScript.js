@@ -583,7 +583,38 @@ document.addEventListener('DOMContentLoaded', function () {
                                 listenElement.style.visibility = 'hidden';
                                 listenElement.style.opacity = '0';
                             });
-
+                            function handleSpeech() {
+                                const synth = window.speechSynthesis;
+                            
+                                // Stop any ongoing speech
+                                if (synth.speaking || synth.paused) {
+                                    synth.cancel();
+                                    return; 
+                                }
+                            
+                                let textToSpeak = messageContent.textContent.trim();
+                                const unwantedText = "Copy textListen to TextText has been copied";
+                            
+                                // Check and remove unwanted text at the end
+                                if (textToSpeak.endsWith(unwantedText)) {
+                                    textToSpeak = textToSpeak.slice(0, -unwantedText.length).trim();
+                                }
+                            
+                                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                                synth.speak(utterance);
+                               
+                            }
+                            
+                            speakerElement.addEventListener('click', handleSpeech);
+                            
+                            // Stop speech synthesis when navigating away from the page
+                            window.addEventListener('beforeunload', function() {
+                                const synth = window.speechSynthesis;
+                                if (synth.speaking || synth.paused) {
+                                    synth.cancel();
+                                }
+                            });
+                            
                             iconContainer.appendChild(copyElement)
                             messageContent.appendChild(copyElementText);
                             iconContainer.appendChild(speakerElement);
