@@ -1000,7 +1000,7 @@ router.post('/GetUserMessages', (req, res) => {
 //Get Bot response
 router.post('/getBotResponse', (req, res) => {
     const chat = req.body.chat;
-    const pythonProcess = spawn('python3', ['python/GetData.py', chat]);
+    const pythonProcess = spawn('python3', ['python/GetData(wikipedia).py', chat]);
 
     pythonProcess.stdout.on('data', (data) => {
         const response = data.toString().trim();

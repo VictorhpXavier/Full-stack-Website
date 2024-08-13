@@ -1,42 +1,134 @@
-import sys
-import requests
-import re
+from datasets import load_dataset, concatenate_datasets
+from transformers import BertTokenizer
+import pickle
+import os
 
-from sympy import symbols, Eq, solve
+# Load dataset
+cache_dir = "/media/victor/New Volume"
+dataset = load_dataset('natural_questions', 'default', cache_dir=cache_dir)
 
-def get_wikipedia_summary(topic, lang='en'):
-    url = f"https://{lang}.wikipedia.org/api/rest_v1/page/summary/{topic}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        return data['extract']
-    else:
-        return "Sorry, I couldn't find any information on that topic."
+# Initialize the tokenizer
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
-def solve_arithmetic(expression):
+def preprocess_function(examples):
+    long_answers = []
     try:
-        result = eval(expression)
-        return f"The result is {result}"
+        # Process each example
+        for i in range(len(examples['document'])):
+            document_html = examples['document'][i]['html']
+            tokens = examples['document'][i]['tokens']
+            
+            if isinstance(tokens, dict):
+                token_list = [
+                    {
+                        'token': tokens.get('token', [])[j],
+                        'is_html': tokens.get('is_html', [])[j],
+                        'start_byte': tokens.get('start_byte', [])[j],
+                        'end_byte': tokens.get('end_byte', [])[j],
+                    }
+                    for j in range(len(tokens['end_byte']))
+                ]
+            
+            # Create a token map
+            token_map = {j: token['token'] for j, token in enumerate(token_list) if not token['is_html']}
+            
+            # Extract long answer candidates
+            candidates = examples['long_answer_candidates'][i]
+            if isinstance(candidates, dict):
+                candidates = [candidates]
+            
+            long_answers = []
+            if isinstance(candidates, list):
+                for candidate in candidates:
+                    if isinstance(candidate, dict):
+                        start_tokens = candidate.get('start_token', [])
+                        end_tokens = candidate.get('end_token', [])
+                        for start_token, end_token in zip(start_tokens, end_tokens):
+                            candidate_text = " ".join(str(token_map.get(j, '')) for j in range(start_token, end_token + 1))
+                            long_answers.append(candidate_text)
+            
+            long_answers_text = " ".join(long_answers)
+            questions = examples['question'][i]['text']
+            long_answers_texts = [long_answers_text] * len(questions)
+            
+            # Tokenization with the specific max_length
+            tokenized = tokenizer(
+                questions,
+                long_answers_texts,
+                truncation=True,
+                padding='max_length',
+                max_length=173
+            )
+            
+            return tokenized
     except Exception as e:
-        return f"Error: {e}"
+        print(f"Error processing example: {e}")
+        return {}
 
-def solve_equation(equation_str):
-        x = symbols('x')
-        equation = Eq(eval(equation_str.split('=')[0]), eval(equation_str.split('=')[1]))
-        solutions = solve(equation, x)
-        return f"The solutions are {solutions}"
-    
+def save_intermediate(filename, data):
+    with open(filename, 'wb') as f:
+        pickle.dump(data, f)
 
-def handle_query(query):
-    if re.match(r'^[0-9+\-*/(). ]+$', query):
-        return solve_arithmetic(query)
-    elif re.match(r'^[x0-9+\-*/^=. ()]+$', query):
-        return solve_equation(query)
-    else:
-        return get_wikipedia_summary(query)
+def load_intermediate(filename):
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
+#Get first files
+def process_and_save_chunks(dataset, chunk_size, save_dir):
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
 
-if __name__ == '__main__':
-    query = ' '.join(sys.argv[1:])
-    response = handle_query(query)
-    print(response)
-    
+    num_examples = len(dataset['train'])
+    for start in range(0, num_examples, chunk_size):
+        end = min(start + chunk_size, num_examples)
+        chunk = dataset['train'].select(range(start, end))
+        
+        # Apply preprocessing function
+        tokenized_chunk = chunk.map(preprocess_function, batched=True, remove_columns=['document', 'long_answer_candidates'])
+        
+        # Save the processed chunk
+        save_intermediate(os.path.join(save_dir, f'tokenized_chunk_{start}.pkl'), tokenized_chunk)
+        print(f"Processed and saved chunk {start} to {end}")
+
+#Get last file
+#def process_and_save_chunks(dataset, chunk_size, save_dir):
+#    if not os.path.exists(save_dir):
+#        os.makedirs(save_dir)
+#
+#    num_examples = len(dataset['train'])
+#    # Start from the last chunk and work backwards
+#    for start in range(num_examples - chunk_size, -1, -chunk_size):
+#        end = start + chunk_size
+#        if start < 0:  # For the very first chunk (when start goes below 0)
+#            start = 0
+#
+#        chunk = dataset['train'].select(range(start, end))
+#
+#        # Adjust max_length for the last chunk if it's smaller than chunk_size
+#        current_max_length = min(chunk_size, len(chunk))
+#
+#        # Apply preprocessing function with the dynamic max_length
+#        tokenized_chunk = chunk.map(
+#            lambda examples: preprocess_function(examples, max_length=current_max_length),
+#            batched=True
+#        )
+#
+#        # Save the processed chunk
+#        save_intermediate(os.path.join(save_dir, f'tokenized_chunk_{start}.pkl'), tokenized_chunk)
+#        print(f"Processed and saved chunk {start} to {end}")
+#        
+#chunk_size = 173
+# Set parameters and process the dataset
+chunk_size = 512
+save_dir = "/media/victor/New Volume/save_dir"
+process_and_save_chunks(dataset, chunk_size, save_dir)
+
+def load_all_tokenized_data(save_dir):
+    tokenized_datasets = []
+    for filename in os.listdir(save_dir):
+        if filename.endswith('.pkl'):
+            with open(os.path.join(save_dir, filename), 'rb') as f:
+                tokenized_datasets.append(pickle.load(f))
+    return concatenate_datasets(tokenized_datasets)
+
+# Load all processed data
+combined_dataset = load_all_tokenized_data(save_dir)
