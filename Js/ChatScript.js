@@ -528,7 +528,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             copyElement.setAttribute('aria-label', 'Copy text');
                             const copyElementText = document.createElement('div');
                             copyElementText.classList.add('copyElementText');
-                            copyElementText.textContent = 'Copy text';
+                            copyElementText.textContent = ' Copy text';
                             const notification = document.createElement('div')
                             notification.classList.add('notification')
                             notification.textContent = 'Text has been copied'
@@ -543,16 +543,30 @@ document.addEventListener('DOMContentLoaded', function () {
                                 copyElementText.style.opacity = '0';
                             });
                             copyElement.addEventListener('click', function() {
-                                notification.classList.add('show');
-                                copyElementText.style.visibility = 'hidden';
-                                copyElementText.style.opacity = '0';
-                            
-                                setTimeout(function() {
-                                    notification.classList.remove('show');
-                                }, 2000); 
-                                
+                                let CopyText = messageContent.textContent;
+                                let unwantedText = "Copy textListen to TextText has been copied";
 
+                                if (CopyText.endsWith(unwantedText)) {
+                                    // Remove the unwanted phrase from the end
+                                    CopyText = CopyText.slice(0, - unwantedText.length);
+                                }
+                            
+                            
+                                // Copy the cleaned text to the clipboard
+                                navigator.clipboard.writeText(CopyText).then(function() {
+                                    notification.classList.add('show');
+                                    copyElementText.style.visibility = 'hidden';
+                                    copyElementText.style.opacity = '0';
+                            
+                                    // Hide the notification after 2 seconds
+                                    setTimeout(function() {
+                                        notification.classList.remove('show');
+                                    }, 2000);
+                                }).catch(function(error) {
+                                    console.error('Failed to copy text: ', error);
+                                });
                             })
+
                             //Show speaker text
                             const speakerElement = document.createElement('i');
                             speakerElement.classList.add('fas', 'fa-volume-up', 'speaker-icon');
