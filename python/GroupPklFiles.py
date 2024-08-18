@@ -4,7 +4,7 @@ from datasets import concatenate_datasets, Dataset
 
 save_dir = "/media/victor/New Volume/save_dir"
 
-
+#Get all pkl files to combine into a single file
 def load_all_tokenized_data(save_dir):
     tokenized_datasets = []
     for filename in os.listdir(save_dir):
@@ -22,7 +22,7 @@ with open(os.path.join(save_dir, 'combined_tokenized_data.pkl'), 'wb') as f:
 
 print("Combined dataset saved to 'combined_tokenized_data.pkl'")
 
-
+#Count number of rows of each file
 def load_all_tokenized_data(save_dir):
     total_rows = 0
 
@@ -37,7 +37,7 @@ def load_all_tokenized_data(save_dir):
     return concatenate_datasets(tokenized_datasets)
 
 combined_dataset = load_all_tokenized_data(save_dir)
-
+#Count number of rows of final pkl file
 for filename in os.listdir(save_dir):
     if filename == 'combined_tokenized_data.pkl':
         with open(os.path.join(save_dir, filename), 'rb') as f:

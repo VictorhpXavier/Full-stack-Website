@@ -12,8 +12,26 @@ security.use(requestIp.mw());
 require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 
+const verifyToken = (req, res, next) => {
+    const token = req.cookies.token;
 
-security.use(async (req, res, next) => {
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                // Token has expired
+                res.clearCookie('loggedIn', { path: '/' });
+                res.clearCookie('token', { path: '/' });
+                return res.status(401).json({ error: 'Unauthorized', message: 'Token expired', expiredAt: err.expiredAt });
+            } 
+        }
+
+
+        req.user = decoded;
+        next();
+    });
+};
+
+security.use(verifyToken, (req, res, next) => {
     const staticPaths = ['/Logo', '/Css', '/wallpapers', '/Country_Flags', '/Features_Images', '/UserIcon', '/imagesRevamp', '/mascot', '/Js', '/uploads', '/python'];
 
     
@@ -47,7 +65,6 @@ security.use(async (req, res, next) => {
         return next(); // No token, proceed to next middleware or route
     }
 
-    try {
         const decoded = jwt.verify(token, secretKey);
         req.email = decoded.email;
 
@@ -129,10 +146,6 @@ security.use(async (req, res, next) => {
                 next();
             }
         });
-    } catch (err) {
-        console.error('JWT verification error:', err);
-        res.status(401).json({ error: 'Unauthorized' });
-    }
 });
 
 //Get user device info

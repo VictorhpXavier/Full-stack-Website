@@ -1,5 +1,5 @@
 import tensorflow as tf
-from transformers import TFBertForQuestionAnswering
+from transformers import BertTokenizer, TFBertForQuestionAnswering
 import numpy as np
 import pickle
 
@@ -57,7 +57,7 @@ def to_tf_dataset_with_labels(dataset):
                 },
                 {
                     'start_positions': tf.convert_to_tensor(example['start_positions'], dtype=tf.int32),
-                    'end_positions': tf.convert_to_tensor(example['end_positions'], dtype=tf.int32),
+                    'end_positions': tf.convert_to_tensor(example['end_positions'], dtype=tf.int32)
                 }
             )
 
@@ -95,7 +95,7 @@ def main():
     # Define the model
     model = TFBertForQuestionAnswering.from_pretrained('bert-base-uncased')
 
-    # Compile the model
+    # Compile the model with appropriate loss function
     model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=3e-5),
                   loss={'start_positions': tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                         'end_positions': tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)},
@@ -103,7 +103,7 @@ def main():
 
     # Train the model
     model.fit(train_dataset, epochs=3)
-
+    
     # Save the trained model
     model.save('trained_model.h5')
 

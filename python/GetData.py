@@ -3,7 +3,7 @@ from transformers import BertTokenizer
 import pickle
 import os
 
-# Load dataset
+# Download Dataset
 cache_dir = "/media/victor/New Volume"
 dataset = load_dataset('natural_questions', 'default', cache_dir=cache_dir)
 
@@ -15,7 +15,6 @@ def preprocess_function(examples):
     try:
         # Process each example
         for i in range(len(examples['document'])):
-            document_html = examples['document'][i]['html']
             tokens = examples['document'][i]['tokens']
             
             if isinstance(tokens, dict):
@@ -57,7 +56,7 @@ def preprocess_function(examples):
                 long_answers_texts,
                 truncation=True,
                 padding='max_length',
-                max_length=173
+                max_length=512
             )
             
             return tokenized
@@ -72,7 +71,7 @@ def save_intermediate(filename, data):
 def load_intermediate(filename):
     with open(filename, 'rb') as f:
         return pickle.load(f)
-#Get first files
+#Get and save first files
 def process_and_save_chunks(dataset, chunk_size, save_dir):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -117,6 +116,7 @@ def process_and_save_chunks(dataset, chunk_size, save_dir):
 #        print(f"Processed and saved chunk {start} to {end}")
 #        
 #chunk_size = 173
+
 # Set parameters and process the dataset
 chunk_size = 512
 save_dir = "/media/victor/New Volume/save_dir"
@@ -132,3 +132,5 @@ def load_all_tokenized_data(save_dir):
 
 # Load all processed data
 combined_dataset = load_all_tokenized_data(save_dir)
+
+ 

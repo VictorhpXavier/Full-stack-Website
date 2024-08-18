@@ -24,9 +24,7 @@ const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /* Get User info */
 router.get('/get-user-id', (req, res) => {
     const token = req.cookies.token;
-    if (!token) {
-        return res.status(401).json({ error: 'Access Denied' });
-    }
+
     try {
         const decoded = jwt.verify(token, secretKey);
         const id = decoded.id;
@@ -38,9 +36,7 @@ router.get('/get-user-id', (req, res) => {
 
 router.get('/get-email', (req, res) => {
     const token = req.cookies.token; 
-    if (!token) {
-        return res.status(401).json({ error: 'Access Denied' });
-    }
+
 
     try {
         const decoded = jwt.verify(token, secretKey);
@@ -50,6 +46,7 @@ router.get('/get-email', (req, res) => {
         return res.status(400).json({ error: 'Invalid Token' });
     }
 });
+
 const getUserIdByEmail = (email, callback) => {
     const getId = 'SELECT id FROM Users WHERE email = ?';
     con.query(getId, [email], (err, results) => {
@@ -63,6 +60,7 @@ const getUserIdByEmail = (email, callback) => {
         callback(null, userId);
     });
 };
+
 function GetPhotoId() {
     //Send Photo Data to the Python Script
     router.get('/UserPhotosId', (req, res) => {
@@ -130,12 +128,12 @@ router.post('/signup', async (req, res) => {
                            
                     res.cookie('token', token, {
                         httpOnly: true,
-                        maxAge: 60 * 60 * 7 * 24 * 365 * 1000, // 1 year
+                        maxAge: 1000 * 60 * 60 * 24 * 7 , // 7 days
                         secure: process.env.NODE_ENV === 'production', 
                     });
                     res.cookie('loggedIn', true, {
                         httpOnly: false, 
-                        maxAge: 60 * 60 * 7 * 24 * 365 * 1000, // 1 year
+                        maxAge: 1000 * 60 * 60 * 24 * 7 , // 7 days
                         secure: process.env.NODE_ENV === 'production',
                     })
                    
@@ -205,12 +203,12 @@ router.post('/login', (req, res) => {
                 
                 res.cookie('token', token, {
                     httpOnly: true,
-                    maxAge: 60 * 60 * 7 * 24 * 365 * 1000, // 1 year
+                    maxAge: 1000 * 60 * 60 * 24 * 7  , // 7 dias
                     secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
                 });
                 res.cookie('loggedIn', true, {
                     httpOnly: false, // Accessible by client-side JavaScript
-                    maxAge: 60 * 60 * 7 * 24 * 365 * 1000, // 1 year
+                    maxAge: 1000 * 60 * 60 * 24 * 7 , // 7 days
                     secure: process.env.NODE_ENV === 'production',
                 })
                 return res.status(200).json({ message: 'User logged in successfully' });
@@ -1176,6 +1174,7 @@ router.post('/ChangeUserName', (req, res) => {
 
     })
 })
+
 //Handle signout
 router.post('/signout', (req, res) => {
     console.log('Signout route hit');
@@ -1185,7 +1184,6 @@ router.post('/signout', (req, res) => {
 
     res.status(200).json({ message: 'Signed out successfully' });
 });
-
 
 module.exports = con;
 module.exports = router;

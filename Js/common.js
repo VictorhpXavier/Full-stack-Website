@@ -1,6 +1,6 @@
 //Send os to backend
 
-(function() {
+(function () {
     let os = navigator.appVersion;
 
     fetch('/sendOs', {
@@ -9,7 +9,7 @@
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ os: os }),
-    })
-        .then((response) => response.json())
-        
+    }).then((response) => response.json());
+
 })();
+

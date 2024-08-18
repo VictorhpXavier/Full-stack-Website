@@ -14,92 +14,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="User">
-        <div class="nav-list">
-            <div id="dadHamburger" class="hamburger">
-                <div class="bar"></div>
+    <div class="projects-container">
+        <div class="project-card">
+          <div class="project-image">
+            <img src="project1-thumbnail.jpg" alt="Project 1 Screenshot">
+          </div>
+          <div class="project-info">
+            <h3>Project Title</h3>
+            <p>A brief description of the project highlighting key features and technologies.</p>
+            <div class="tech-stack">
+              <span class="tech-badge">React</span>
+              <span class="tech-badge">Node.js</span>
+              <span class="tech-badge">CSS</span>
             </div>
-            <ul id="myList">
-                <li><a><button id="CircleButton"><span id="Circle"></span></button></a></li>
-            </ul>
-            <div class="DropDownMenu">
-                <div class="ProfileHeader">
-                    <div class="ProfileImg">
-                        <div class="img">
-                            <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" />
-                        </div>
-                        <div class="UserInfo">
-                            <h1>test</h1>
-                            <h2>test@gmail.com</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="bar"></div>
-                <div class="DropDownContent">
-                    <a id="Home" href="/home"><i class="fa-solid fa-house"></i> Home</a>
-                    <a id="WorkSpace" href="/settings"><i class="fas fa-cog"></i> Settings</a>
-                    <a id="DarkMode"><i  class="fas fa-moon"></i> Dark mode</a>
-                    <a id="SignOut" ><i  class="fas fa-sign-out-alt"></i> Sign out</a>
-
-                </div>
+            <div class="project-links">
+              <a href="#" class="btn">Live Demo</a>
+              <a href="#" class="btn">View Code</a>
             </div>
+          </div>
         </div>
-    </div>
-    </div>
-    <body>
-        <div class="container">
-            <button class="hamburger-menu" id="mainHamburgerMenu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <button class="hamburger-menu sidebarHamburgerMenu" id="Hamburger-menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="sidebar" id="sidebar">
-                <div class="sidebar-item" data-collapse-target="#collapse-recentes">
-                    <h1>Recent Chats</h1>
-                    <div class="collapse" id="collapse-recentes">
-                        <p>Recent conversation...</p>
-                    </div>
-                </div>
-                <div class="sidebar-item2" data-collapse-target="#collapse-recentes">        
-                    <div class="ChatButton" id="chatButtonContainer">
-                        
-                        
-                        
-                    </div>
-                </div>
-                
-                <div class="sidebar-item" data-collapse-target="#collapse-conversa">
-                    <button id="NewChat">New Chat <i class="fas fa-plus"></i></button>
-                    <div class="collapse" id="collapse-conversa">
-                        <p>New conversation content...</p>
-                    </div>
-                </div>
-            </div>
-            <div class="content">
-                <div id="chatWindow" class="chat-window"></div>
-                <div class="footer">                    
-                    <button class="SendImage"><i class="fas fa-image"><input type="file" id="fileInput" accept=".png, .jpg, .jpeg" /></i></button>
-                    <textarea id="chatInput" placeholder="Message Something"></textarea>
-                    <button class="SendChat" id="sendButton"><i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="wrapper">
-        <div id="overlay"></div>
-        <div class="Delete-Chat">
-            <h1 id="deleteChatHeading">Delete chat name of chat ?</h1>
-            <p id="deleteChatP">Type "Delete name of chat"</p>
-            <input type="text" id="DeleteChat" placeholder="Delete name of chat">
-            <button>Delete</button>
-            <div class="close-btn">
-                <button class="close-btn">X</button> <!-- Close button -->
-
-            </div>
-        </div>
-    </div>
-    <script src="/Js/ChatScript.js"></script>
-    <script src="../Js/common.js"></script>
+        <!-- Repeat project-card for other projects -->
+      </div>
 </body>
 </html>
