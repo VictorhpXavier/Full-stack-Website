@@ -449,7 +449,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const showButton = document.querySelector('#CTA .form-content .ShowButton');
     const passwordField = document.querySelector('#password');
     const signUpButton = document.querySelector('#CTA .form-content .Sign-Up-button');
-
     if (showButton) {
         showButton.addEventListener('click', function() {
             if (passwordField.type === 'password') {
@@ -474,13 +473,14 @@ function handleRegistration(event) {
     const emailError = document.querySelector('.EmailError');
     const passwordError = document.querySelector('.PasswordError');
     const errorsDiv = document.querySelector('.Errors');
-
+    const CTABox = document.querySelector('#CTA')
+    let screenSize = window.innerWidth
+    const showPasswordBtn = document.querySelector('#signup-form .Password-container .ShowButton')
     emailError.style.display = 'none';
     passwordError.style.display = 'none';
     errorsDiv.style.display = 'none';
 
     const data = { email: emailValue, password: passValue };
-    
     fetch('/signup', {
         method: 'POST',
         headers: {
@@ -492,70 +492,83 @@ function handleRegistration(event) {
     .then(data => {
         if (data.errors) {
             data.errors.forEach(error => {
-                if (error.error === 'NO_PASSWORD') {
-                    passwordError.style.display = 'block';
-                    passwordError.innerHTML = error.message;
-                    document.querySelector('#password').style.border = '2px solid red';
-                } else if (error.error === 'INVALID_PASSWORD') {
-                    passwordError.style.display = 'block';
-                    passwordError.innerHTML = '';
-                    document.querySelector('#password').style.border = '2px solid red';
-                    errorsDiv.style.display = 'flex';
-
-                        const requirements = {
-                            Char: { 
-                                regex: /.{8,}/, 
-                                element: document.getElementById('CharI') 
-                            },
-                            Cap: { 
-                                regex: /[A-Z]/, 
-                                element: document.getElementById('Cap') 
-                            },
-                            Spec: { 
-                                regex: /[!"#$%&'()*+,-./:;<=>?@\[\\\]_`{}~]/, // Escaped square brackets and backslash
-                                element: document.getElementById('Spec') 
-                            },
-                            Num: { 
-                                regex: /\d/, 
-                                element: document.getElementById('Num') 
-                            },
-                        };
-                    
-                        for (const key in requirements) {
-                            if (requirements[key].regex.test(passValue)) {
-                                requirements[key].element.classList.remove('fa-xmark');
-                                requirements[key].element.classList.add('fa-check');
-                                requirements[key].element.style.color = 'green';
-                                requirements[key].element.parentElement.style.color = 'green'; 
-                            } else {
-                                requirements[key].element.classList.remove('fa-check');
-                                requirements[key].element.classList.add('fa-xmark');
-                                requirements[key].element.style.color = 'red';
-                                requirements[key].element.parentElement.style.color = 'red'; 
-                                isValid = false;
-                            }
+                    if(error.error) {
+                        if(screenSize < 481) {
+                            CTABox.style.height = '488px'
+                        } else {
+                            showPasswordBtn.style.marginTop = '-21px'
                         }
-                    
                         
+                        if (error.error === 'NO_PASSWORD') {
+                            passwordError.style.display = 'block';
+                            passwordError.innerHTML = error.message;
+                            document.querySelector('#password').style.border = '2px solid red';
+                        } else if (error.error === 'INVALID_PASSWORD') {
+                            passwordError.style.display = 'block';
+                            passwordError.innerHTML = '';
+                            document.querySelector('#password').style.border = '2px solid red';
+                            errorsDiv.style.display = 'flex';
+                            if(screenSize < 481) {
+                                CTABox.style.height = '580px'
+                            }
+                                const requirements = {
+                                    Char: { 
+                                        regex: /.{8,}/, 
+                                        element: document.getElementById('CharI') 
+                                    },
+                                    Cap: { 
+                                        regex: /[A-Z]/, 
+                                        element: document.getElementById('Cap') 
+                                    },
+                                    Spec: { 
+                                        regex: /[!"#$%&'()*+,-./:;<=>?@\[\\\]_`{}~]/, // Escaped square brackets and backslash
+                                        element: document.getElementById('Spec') 
+                                    },
+                                    Num: { 
+                                        regex: /\d/, 
+                                        element: document.getElementById('Num') 
+                                    },
+                                };
+                            
+                                for (const key in requirements) {
+                                    if (requirements[key].regex.test(passValue)) {
+                                        requirements[key].element.classList.remove('fa-xmark');
+                                        requirements[key].element.classList.add('fa-check');
+                                        requirements[key].element.style.color = 'green';
+                                        requirements[key].element.parentElement.style.color = 'green'; 
+                                    } else {
+                                        requirements[key].element.classList.remove('fa-check');
+                                        requirements[key].element.classList.add('fa-xmark');
+                                        requirements[key].element.style.color = 'red';
+                                        requirements[key].element.parentElement.style.color = 'red'; 
+                                        isValid = false;
+                                    }
+                                }
+                            
+                                
+                            }
+                           
+                            else if (error.error === 'NO_EMAIL') {
+                                emailError.style.display = 'block';
+                                emailError.innerHTML = error.message;
+                                document.querySelector('#signup-form #email').style.border = '2px solid red';
+                            }
+                            else if (error.error === 'INVALID_EMAIL') {
+                                emailError.style.display = 'block';
+                                emailError.innerHTML = error.message;
+                                document.querySelector('#signup-form #email').style.border = '2px solid red';
+                            }
+                            else if (error.error === 'EMAIL_ALREADY_EXISTS') {
+                                emailError.style.display = 'block';
+                                passwordError.style.display = 'none';
+                                emailError.innerHTML = error.message;
+                                document.querySelector('#signup-form #email').style.border = '2px solid red';
+                                document.querySelector('#password').style.border = '2px solid rgba(0, 0, 0, 0.2)';
+                          } 
+                          
                     }
-                   
-                    else if (error.error === 'NO_EMAIL') {
-                        emailError.style.display = 'block';
-                        emailError.innerHTML = error.message;
-                        document.querySelector('#signup-form #email').style.border = '2px solid red';
-                    }
-                    else if (error.error === 'INVALID_EMAIL') {
-                        emailError.style.display = 'block';
-                        emailError.innerHTML = error.message;
-                        document.querySelector('#signup-form #email').style.border = '2px solid red';
-                    }
-                    else if (error.error === 'EMAIL_ALREADY_EXISTS') {
-                        emailError.style.display = 'block';
-                        passwordError.style.display = 'none';
-                        emailError.innerHTML = error.message;
-                        document.querySelector('#signup-form #email').style.border = '2px solid red';
-                        document.querySelector('#password').style.border = '2px solid rgba(0, 0, 0, 0.2)';
-                    }
+                    
+                    
             });
             
         } else {

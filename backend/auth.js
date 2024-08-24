@@ -128,12 +128,12 @@ router.post('/signup', async (req, res) => {
                            
                     res.cookie('token', token, {
                         httpOnly: true,
-                        maxAge: 1000 * 60 * 60 * 24 * 7 , // 7 days
+                        maxAge: 1000 * 60 * 60 * 24 * 31 , // 31 days
                         secure: process.env.NODE_ENV === 'production', 
                     });
                     res.cookie('loggedIn', true, {
                         httpOnly: false, 
-                        maxAge: 1000 * 60 * 60 * 24 * 7 , // 7 days
+                        maxAge: 1000 * 60 * 60 * 24 * 31 , // 31 days
                         secure: process.env.NODE_ENV === 'production',
                     })
                    
@@ -203,12 +203,12 @@ router.post('/login', (req, res) => {
                 
                 res.cookie('token', token, {
                     httpOnly: true,
-                    maxAge: 1000 * 60 * 60 * 24 * 7  , // 7 dias
+                    maxAge: 1000 * 60 * 60 * 24 * 31  , // 31 dias
                     secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
                 });
                 res.cookie('loggedIn', true, {
                     httpOnly: false, // Accessible by client-side JavaScript
-                    maxAge: 1000 * 60 * 60 * 24 * 7 , // 7 days
+                    maxAge: 1000 * 60 * 60 * 24 * 31 , // 31 days
                     secure: process.env.NODE_ENV === 'production',
                 })
                 return res.status(200).json({ message: 'User logged in successfully' });
@@ -1177,10 +1177,8 @@ router.post('/ChangeUserName', (req, res) => {
 
 //Handle signout
 router.post('/signout', (req, res) => {
-    console.log('Signout route hit');
     res.clearCookie('loggedIn', { path: '/' });
     res.clearCookie('token', { path: '/' });
-    console.log('Cookies cleared');
 
     res.status(200).json({ message: 'Signed out successfully' });
 });
