@@ -1,4 +1,4 @@
-Use VHX_DataBase;
+Use VHX_DataBase; -- Change to your data base name
 
 CREATE TABLE Users (
   id int NOT NULL AUTO_INCREMENT,

@@ -247,7 +247,7 @@ router.post('/Change-Email', (req, res) => {
         const decoded = jwt.verify(token, secretKey);
         console.log('Decoded token:', decoded);
         const emailToken = decoded.email;
-        const userId = decoded.userId; // Assuming you are using userId in the token payload
+        const userId = decoded.userId;
 
         if (email === emailToken) {
             errors.push({ error: 'SAME_EMAIL', message: 'Can\'t update to the same email' });
@@ -273,7 +273,7 @@ router.post('/Change-Email', (req, res) => {
                     console.error('Error comparing passwords:', err);
                     return res.status(500).json({ error: 'INTERNAL_ERROR', message: 'Internal Server Error' });
                 }
-                console.log('Password match:', isMatch); // Add this line for debugging
+                console.log('Password match:', isMatch);g
 
                 if (!isMatch) {
                     console.log('Password mismatch');
@@ -299,7 +299,6 @@ router.post('/Change-Email', (req, res) => {
                              }
                          
                              console.log('User email updated successfully');
-                             // Assuming the email update was successful, you can return a response
                              res.status(200).json({ message: 'Email address updated successfully', email: email });
                         }); 
                     }
@@ -877,10 +876,7 @@ router.post('/AddChat', (req, res) => {
         });
     });
     })
-
-    
 });
-
 
 // Add Messages Route
 router.post('/AddMessages', (req, res) => {

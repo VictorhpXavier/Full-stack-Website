@@ -25,9 +25,8 @@ app.use('/Features_Images', express.static(path.join(__dirname, '../Features_Ima
 app.use('/UserIcon', express.static(path.join(__dirname, '../UserIcon')));
 app.use('/imagesRevamp', express.static(path.join(__dirname, '../imagesRevamp')))
 app.use('/mascot', express.static(path.join(__dirname, '../mascot')))
-app.use('/Js', express.static(path.join(__dirname, '../Js')));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
-app.use('/python', express.static(path.join(__dirname, '../python')))
+app.use('/Js', express.static(path.join(__dirname, '../Js')));
 
 function ensureNotLoggedIn(req, res, next) {
     const token = req.cookies.token;
@@ -110,6 +109,18 @@ app.get('/test', (req, res) => {
     res.sendFile(path.join(__dirname, '../html/test.html'))
 });
 
+// Middleware to block access to sensitive files
+app.use((req, res, next) => {
+    const blockedExtensions = ['.py', '.env', '.config'];
+    const filePath = path.join(__dirname, req.url);
+
+    for (const ext of blockedExtensions) {
+        if (filePath.endsWith(ext)) {
+            return res.status(403).send('Forbidden');
+        }
+    }
+    next();
+});
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, '../html/Page-Not-Found.html'));
 });
