@@ -2,7 +2,7 @@ import os
 import pickle
 from datasets import concatenate_datasets, Dataset
 
-save_dir = "/media/victor/New Volume/save_dir"
+save_dir = ""
 
 #Get all pkl files to combine into a single file
 def load_all_tokenized_data(save_dir):

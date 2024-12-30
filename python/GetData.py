@@ -4,10 +4,9 @@ import pickle
 import os
 
 # Download Dataset
-cache_dir = "/media/victor/New Volume"
+cache_dir = ""
 dataset = load_dataset('natural_questions', 'default', cache_dir=cache_dir)
 
-# Initialize the tokenizer
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 def preprocess_function(examples):
@@ -119,7 +118,7 @@ def process_and_save_chunks(dataset, chunk_size, save_dir):
 
 # Set parameters and process the dataset
 chunk_size = 512
-save_dir = "/media/victor/New Volume/save_dir"
+save_dir = ""
 process_and_save_chunks(dataset, chunk_size, save_dir)
 
 def load_all_tokenized_data(save_dir):

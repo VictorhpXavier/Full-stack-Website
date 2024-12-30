@@ -80,7 +80,7 @@ def to_tf_dataset_with_labels(dataset):
 # Main code
 def main():
     # Load and preprocess tokenized data
-    FinalpklFile = '/media/victor/New Volume/save_dir/combined_tokenized_data.pkl'
+    FinalpklFile = ''
     combined_dataset = load_tokenized_data(FinalpklFile)
 
     # Print a sample to verify structure
@@ -89,10 +89,8 @@ def main():
     # Preprocess to ensure data types
     combined_dataset = preprocess_data_types(combined_dataset)
     
-    # Convert to TensorFlow dataset
     train_dataset = to_tf_dataset_with_labels(combined_dataset)
     
-    # Define the model
     model = TFBertForQuestionAnswering.from_pretrained('bert-base-uncased')
 
     # Compile the model with appropriate loss function
